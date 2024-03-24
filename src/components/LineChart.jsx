@@ -3,18 +3,33 @@ import { Line } from "react-chartjs-2";
 function LineChart({ chartData }) {
   return (
     <div className="chart-container">
-      <h2 style={{ textAlign: "center" }}>Line Chart</h2>
+      <h2 style={{ textAlign: "center" }}></h2>
       <Line
         data={chartData}
         options={{
           plugins: {
-            title: {
-              display: true,
-              text: "Users Gained between 2016-2020"
-            },
             legend: {
               display: false
-            }
+            },
+          },
+          scales: {
+            x: {
+              title: {
+                text: "Time",
+                display: true
+              }
+            },
+            y: {
+              title: {
+                text: "Spent (£)",
+                display: true,
+              },
+              ticks: {
+                callback: function(value, index, ticks) {
+                  return '£' + value;
+                }
+              }
+            },
           }
         }}
       />
