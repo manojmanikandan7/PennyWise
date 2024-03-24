@@ -12,6 +12,7 @@ import Profile from "./pages/Profile.jsx";
 import DevDash from "./pages/DevDash.jsx";
 import Login from "./pages/login.jsx";
 import SignUp from "./pages/signup.jsx";
+import Calendar from "./pages/Calendar.jsx";
 
 //import and add calendar page
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="sign-up" element={<SignUp />} />
       <Route path="profile" element={<Profile />} />
+      <Route path="calendar" element={<Calendar />} />
     </Route>
   )
 );
