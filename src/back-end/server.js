@@ -9,14 +9,21 @@ app.use(express.json())
 app.use(cors())
 
 app.post("/name", async (req, res) => {
-	try {
-		const { fname, sname, email, password } = req.body
-		const hash = await bcrypt.hash(password, 15)
-		const name = await createUser(fname, sname, email, hash)
-		res.send(name)
-	} catch (e) {
-		console.error(e)
-		res.status(500).send('An error occurred')
+	const { fname, sname, email, password } = req.body
+
+	// Check if the email is already in use
+	const checkUser = await getLogin(email);
+	if (checkUser.length > 0) {
+		res.status(500).send('User with email ' + email + ' already exists.');
+	} else {
+		try {
+			const hash = await bcrypt.hash(password, 15)
+			const name = await createUser(fname, sname, email, hash)
+			res.send(name)
+		} catch (e) {
+			console.error(e)
+			res.status(500).send('An error occurred')
+		}
 	}
 })
 
