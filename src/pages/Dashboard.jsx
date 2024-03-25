@@ -72,13 +72,14 @@ export default function Dashboard() {
           }
         ]
       })
-
-      console.log("Spending data fetched successfully");
-      console.log(fetchData.data)
     } catch (error) {
       console.error("Error getting spending data", error);
     }
   };
+
+  useEffect(() => {
+    formatSpendingData();
+  }, []);
 
   return (
     <ChakraProvider theme={theme}>
@@ -159,15 +160,6 @@ export default function Dashboard() {
               >
                 <div className="App">
                   <LineChart chartData={chartData} />
-                  <Button
-                    size="lg"
-                    mt={4}
-                    variant="ghost"
-                    p={3}
-                    onClick={formatSpendingData}
-                  >
-                    Refresh Data
-                  </Button>
                 </div>
               </Box>
             </GridItem>
