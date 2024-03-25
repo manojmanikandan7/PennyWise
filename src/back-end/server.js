@@ -2,7 +2,7 @@ import express from 'express'
 import bcrypt from 'bcrypt'
 import cors from 'cors'
 
-import { createUser, getLogin } from './database.js'
+import { createUser, getLogin, getSpendingData } from './database.js'
 
 const app = express()
 app.use(express.json())
@@ -40,6 +40,33 @@ app.post("/login", async (req, res) => {
 		console.error(e)
 		res.status(500).send('An error occurred')
 	}
+})
+
+app.get("/dashboard", async (req, res) => {
+	var myData = [];
+	const spendingData = await getSpendingData(2)
+		.then(function (response) {
+			response.forEach(element => {
+				// Note: getMonth() returns month from 0-11, hence the +1
+				var date = element.payment_date.getDate() + "/" + (element.payment_date.getMonth()+1) + "/" + element.payment_date.getFullYear();
+		
+				var exists = false;
+				var existingEntry;
+				myData.forEach(e => {
+					if (date === e.x) {
+						exists = true;
+						existingEntry = e;
+					}
+				})
+		
+				if (exists) {
+					existingEntry.y += element.value;
+				} else {
+					myData.push({x: date, y: element.value})
+				}
+			});
+		});
+	res.send(myData);
 })
 
 app.use((err, req, res, next) => {

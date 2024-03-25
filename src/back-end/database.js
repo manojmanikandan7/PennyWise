@@ -26,3 +26,16 @@ export async function getLogin(email) {
     }
     return rows
 }
+
+export async function getSpendingData(uid) {
+    const [rows] = await pool.query(`
+    SELECT value, payment_date FROM payments
+    WHERE user_id = ? AND direction = 'out'
+    `, [uid])
+
+    if (rows.length == 0) {
+        console.log("No payment data found for user with id " + uid)
+    }
+
+    return rows
+}

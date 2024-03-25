@@ -17,7 +17,11 @@ import Chart from 'chart.js/auto'
 import { CategoryScale } from "chart.js";
 import LineChart from "/src/components/LineChart";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Button } from "antd";
+
+let spendingData = [];
 
 //For custom themes
 //TODO: Add the theme colours
@@ -33,56 +37,48 @@ const theme = extendTheme({
   },
 });
 
-// // Test Chart.js data
-const testData = [
-  {
-    id: 1,
-    year: 2016,
-    userGain: 80000,
-    userLost: 823
-  },
-  {
-    id: 2,
-    year: 2017,
-    userGain: 45677,
-    userLost: 345
-  },
-  {
-    id: 3,
-    year: 2018,
-    userGain: 78888,
-    userLost: 555
-  },
-  {
-    id: 4,
-    year: 2019,
-    userGain: 90000,
-    userLost: 4555
-  },
-  {
-    id: 5,
-    year: 2020,
-    userGain: 4300,
-    userLost: 234
-  }
-];
-
 Chart.register(CategoryScale);
 
 export default function Dashboard() {
   const [chartData, setChartData] = useState({
-    labels: testData.map((data) => data.year), 
+    labels: spendingData.map((data) => data.x), 
     datasets: [
       {
         label: "Spent (£)",
-        data: testData.map((data) => data.userGain),
+        data: spendingData.map((data) => data.y),
         borderColor: "lightblue",
         tension: 0.25,
         borderWidth: 2,
         pointBackgroundColor: "lightblue",
       }
     ]
-  });
+  })
+
+  const formatSpendingData = async () => {
+    try {
+      const fetchData = await axios.get("http://localhost:3000/dashboard");
+
+      spendingData = fetchData.data
+      setChartData({
+        labels: spendingData.map((data) => data.x), 
+        datasets: [
+          {
+            label: "Spent (£)",
+            data: spendingData.map((data) => data.y),
+            borderColor: "lightblue",
+            tension: 0.25,
+            borderWidth: 2,
+            pointBackgroundColor: "lightblue",
+          }
+        ]
+      })
+
+      console.log("Spending data fetched successfully");
+      console.log(fetchData.data)
+    } catch (error) {
+      console.error("Error getting spending data", error);
+    }
+  };
 
   return (
     <ChakraProvider theme={theme}>
@@ -163,6 +159,15 @@ export default function Dashboard() {
               >
                 <div className="App">
                   <LineChart chartData={chartData} />
+                  <Button
+                    size="lg"
+                    mt={4}
+                    variant="ghost"
+                    p={3}
+                    onClick={formatSpendingData}
+                  >
+                    Refresh Data
+                  </Button>
                 </div>
               </Box>
             </GridItem>
