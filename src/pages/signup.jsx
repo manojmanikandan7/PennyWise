@@ -132,14 +132,14 @@ const Password = () => {
 
 const handleClick = async () => {
   try {
-    await axios.post("http://localhost:3000/name", { fname, sname });
+    await axios.post("http://localhost:3000/name", { fname, sname, email, password });
     console.log("Name retrieved successfully");
   } catch (error) {
     console.error("Error retrieving name", error);
   }
 
   try {
-    await axios.get("http://localhost:3000/login", { email, password });
+    await axios.post("http://localhost:3000/login", { email, password });
     console.log("Login retrieved successfully");
   } catch (error) {
     console.error("Error retrieving login", error);

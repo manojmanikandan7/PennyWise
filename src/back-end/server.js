@@ -1,15 +1,18 @@
 import express from 'express'
 import bcrypt from 'bcrypt'
+import cors from 'cors'
 
-import { storeLogin, getLogin } from './database.js'
+import { createUser, getLogin } from './database.js'
 
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 app.post("/name", async (req, res) => {
 	try {
-		const { fname, sname } = req.body
-		const name = await storeName(fname, sname)
+		const { fname, sname, email, password } = req.body
+		const hash = await bcrypt.hash(password, 15)
+		const name = await createUser(fname, sname, email, hash)
 		res.send(name)
 	} catch (e) {
 		console.error(e)
@@ -20,19 +23,7 @@ app.post("/name", async (req, res) => {
 app.post("/login", async (req, res) => {
 	try {
 		const { email, password } = req.body
-		const hash = await bcrypt.hash(password, 15)
-		const login = await storeLogin(email, hash)
-		res.status(201).send(login)
-	} catch (e) {
-		console.error(e)
-		res.status(500).send('An error occurred')
-	}
-})
-
-app.get("/login", async (req, res) => {
-	try {
-		const { email, password } = req.body
-		const login = await getLogin(email, password)
+		const login = await getLogin(email)
 		const isMatch = await bcrypt.compare(password, login[0].password)
 		if (!isMatch) {
 			res.status(500).send('Invalid login')

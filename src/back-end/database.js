@@ -7,30 +7,22 @@ const pool = mysql.createPool({
     database: 'pennywise',
   }).promise()
 
-export async function storeName(fname, sname) {
+export async function createUser(fname, sname, email, password) {
     const result = await pool.query(`
-    INSERT INTO name (fname, sname)
-    VALUES (?, ?)
-    `, [fname, sname])
+    INSERT INTO users (fname, sname, email, password)
+    VALUES (?, ?, ?, ?)
+    `, [fname, sname, email, password])
     return result
 }
 
-export async function storeLogin(email, password) {
-    const result = await pool.query(`
-    INSERT INTO login (email, password) 
-    VALUES (?, ?)
-    `, [email, password])
-    return result
-}
-
-export async function getLogin(email, password) {
+export async function getLogin(email) {
     const [rows] = await pool.query(`
-    SELECT email, password FROM login
-    WHERE email = ? AND password = ?
-    `, [email, password])
+    SELECT email, password FROM users
+    WHERE email = ?
+    `, [email])
 
     if (rows.length == 0) {
-        console.log("No record found for " + email + " " + password)
+        console.log("No record found for " + email)
     }
     return rows
 }
