@@ -1,23 +1,23 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {LeftOutlined, RightOutlined} from '@ant-design/icons';
 import '../css/calendar.css';
 import {Button, Flex, DatePicker, Space, Skeleton, List, Avatar } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import axios from "axios";
 
 
 export default function Calendar() {
   // Define state variable for date
   const [date, setDate] = useState(null);
+  const [payments, setPayments] = useState([]);
 
   // Handle date change event
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
+  const onChange = async (date, dateString) => {
     setDate(date);
   };
 
   // Change date based on the arrow press
-  const changeDate = (changeType) => {
-    console.log(date);
+  const changeDate = async (changeType) => {
     if (date) {
       let changedDate;
       if (changeType === 'increase') {
@@ -29,37 +29,16 @@ export default function Calendar() {
     }
   };
 
-  // Define placeholder data for odd days
-  const dataOdd = [
-    { amount: '£24.39', company: 'Tesco', category: 'Food' },
-    { amount: '£49.99', company: 'Stagecoach', category: 'Travel' },
-    { amount: '£7.50', company: 'Wetherspoon', category: 'Recreation' },
-    { amount: '£16.00', company: 'Lidl', category: 'Food' },
-    { amount: '£50.00', company: 'Zara', category: 'Clothing' },
-    { amount: '£40.00', company: 'H&M', category: 'Clothing' },
-    { amount: '£10.00', company: 'McDonalds', category: 'Food' },
-    { amount: '£30.00', company: 'Amazon', category: 'Shopping' },
-    { amount: '£15.00', company: 'Netflix', category: 'Entertainment' },
-    { amount: '£20.00', company: 'Spotify', category: 'Music' },
-    { amount: '£45.00', company: 'ASOS', category: 'Clothing' },
-    { amount: '£20.00', company: 'Burger King', category: 'Food' },
-    { amount: '£15.00', company: 'KFC', category: 'Food' },
-    { amount: '£35.00', company: 'Uniqlo', category: 'Clothing' }
-  ];
+  const updatePayments = async () => {
+    let fetchData = await axios.post("http://localhost:3000/calendar", { date });
+    setPayments(fetchData.data)
+  }
 
-  // Define placeholder data for even days
-  const dataEven = [
-    { amount: '£30.00', company: 'Amazon', category: 'Shopping' },
-    { amount: '£15.00', company: 'Netflix', category: 'Entertainment' },
-    { amount: '£20.00', company: 'Spotify', category: 'Music' },
-    { amount: '£45.00', company: 'ASOS', category: 'Clothing' },
-    { amount: '£20.00', company: 'Burger King', category: 'Food' },
-    { amount: '£15.00', company: 'KFC', category: 'Food' },
-    { amount: '£35.00', company: 'Uniqlo', category: 'Clothing' }
-  ];
 
-  // Define data based on the date
-  const data = date && date.date() % 2 === 0 ? dataEven : dataOdd;
+  // Update the payments data whenever `date` changes
+  useEffect(() => {
+    updatePayments();
+  }, [date]);
 
   return (
     <>
@@ -99,7 +78,7 @@ export default function Calendar() {
         >
           <div className='stat'>
             <h2>Total Spent</h2>
-            <p>£{data.reduce((total, item) => total + parseFloat(item.amount.slice(1)), 0)}</p>
+            <p>£{payments.reduce((total, item) => total + parseFloat(item.value), 0)}</p>
           </div>
           <div className='stat'>
             <h2>Daily Budget</h2>
@@ -107,11 +86,11 @@ export default function Calendar() {
           </div>
           <div className='stat'>
             <h2>Budget Remaining</h2>
-            <p>£{10 - data.reduce((total, item) => total + parseFloat(item.amount.slice(1)), 0)}</p>
+            <p>£{10 - payments.reduce((total, item) => total + parseFloat(item.value), 0)}</p>
           </div>
           <div className='stat'>
             <h2>Greatest Expense</h2>
-            <p>£{Math.max(...data.map(item => parseFloat(item.amount.slice(1))))}</p>
+            <p>£{Math.max(...payments.map(item => parseFloat(item.value)))}</p>
           </div>
         </div>
         <div
@@ -129,19 +108,19 @@ export default function Calendar() {
           }}
         >
           <InfiniteScroll
-            dataLength={data.length}
+            dataLength={payments.length}
             hasMore={false}
             loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
             // endMessage={}
             scrollableTarget="scrollableDiv"
           >
             <List
-              dataSource={data}
+              dataSource={payments}
               renderItem={(item) => (
-                <List.Item key={item.company} style={{ fontFamily: 'Futura' }}>
+                <List.Item key={item.description} style={{ fontFamily: 'Futura' }}>
                   <List.Item.Meta
-                    title={item.amount}
-                    description={item.company}
+                    title={"£"+item.value}
+                    description={item.description}
                     style={{ fontFamily: 'Futura' }}
                   />
                   <div style={{ fontFamily: 'Futura' }}>{item.category}</div>

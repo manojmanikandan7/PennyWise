@@ -19,7 +19,6 @@ import LineChart from "/src/components/LineChart";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Button } from "antd";
 
 let spendingData = [];
 

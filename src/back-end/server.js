@@ -2,7 +2,7 @@ import express from 'express'
 import bcrypt from 'bcrypt'
 import cors from 'cors'
 
-import { createUser, getLogin, getSpendingData } from './database.js'
+import { createUser, getLogin, getPayments, getSpendingData } from './database.js'
 
 const app = express()
 app.use(express.json())
@@ -43,7 +43,7 @@ app.post("/login", async (req, res) => {
 })
 
 app.get("/dashboard", async (req, res) => {
-	var myData = [];
+	var data = [];
 	const spendingData = await getSpendingData(2)
 		.then(function (response) {
 			response.forEach(element => {
@@ -52,7 +52,7 @@ app.get("/dashboard", async (req, res) => {
 		
 				var exists = false;
 				var existingEntry;
-				myData.forEach(e => {
+				data.forEach(e => {
 					if (date === e.x) {
 						exists = true;
 						existingEntry = e;
@@ -62,11 +62,18 @@ app.get("/dashboard", async (req, res) => {
 				if (exists) {
 					existingEntry.y += element.value;
 				} else {
-					myData.push({x: date, y: element.value})
+					data.push({x: date, y: element.value})
 				}
 			});
 		});
-	res.send(myData);
+	res.send(data);
+})
+
+app.post("/calendar", async(req, res) => {
+	const { date } = req.body;
+	const data = await getPayments(2, date);
+
+	res.send(data)
 })
 
 app.use((err, req, res, next) => {

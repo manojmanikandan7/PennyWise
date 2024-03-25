@@ -39,3 +39,33 @@ export async function getSpendingData(uid) {
 
     return rows
 }
+
+export async function getPayments(uid, date) {
+    // Return all the payments from a given day
+
+    var dateObj = new Date(date)
+    var formattedDate = dateObj.getFullYear() + "-" + (dateObj.getMonth()+1) + "-" + dateObj.getDate();
+
+    const [rows] = await pool.query(`
+    SELECT value, description, category, direction FROM payments
+    WHERE user_id = ? AND payment_date = ?
+    `, [uid, formattedDate])
+
+    if (rows.length == 0) {
+        console.log("No payment data found for user with id " + uid + " and date " + formattedDate)
+    }
+    
+    for (const row of rows) {
+        row.value = String(row.value)
+
+        // Check if we need to add extra 0's at the end of the value
+        let parts = row.value.split(".")
+        if (parts.length === 1) {
+            row.value += ".00"
+        } else if (parts[1].length === 1) {
+            row.value += "0"
+        }
+    }
+
+    return rows
+}
