@@ -16,6 +16,7 @@ import {
   FaShoppingBasket,
   FaCalendarCheck,
   FaPiggyBank,
+  FaMoneyBillWave,
 } from "react-icons/fa";
 import { format, parseISO } from "date-fns"; // Import the necessary functions from date-fns
 
@@ -23,6 +24,18 @@ import { format, parseISO } from "date-fns"; // Import the necessary functions f
 import Navbar from "/src/components/navbar";
 import Sidebar from "/src/components/sidebar";
 import { NavLink } from "react-router-dom";
+
+// Importing Chart.js for creating charts and the necessary extensions
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+import LineChart from "/src/components/LineChart";
+
+// Importing hooks from React for managing state and side effects
+import { useEffect, useState } from "react";
+import axios from "axios"; // Importing axios for making HTTP requests
+
+// Placeholder for spending data, to be fetched
+let spendingData = [];
 
 //For custom themes
 //TODO: Add the theme colours
@@ -45,6 +58,7 @@ const categoryDetails = {
   "Groceries And Laundry": { icon: FaShoppingBasket, color: "green.400" },
   Subscriptions: { icon: FaCalendarCheck, color: "blue.400" },
   "Savings/Emergencies": { icon: FaPiggyBank, color: "purple.400" },
+  Other: { icon: FaMoneyBillWave, color: "black.400" },
 };
 
 // Updated transactions with categories
@@ -84,7 +98,21 @@ const transactions = [
     date: "2024-03-28",
     category: "Savings/Emergencies",
   },
-  // ... more transactions
+  {
+    id: 6,
+    title: "Dinner at a Restaurant",
+    amount: "£30.00",
+    date: "2024-03-28",
+    category: "Food",
+  },
+  {
+    id: 7,
+    title: "Gift For Friend",
+    amount: "£40.00",
+    date: "2024-03-29",
+    category: "Other",
+  },
+  // Add more transactions here
 ];
 
 // Helper function to format date
@@ -102,7 +130,104 @@ const transactionsByDate = transactions.reduce((acc, transaction) => {
   return acc;
 }, {});
 
+// Registering the CategoryScale to be used with Chart.js
+Chart.register(CategoryScale);
+
 export default function Dashboard() {
+  // State for managing the chart data DB Connection
+  /*
+  const [chartData, setChartData] = useState({
+    labels: spendingData.map((data) => data.x),
+    datasets: [
+      {
+        label: "Spent (£)",
+        data: spendingData.map((data) => data.y),
+        borderColor: "lightblue",
+        tension: 0.25,
+        borderWidth: 2,
+        pointBackgroundColor: "lightblue",
+      },
+    ],
+  });
+  */
+
+  // Using useEffect to fetch spending data when the component mounts DB Connection
+  /*
+  useEffect(() => {
+    formatSpendingData();
+  }, []);
+  */
+
+  // Function to fetch and format spending data from an API DB Connection
+  /*
+  const formatSpendingData = async () => {
+    try {
+      const fetchData = await axios.get("http://localhost:3000/dashboard");
+      spendingData = fetchData.data;
+      setChartData({
+        labels: spendingData.map((data) => data.x),
+        datasets: [
+          {
+            label: "Spent (£)",
+            data: spendingData.map((data) => data.y),
+            borderColor: "lightblue",
+            tension: 0.25,
+            borderWidth: 2,
+            pointBackgroundColor: "lightblue",
+          },
+        ],
+      });
+    } catch (error) {
+      console.error("Error getting spending data", error);
+    }
+  };
+  */
+
+  // Chart data stuff
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Spent (£)",
+        data: [],
+        borderColor: "lightblue",
+        tension: 0.25,
+        borderWidth: 2,
+        pointBackgroundColor: "lightblue",
+      },
+    ],
+  });
+
+  useEffect(() => {
+    const spendingByDate = transactions.reduce((acc, transaction) => {
+      const date = transaction.date;
+      const amount = parseFloat(transaction.amount.replace("£", ""));
+      if (acc[date]) {
+        acc[date] += amount;
+      } else {
+        acc[date] = amount;
+      }
+      return acc;
+    }, {});
+
+    const labels = Object.keys(spendingByDate).sort();
+    const data = labels.map((label) => spendingByDate[label]);
+
+    setChartData({
+      labels: labels,
+      datasets: [
+        {
+          label: "Spent (£)",
+          data: data,
+          borderColor: "lightblue",
+          tension: 0.25,
+          borderWidth: 2,
+          pointBackgroundColor: "lightblue",
+        },
+      ],
+    });
+  }, []);
+
   return (
     <ChakraProvider theme={theme}>
       <Grid templateColumns="repeat(7, 1fr)" bg="gray.50">
@@ -125,48 +250,44 @@ export default function Dashboard() {
             <GridItem colSpan="1">
               <Box
                 h="200px"
-                border="1px solid"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
                 p={4}
-                boxShadow="md"
+                boxShadow="base"
               ></Box>
             </GridItem>
             {/* this is the pie chart */}
             <GridItem colSpan="1">
               <Box
                 h="200px"
-                border="1px solid"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
                 p={4}
-                boxShadow="md"
+                boxShadow="base"
               ></Box>
             </GridItem>
             {/* this is the income details */}
             <GridItem colSpan="1">
               <Box
                 h="200px"
-                border="1px solid"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
                 p={4}
-                boxShadow="md"
+                boxShadow="base"
               ></Box>
             </GridItem>
             {/* this is the transaction history of your most recent spending */}
             <GridItem colSpan="1" rowSpan="2">
               <Box
                 h="600px"
-                border="1px solid"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
                 p={4}
-                boxShadow="md"
+                boxShadow="base"
               >
                 <Text fontSize="3xl" mb={4} as="b">
                   Recent Transactions
@@ -199,17 +320,20 @@ export default function Dashboard() {
                 )}
               </Box>
             </GridItem>
-            {/* this is the line chart or bar chart */}
+            {/* Line chart or bar chart section */}
             <GridItem colSpan="2" rowSpan="2">
               <Box
                 h="600px"
-                border="1px solid"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
                 p={4}
-                boxShadow="md"
-              ></Box>
+                boxShadow="base"
+              >
+                <div className="App">
+                  <LineChart chartData={chartData} />
+                </div>
+              </Box>
             </GridItem>
           </SimpleGrid>
         </GridItem>
