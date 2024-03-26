@@ -311,7 +311,7 @@ export default function Dashboard() {
                       </StatHelpText>
                       <StatHelpText>
                         <StatArrow type="increase" color="red.500" />
-                        23.36% since last month
+                        23.36% Since Last Month
                       </StatHelpText>
                     </VStack>
                   </Stat>
