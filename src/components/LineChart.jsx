@@ -61,7 +61,7 @@ function LineChart({ chartData }) {
       borderRadius="lg" // Rounded corners
     >
       {/* Optional title centered above the chart */}
-      <Text fontSize="xl" mb={4} textAlign="center" fontWeight="bold">
+      <Text fontSize="2xl" mb={4} textAlign="center" fontWeight="bold">
         Spending Over Time
       </Text>
       <Line data={chartData} options={options} />

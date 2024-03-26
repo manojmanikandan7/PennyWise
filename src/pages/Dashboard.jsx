@@ -289,7 +289,7 @@ export default function Dashboard() {
                 p={4}
                 boxShadow="base"
               >
-                <Text fontSize="3xl" mb={4} as="b">
+                <Text fontSize="2xl" mb={4} as="b">
                   Recent Transactions
                 </Text>
                 {Object.entries(transactionsByDate).map(
