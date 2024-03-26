@@ -23,11 +23,10 @@ export default function Navbar() {
         <Box
           bg="gray.200"
           p="10px"
-          border="1px solid"
           borderWidth="1px"
           borderRadius="lg"
           overflow="hidden"
-          boxShadow="md"
+          boxShadow="base"
         >
           P
         </Box>

@@ -1,29 +1,30 @@
+// Importing necessary components and hooks from Chakra UI for UI design
 import {
   Box,
   GridItem,
   SimpleGrid,
   Grid,
-  Text,
   ChakraProvider,
   extendTheme,
 } from "@chakra-ui/react";
 
-//Components
+// Importing custom components used in the dashboard
 import Navbar from "/src/components/navbar";
 import Sidebar from "/src/components/sidebar";
 
-// Chart.js imports
-import Chart from 'chart.js/auto'
+// Importing Chart.js for creating charts and the necessary extensions
+import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import LineChart from "/src/components/LineChart";
 
+// Importing hooks from React for managing state and side effects
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "axios"; // Importing axios for making HTTP requests
 
+// Placeholder for spending data, to be fetched
 let spendingData = [];
 
-//For custom themes
-//TODO: Add the theme colours
+// Customizing the Chakra UI theme to fit the application's design
 const theme = extendTheme({
   colors: {
     brand: {
@@ -36,11 +37,55 @@ const theme = extendTheme({
   },
 });
 
+// Registering the CategoryScale to be used with Chart.js
 Chart.register(CategoryScale);
 
+//Define Some Example data...
+const transactions = [
+  {
+    id: 1,
+    title: "Uber Ride",
+    amount: "£12.00",
+    date: "2024-03-26",
+    category: "Transportation",
+  },
+  {
+    id: 2,
+    title: "Lunch at Subway",
+    amount: "£8.50",
+    date: "2024-03-26",
+    category: "Food",
+  },
+  {
+    id: 3,
+    title: "Grocery Shopping",
+    amount: "£50.00",
+    date: "2024-03-27",
+    category: "Groceries And Laundry",
+  },
+  {
+    id: 4,
+    title: "Netflix Subscription",
+    amount: "£10.99",
+    date: "2024-03-27",
+    category: "Subscriptions",
+  },
+  {
+    id: 5,
+    title: "Savings Deposit",
+    amount: "£100.00",
+    date: "2024-03-28",
+    category: "Savings/Emergencies",
+  },
+  // ... more transactions
+];
+
+// Dashboard component definition
 export default function Dashboard() {
+  // State for managing the chart data DB Connection
+  /*
   const [chartData, setChartData] = useState({
-    labels: spendingData.map((data) => data.x), 
+    labels: spendingData.map((data) => data.x),
     datasets: [
       {
         label: "Spent (£)",
@@ -49,17 +94,26 @@ export default function Dashboard() {
         tension: 0.25,
         borderWidth: 2,
         pointBackgroundColor: "lightblue",
-      }
-    ]
-  })
+      },
+    ],
+  });
+  */
 
+  // Using useEffect to fetch spending data when the component mounts DB Connection
+  /*
+  useEffect(() => {
+    formatSpendingData();
+  }, []);
+  */
+
+  // Function to fetch and format spending data from an API DB Connection
+  /*
   const formatSpendingData = async () => {
     try {
       const fetchData = await axios.get("http://localhost:3000/dashboard");
-
-      spendingData = fetchData.data
+      spendingData = fetchData.data;
       setChartData({
-        labels: spendingData.map((data) => data.x), 
+        labels: spendingData.map((data) => data.x),
         datasets: [
           {
             label: "Spent (£)",
@@ -68,22 +122,64 @@ export default function Dashboard() {
             tension: 0.25,
             borderWidth: 2,
             pointBackgroundColor: "lightblue",
-          }
-        ]
-      })
+          },
+        ],
+      });
     } catch (error) {
       console.error("Error getting spending data", error);
     }
   };
+  */
+
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Spent (£)",
+        data: [],
+        borderColor: "lightblue",
+        tension: 0.25,
+        borderWidth: 2,
+        pointBackgroundColor: "lightblue",
+      },
+    ],
+  });
 
   useEffect(() => {
-    formatSpendingData();
+    const spendingByDate = transactions.reduce((acc, transaction) => {
+      const date = transaction.date;
+      const amount = parseFloat(transaction.amount.replace("£", ""));
+      if (acc[date]) {
+        acc[date] += amount;
+      } else {
+        acc[date] = amount;
+      }
+      return acc;
+    }, {});
+
+    const labels = Object.keys(spendingByDate).sort();
+    const data = labels.map((label) => spendingByDate[label]);
+
+    setChartData({
+      labels: labels,
+      datasets: [
+        {
+          label: "Spent (£)",
+          data: data,
+          borderColor: "lightblue",
+          tension: 0.25,
+          borderWidth: 2,
+          pointBackgroundColor: "lightblue",
+        },
+      ],
+    });
   }, []);
 
+  // Rendering the dashboard UI
   return (
     <ChakraProvider theme={theme}>
       <Grid templateColumns="repeat(7, 1fr)" bg="gray.50">
-        {/* sidebar */}
+        {/* Sidebar section */}
         <GridItem
           as="aside"
           colSpan="1"
@@ -94,68 +190,46 @@ export default function Dashboard() {
           <Sidebar />
         </GridItem>
 
-        {/* main content & navbar */}
+        {/* Main content section, including navbar and charts */}
         <GridItem as="main" colSpan="6" p="40px">
           <Navbar />
           <SimpleGrid spacing={35} columns={3}>
-            {/* this is the spending ratio */}
-            <GridItem colSpan="1">
-              <Box
-                h="200px"
-                border="1px solid"
-                borderWidth="1px"
-                borderRadius="lg"
-                overflow="hidden"
-                p={4}
-                boxShadow="md"
-              ></Box>
-            </GridItem>
-            {/* this is the pie chart */}
-            <GridItem colSpan="1">
-              <Box
-                h="200px"
-                border="1px solid"
-                borderWidth="1px"
-                borderRadius="lg"
-                overflow="hidden"
-                p={4}
-                boxShadow="md"
-              ></Box>
-            </GridItem>
-            {/* this is the income details */}
-            <GridItem colSpan="1">
-              <Box
-                h="200px"
-                border="1px solid"
-                borderWidth="1px"
-                borderRadius="lg"
-                overflow="hidden"
-                p={4}
-                boxShadow="md"
-              ></Box>
-            </GridItem>
-            {/* this is the transaction history */}
+            {/* Placeholder boxes for different dashboard components */}
+            {/* Spending ratio, pie chart, and income details sections */}
+            {["Spending Ratio", "Pie Chart", "Income Details"].map(
+              (label, index) => (
+                <GridItem key={index} colSpan="1">
+                  <Box
+                    h="200px"
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    overflow="hidden"
+                    p={4}
+                    boxShadow="base"
+                  ></Box>
+                </GridItem>
+              )
+            )}
+            {/* Transaction history section */}
             <GridItem colSpan="1" rowSpan="2">
               <Box
                 h="600px"
-                border="1px solid"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
                 p={4}
-                boxShadow="md"
+                boxShadow="base"
               ></Box>
             </GridItem>
-            {/* this is the line chart or bar chart */}
+            {/* Line chart or bar chart section */}
             <GridItem colSpan="2" rowSpan="2">
               <Box
                 h="600px"
-                border="1px solid"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
                 p={4}
-                boxShadow="md"
+                boxShadow="base"
               >
                 <div className="App">
                   <LineChart chartData={chartData} />
