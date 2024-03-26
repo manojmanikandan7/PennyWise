@@ -121,6 +121,11 @@ const formatDate = (dateString) => {
   return format(date, "do 'of' MMMM");
 };
 
+const formatDate_ = (dateString) => {
+  const date = parseISO(dateString);
+  return format(date, "do MMM");
+};
+
 // Group transactions by date
 const transactionsByDate = transactions.reduce((acc, transaction) => {
   const { date, ...rest } = transaction;
@@ -200,12 +205,13 @@ export default function Dashboard() {
 
   useEffect(() => {
     const spendingByDate = transactions.reduce((acc, transaction) => {
-      const date = transaction.date;
+      const { date, ...rest } = transaction;
+      const formattedDate = formatDate_(date); // Use the helper function to format date
       const amount = parseFloat(transaction.amount.replace("£", ""));
-      if (acc[date]) {
-        acc[date] += amount;
+      if (acc[formattedDate]) {
+        acc[formattedDate] += amount;
       } else {
-        acc[date] = amount;
+        acc[formattedDate] = amount;
       }
       return acc;
     }, {});

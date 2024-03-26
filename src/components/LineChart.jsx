@@ -22,7 +22,7 @@ function LineChart({ chartData }) {
             labelString: "Time",
             color: theme.colors.gray[600], // Use theme color for scale title
             font: {
-              size: theme.fontSizes.md, // Use theme font size for scale title
+              size: theme.fontSizes.xl, // Use theme font size for scale title
             },
           },
           ticks: {
@@ -39,7 +39,7 @@ function LineChart({ chartData }) {
             labelString: "Spent (£)",
             color: theme.colors.gray[600], // Match theme
             font: {
-              size: theme.fontSizes.md, // Match theme
+              size: theme.fontSizes.xl, // Match theme
             },
           },
           ticks: {
