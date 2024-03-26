@@ -9,6 +9,13 @@ import {
   VStack,
   HStack,
   Divider,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  StatArrow,
+  StatGroup,
+  Spacer,
 } from "@chakra-ui/react";
 import {
   FaCar,
@@ -283,7 +290,33 @@ export default function Dashboard() {
                 overflow="hidden"
                 p={4}
                 boxShadow="base"
-              ></Box>
+              >
+                <HStack>
+                  <Stat>
+                    <StatLabel>
+                      <Text fontSize="2xl" as="b">
+                        Total Spent This Month
+                      </Text>
+                    </StatLabel>
+                    <VStack>
+                      <Divider></Divider>
+                      <StatNumber>
+                        {" "}
+                        <Text fontSize="3xl" as="b">
+                          £400.00
+                        </Text>
+                      </StatNumber>
+                      <StatHelpText>
+                        <Text fontSize="md">March 1st - March 31st</Text>
+                      </StatHelpText>
+                      <StatHelpText>
+                        <StatArrow type="increase" color="red.500" />
+                        23.36% since last month
+                      </StatHelpText>
+                    </VStack>
+                  </Stat>
+                </HStack>
+              </Box>
             </GridItem>
             {/* this is the transaction history of your most recent spending */}
             <GridItem colSpan="1" rowSpan="2">

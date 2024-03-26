@@ -1,6 +1,6 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
-import { Box, Text, useTheme } from "@chakra-ui/react";
+import { Box, Divider, Text, useTheme } from "@chakra-ui/react";
 
 function LineChart({ chartData }) {
   const theme = useTheme(); // Using Chakra UI theme for styling
