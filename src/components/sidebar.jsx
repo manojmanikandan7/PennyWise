@@ -1,5 +1,5 @@
-import { List, ListItem, ListIcon } from "@chakra-ui/react";
-import { SettingsIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { List, ListItem, ListIcon, Divider } from "@chakra-ui/react";
+import { SettingsIcon, CalendarIcon, AddIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
@@ -11,16 +11,18 @@ export default function Sidebar() {
           Developer Dashboard
         </NavLink>
       </ListItem>
+      <Divider></Divider>
       <ListItem>
-        <NavLink to="null">
-          <ListIcon as={ViewOffIcon} color="white" />
-          Page1
+        <NavLink to="/calendar">
+          <ListIcon as={CalendarIcon} color="white" />
+          Calendar
         </NavLink>
       </ListItem>
+      <Divider></Divider>
       <ListItem>
-        <NavLink to="null">
-          <ListIcon as={ViewOffIcon} color="white" />
-          Page2
+        <NavLink to="/addTransaction">
+          <ListIcon as={AddIcon} color="white" />
+          Add Transaction
         </NavLink>
       </ListItem>
     </List>

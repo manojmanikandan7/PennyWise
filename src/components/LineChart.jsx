@@ -1,6 +1,6 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
-import { Box, Divider, Text, useTheme } from "@chakra-ui/react";
+import { Box, Spacer, Text, useTheme, Flex, VStack } from "@chakra-ui/react";
 
 function LineChart({ chartData }) {
   const theme = useTheme(); // Using Chakra UI theme for styling
@@ -61,10 +61,12 @@ function LineChart({ chartData }) {
       borderRadius="lg" // Rounded corners
     >
       {/* Optional title centered above the chart */}
-      <Text fontSize="2xl" mb={4} textAlign="center" fontWeight="bold">
-        Spending Over Time
-      </Text>
-      <Line data={chartData} options={options} />
+      <VStack spacing="0">
+        <Text fontSize="2xl" mb={4} fontWeight="bold">
+          Spending Over Time
+        </Text>
+        <Line data={chartData} options={options} />
+      </VStack>
     </Box>
   );
 }

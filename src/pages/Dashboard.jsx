@@ -243,20 +243,13 @@ export default function Dashboard() {
 
   return (
     <ChakraProvider theme={theme}>
-      <Grid templateColumns="repeat(7, 1fr)" bg="gray.50">
+      <Grid templateColumns="repeat(8, 1fr)" bg="gray.25">
         {/* sidebar */}
-        <GridItem
-          as="aside"
-          colSpan="1"
-          bg="#718096"
-          minHeight="100vh"
-          p="30px"
-        >
+        <GridItem as="aside" colSpan="1" bg="black" minHeight="100vh" p="30px">
           <Sidebar />
         </GridItem>
-
         {/* main content & navbar */}
-        <GridItem as="main" colSpan="6" p="40px">
+        <GridItem as="main" colSpan="7" p="40px">
           <Navbar />
           <SimpleGrid spacing={35} columns={3}>
             {/* this is the spending ratio */}
@@ -299,7 +292,6 @@ export default function Dashboard() {
                       </Text>
                     </StatLabel>
                     <VStack>
-                      <Divider></Divider>
                       <StatNumber>
                         {" "}
                         <Text fontSize="3xl" as="b">
@@ -369,9 +361,7 @@ export default function Dashboard() {
                 p={4}
                 boxShadow="base"
               >
-                <div className="App">
-                  <LineChart chartData={chartData} />
-                </div>
+                <LineChart chartData={chartData} />
               </Box>
             </GridItem>
           </SimpleGrid>
