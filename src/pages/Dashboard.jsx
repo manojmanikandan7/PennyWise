@@ -286,12 +286,12 @@ export default function Dashboard() {
               >
                 <HStack>
                   <Stat>
-                    <StatLabel>
-                      <Text fontSize="2xl" as="b">
-                        Total Spent This Month
-                      </Text>
-                    </StatLabel>
                     <VStack>
+                      <StatLabel>
+                        <Text fontSize="2xl" as="b">
+                          Total Spent This Month
+                        </Text>
+                      </StatLabel>
                       <StatNumber>
                         {" "}
                         <Text fontSize="3xl" as="b">
@@ -320,9 +320,11 @@ export default function Dashboard() {
                 p={4}
                 boxShadow="base"
               >
-                <Text fontSize="2xl" mb={4} as="b">
-                  Recent Transactions
-                </Text>
+                <VStack>
+                  <Text fontSize="2xl" mb={4} as="b">
+                    Recent Transactions
+                  </Text>
+                </VStack>
                 {Object.entries(transactionsByDate).map(
                   ([formattedDate, transactions], index) => (
                     <VStack key={formattedDate} spacing={4} align="stretch">
