@@ -14,8 +14,6 @@ import {
   StatNumber,
   StatHelpText,
   StatArrow,
-  StatGroup,
-  Spacer,
 } from "@chakra-ui/react";
 import {
   FaCar,
@@ -36,6 +34,7 @@ import { NavLink } from "react-router-dom";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import LineChart from "/src/components/LineChart";
+import PieChart from "/src/components/PieChart";
 
 // Importing hooks from React for managing state and side effects
 import { useEffect, useState } from "react";
@@ -252,32 +251,23 @@ export default function Dashboard() {
         <GridItem as="main" colSpan="7" p="40px">
           <Navbar />
           <SimpleGrid spacing={35} columns={3}>
-            {/* this is the spending ratio */}
-            <GridItem colSpan="1">
-              <Box
-                h="200px"
-                borderWidth="1px"
-                borderRadius="lg"
-                overflow="hidden"
-                p={4}
-                boxShadow="base"
-              ></Box>
-            </GridItem>
             {/* this is the pie chart */}
-            <GridItem colSpan="1">
+            <GridItem colSpan="1" rowSpan="2">
               <Box
-                h="200px"
+                h="500px"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
                 p={4}
                 boxShadow="base"
-              ></Box>
+              >
+                <PieChart chartData={chartData} />
+              </Box>
             </GridItem>
             {/* this is the income details */}
-            <GridItem colSpan="1">
+            <GridItem colSpan="2" rowSpan="2">
               <Box
-                h="200px"
+                h="500px"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
@@ -288,13 +278,13 @@ export default function Dashboard() {
                   <Stat>
                     <VStack>
                       <StatLabel>
-                        <Text fontSize="2xl" as="b">
+                        <Text fontSize="xl" as="b">
                           Total Spent This Month
                         </Text>
                       </StatLabel>
                       <StatNumber>
                         {" "}
-                        <Text fontSize="3xl" as="b">
+                        <Text fontSize="2xl" as="b">
                           £400.00
                         </Text>
                       </StatNumber>
@@ -304,6 +294,42 @@ export default function Dashboard() {
                       <StatHelpText>
                         <StatArrow type="increase" color="red.500" />
                         23.36% Since Last Month
+                      </StatHelpText>
+                      <StatLabel>
+                        <Text fontSize="xl" as="b">
+                          Money Left For The Month
+                        </Text>
+                      </StatLabel>
+                      <StatNumber>
+                        {" "}
+                        <Text fontSize="2xl" as="b">
+                          £600.00
+                        </Text>
+                      </StatNumber>
+                      <StatHelpText>
+                        <Text fontSize="md">March 1st - March 31st</Text>
+                      </StatHelpText>
+                      <StatHelpText>
+                        <StatArrow type="increase" color="green.500" />
+                        10.42% From Last Month
+                      </StatHelpText>
+                      <StatLabel>
+                        <Text fontSize="xl" as="b">
+                          Spending Percentage %
+                        </Text>
+                      </StatLabel>
+                      <StatNumber>
+                        {" "}
+                        <Text fontSize="2xl" as="b">
+                          1.20%
+                        </Text>
+                      </StatNumber>
+                      <StatHelpText>
+                        <Text fontSize="md">March 1st - March 31st</Text>
+                      </StatHelpText>
+                      <StatHelpText>
+                        <StatArrow type="decrease" color="red.500" />
+                        You Are Spending More Than You Are Earning By 20%.
                       </StatHelpText>
                     </VStack>
                   </Stat>
