@@ -1,0 +1,53 @@
+{
+  "transactions": [
+    {
+      "id": 1,
+      "title": "Uber Ride",
+      "amount": "£12.00",
+      "date": "2024-03-26",
+      "category": "Transportation"
+    },
+    {
+      "id": 2,
+      "title": "Lunch at Subway",
+      "amount": "£8.50",
+      "date": "2024-03-26",
+      "category": "Food"
+    },
+    {
+      "id": 3,
+      "title": "Grocery Shopping",
+      "amount": "£50.00",
+      "date": "2024-03-27",
+      "category": "Groceries And Laundry"
+    },
+    {
+      "id": 4,
+      "title": "Netflix Subscription",
+      "amount": "£10.99",
+      "date": "2024-03-27",
+      "category": "Subscriptions"
+    },
+    {
+      "id": 5,
+      "title": "Savings Deposit",
+      "amount": "£100.00",
+      "date": "2024-03-28",
+      "category": "Savings"
+    },
+    {
+      "id": 6,
+      "title": "Dinner at a Restaurant",
+      "amount": "£30.00",
+      "date": "2024-03-28",
+      "category": "Food"
+    },
+    {
+      "id": 7,
+      "title": "Gift For Friend",
+      "amount": "£40.00",
+      "date": "2024-03-29",
+      "category": "Other"
+    }
+  ]
+}

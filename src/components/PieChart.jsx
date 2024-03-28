@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Pie } from "react-chartjs-2";
-import { Box, Text, useTheme, VStack, HStack } from "@chakra-ui/react";
+/* eslint-disable no-unused-vars */
 
-function PieChart({ transactions }) {
+import React, { useEffect, useState } from "react";
+
+import { Pie } from "react-chartjs-2";
+import { Box, Text, useTheme, VStack } from "@chakra-ui/react";
+
+import { transactions } from "../assets/testDataTransactions.json";
+
+export default function PieChart() {
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -94,5 +99,3 @@ function PieChart({ transactions }) {
     </Box>
   );
 }
-
-export default PieChart;

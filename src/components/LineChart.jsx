@@ -1,8 +1,130 @@
-import React from "react";
-import { Line } from "react-chartjs-2";
-import { Box, Spacer, Text, useTheme, Flex, VStack } from "@chakra-ui/react";
+/* eslint-disable no-unused-vars */
 
-function LineChart({ chartData }) {
+import React from "react";
+
+import { Box, Text, useTheme, VStack } from "@chakra-ui/react";
+
+import { Line } from "react-chartjs-2"; // Import the Line component from react-chartjs-2 for line graphs
+import Chart from "chart.js/auto"; // Importing Chart.js for creating charts and the necessary extensions
+import { CategoryScale } from "chart.js";
+import { format, parseISO } from "date-fns"; // Import the necessary functions from date-fns
+
+import { useEffect, useState } from "react"; // Importing hooks from React for managing state and side effects
+
+//import test data transactions...
+import { transactions } from "../assets/testDataTransactions.json";
+
+//Later we will not import the transactions from a file, but from the backend server and according to the user logged in.
+//This means we will have also change the way we import the transactions in the RecentTransactions component.
+
+//Divider -----------------------------------------------------------------------------------------------
+
+/*
+import axios from "axios"; // Importing axios for making HTTP requests
+
+// Placeholder for spending data, to be fetched
+let spendingData = [];
+
+  const [chartData, setChartData] = useState({
+    labels: spendingData.map((data) => data.x),
+    datasets: [
+      {
+        label: "Spent (£)",
+        data: spendingData.map((data) => data.y),
+        borderColor: "lightblue",
+        tension: 0.25,
+        borderWidth: 2,
+        pointBackgroundColor: "lightblue",
+      },
+    ],
+  });
+
+  // Using useEffect to fetch spending data when the component mounts DB Connection
+  useEffect(() => {
+    formatSpendingData();
+  }, []);
+
+  // Function to fetch and format spending data from an API DB Connection
+  const formatSpendingData = async () => {
+    try {
+      const fetchData = await axios.get("http://localhost:3000/dashboard");
+      spendingData = fetchData.data;
+      setChartData({
+        labels: spendingData.map((data) => data.x),
+        datasets: [
+          {
+            label: "Spent (£)",
+            data: spendingData.map((data) => data.y),
+            borderColor: "lightblue",
+            tension: 0.25,
+            borderWidth: 2,
+            pointBackgroundColor: "lightblue",
+          },
+        ],
+      });
+    } catch (error) {
+      console.error("Error getting spending data", error);
+    }
+  };
+  */
+
+//Divider -----------------------------------------------------------------------------------------------
+
+const formatDate_ = (dateString) => {
+  const date = parseISO(dateString);
+  return format(date, "do MMM");
+};
+
+// Registering the CategoryScale to be used with Chart.js
+Chart.register(CategoryScale);
+
+export default function LineChart() {
+  // Chart data stuff
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Spent (£)",
+        data: [],
+        borderColor: "lightblue",
+        tension: 0.25,
+        borderWidth: 2,
+        pointBackgroundColor: "lightblue",
+      },
+    ],
+  });
+
+  useEffect(() => {
+    const spendingByDate = transactions.reduce((acc, transaction) => {
+      const { date, ...rest } = transaction;
+      const formattedDate = formatDate_(date); // Use the helper function to format date
+      const amount = parseFloat(transaction.amount.replace("£", ""));
+      if (acc[formattedDate]) {
+        acc[formattedDate] += amount;
+      } else {
+        acc[formattedDate] = amount;
+      }
+      return acc;
+    }, {});
+
+    const labels = Object.keys(spendingByDate).sort();
+    const data = labels.map((label) => spendingByDate[label]);
+
+    setChartData({
+      labels: labels,
+      datasets: [
+        {
+          label: "Spent (£)",
+          data: data,
+          borderColor: "lightblue",
+          tension: 0.25,
+          borderWidth: 2,
+          pointBackgroundColor: "lightblue",
+        },
+      ],
+    });
+  }, []);
+
   const theme = useTheme(); // Using Chakra UI theme for styling
 
   const options = {
@@ -70,5 +192,3 @@ function LineChart({ chartData }) {
     </Box>
   );
 }
-
-export default LineChart;
