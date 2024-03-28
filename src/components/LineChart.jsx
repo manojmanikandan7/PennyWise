@@ -107,7 +107,15 @@ export default function LineChart() {
       return acc;
     }, {});
 
-    const labels = Object.keys(spendingByDate).sort();
+    // Convert the object keys (dates) back to an array, sort them based on actual date values, and then map to formatted labels
+    const labels = Object.keys(spendingByDate)
+      .map((date) => ({
+        formatted: date,
+        parsed: parseISO(date),
+      }))
+      .sort((a, b) => a.parsed - b.parsed)
+      .map((item) => item.formatted);
+
     const data = labels.map((label) => spendingByDate[label]);
 
     setChartData({
@@ -178,12 +186,11 @@ export default function LineChart() {
   return (
     <Box
       className="chart-container"
-      p={4} // Padding around the chart
       bg="grey.400" // Background color
       borderRadius="lg" // Rounded corners
     >
       {/* Optional title centered above the chart */}
-      <VStack spacing="0">
+      <VStack>
         <Text fontSize="2xl" mb={4} fontWeight="bold">
           Spending Over Time
         </Text>

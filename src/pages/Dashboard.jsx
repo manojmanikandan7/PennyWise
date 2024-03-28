@@ -3,24 +3,20 @@ import {
   GridItem,
   SimpleGrid,
   Grid,
-  Text,
   ChakraProvider,
   extendTheme,
-  VStack,
-  Divider,
-  List,
-  ListItem,
 } from "@chakra-ui/react";
 
 //Website Common Components
-import Navbar from "/src/components/navbar";
-import Sidebar from "/src/components/sidebar";
+import Navbar from "../components/navbar";
+import Sidebar from "../components/sidebar";
 
 //Dashboard Components
-import LineChart from "/src/components/LineChart";
-import PieChart from "/src/components/PieChart";
+import LineChart from "../components/LineChart";
+import PieChart from "../components/PieChart";
 import FinancialDetails from "../components/financialDetails";
 import RecentTransactions from "../components/recentTransactions";
+import UpcomingBills from "../components/upcomingBills";
 
 //For custom themes
 //TODO: Add the theme colours
@@ -44,14 +40,31 @@ export default function Dashboard() {
         <GridItem as="aside" colSpan="1" bg="black" minHeight="100vh" p="30px">
           <Sidebar />
         </GridItem>
+
         {/* main content & navbar */}
         <GridItem as="main" colSpan="7" p="40px">
           <Navbar />
           <SimpleGrid spacing={35} columns={3}>
+            {/*  */}
+            {/* this is the transaction history of your most recent spending */}
+            <GridItem colSpan="1">
+              <RecentTransactions />
+            </GridItem>
+
+            {/* Upcoming Bills And Possible Spending Recommendations? */}
+            <GridItem colSpan="1">
+              <UpcomingBills />
+            </GridItem>
+
+            {/* this is the financial details */}
+            <GridItem colSpan="1">
+              <FinancialDetails />
+            </GridItem>
+
             {/* this is the pie chart */}
             <GridItem colSpan="1">
               <Box
-                h="500px"
+                h="550px"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
@@ -62,48 +75,10 @@ export default function Dashboard() {
               </Box>
             </GridItem>
 
-            {/* Upcoming Bills And Possible Spending Recommendations? */}
-            <GridItem colSpan="1">
-              <Box
-                h="500px"
-                borderWidth="1px"
-                borderRadius="lg"
-                overflow="hidden"
-                p={4}
-                boxShadow="base"
-              >
-                <VStack>
-                  <List>
-                    <ListItem>
-                      <Text fontSize="2xl" mb={4} fontWeight="bold">
-                        Upcoming Bills
-                      </Text>
-                    </ListItem>
-                    <Divider></Divider>
-                    <ListItem>
-                      <Text fontSize="2xl" mb={4} fontWeight="bold">
-                        Recommendations
-                      </Text>
-                    </ListItem>
-                  </List>
-                </VStack>
-              </Box>
-            </GridItem>
-
-            {/* this is the financial details */}
-            <GridItem colSpan="1">
-              <FinancialDetails></FinancialDetails>
-            </GridItem>
-
-            {/* this is the transaction history of your most recent spending */}
-            <GridItem colSpan="1" rowSpan="2">
-              <RecentTransactions></RecentTransactions>
-            </GridItem>
-
             {/* Line chart or bar chart section */}
-            <GridItem colSpan="2" rowSpan="2">
+            <GridItem colSpan="2">
               <Box
-                h="600px"
+                h="550px"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
@@ -113,6 +88,8 @@ export default function Dashboard() {
                 <LineChart />
               </Box>
             </GridItem>
+
+            {/*  */}
           </SimpleGrid>
         </GridItem>
       </Grid>

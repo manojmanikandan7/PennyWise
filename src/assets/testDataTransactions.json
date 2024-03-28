@@ -48,6 +48,34 @@
       "amount": "£40.00",
       "date": "2024-03-29",
       "category": "Other"
+    },
+    {
+      "id": 8,
+      "title": "Cinema Tickets",
+      "amount": "£15.00",
+      "date": "2024-03-30",
+      "category": "Entertainment"
+    },
+    {
+      "id": 9,
+      "title": "Textbooks",
+      "amount": "£120.00",
+      "date": "2024-03-31",
+      "category": "Education"
+    },
+    {
+      "id": 10,
+      "title": "Train Ticket",
+      "amount": "£45.00",
+      "date": "2024-03-31",
+      "category": "Transportation"
+    },
+    {
+      "id": 11,
+      "title": "Coffee Shop",
+      "amount": "£25.50",
+      "date": "2024-03-31",
+      "category": "Food"
     }
   ]
 }

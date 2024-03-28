@@ -14,14 +14,30 @@ export default function PieChart() {
       {
         data: [],
         backgroundColor: [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56",
-          "#4BC0C0",
-          "#9966FF",
-          "#C9CBCF",
-          "#FF9F40",
-        ], // Example colors, adjust as needed
+          "#FF6384", // Radish Red
+          "#36A2EB", // Sky Blue
+          "#FFCE56", // Sunny Yellow
+          "#4BC0C0", // Sea Green
+          "#9966FF", // Lavender Purple
+          "#C9CBCF", // Light Gray
+          "#FF9F40", // Tangerine
+          "#4682B4", // Steel Blue
+          "#6A5ACD", // Slate Blue
+          "#20B2AA", // Light Sea Green
+          "#FF4500", // Orange Red
+          "#DA70D6", // Orchid
+          "#8FBC8F", // Dark Sea Green
+          "#B0C4DE", // Light Steel Blue
+          "#D2691E", // Chocolate
+          "#F08080", // Light Coral
+          "#E6E6FA", // Lavender
+          "#FFFACD", // Lemon Chiffon
+          "#ADD8E6", // Light Blue
+          "#F0E68C", // Khaki
+          "#D3D3D3", // Light Grey
+          "#90EE90", // Light Green
+          "#FFB6C1", // Light Pink
+        ],
       },
     ],
   });
@@ -58,7 +74,7 @@ export default function PieChart() {
   const options = {
     plugins: {
       legend: {
-        position: "top",
+        position: "bottom",
         align: "start",
         labels: {
           color: "#000000", // Legend labels in black color

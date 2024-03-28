@@ -1,0 +1,39 @@
+{
+  "upcomingBills": [
+    {
+      "id": 1,
+      "title": "Electricity Bill",
+      "amount": "£30.00",
+      "dueDate": "2024-04-05",
+      "category": "Utilities"
+    },
+    {
+      "id": 2,
+      "title": "Water Bill",
+      "amount": "£15.00",
+      "dueDate": "2024-04-11",
+      "category": "Utilities"
+    },
+    {
+      "id": 3,
+      "title": "Internet Subscription",
+      "amount": "£25.00",
+      "dueDate": "2024-04-15",
+      "category": "Subscriptions"
+    },
+    {
+      "id": 4,
+      "title": "Mobile Phone Plan",
+      "amount": "£20.00",
+      "dueDate": "2024-04-22",
+      "category": "Subscriptions"
+    },
+    {
+      "id": 5,
+      "title": "Gym Membership",
+      "amount": "£28.00",
+      "dueDate": "2024-04-30",
+      "category": "Health & Fitness"
+    }
+  ]
+}
