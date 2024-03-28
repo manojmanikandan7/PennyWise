@@ -91,7 +91,7 @@ export default function PieChart() {
           generateLabels: (chart) => {
             const datasets = chart.data.datasets;
             return chart.data.labels.map((label, index) => ({
-              text: "",
+              text: label,
               fillStyle: datasets[0].backgroundColor[index], // Match the pie segment color
               strokeStyle: "#000000",
               lineWidth: 0.5,
