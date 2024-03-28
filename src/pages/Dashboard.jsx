@@ -14,6 +14,8 @@ import {
   StatNumber,
   StatHelpText,
   StatArrow,
+  List,
+  ListItem,
 } from "@chakra-ui/react";
 import {
   FaCar,
@@ -63,7 +65,7 @@ const categoryDetails = {
   Food: { icon: FaHamburger, color: "red.400" },
   "Groceries And Laundry": { icon: FaShoppingBasket, color: "green.400" },
   Subscriptions: { icon: FaCalendarCheck, color: "blue.400" },
-  "Savings/Emergencies": { icon: FaPiggyBank, color: "purple.400" },
+  Savings: { icon: FaPiggyBank, color: "purple.400" },
   Other: { icon: FaMoneyBillWave, color: "black.400" },
 };
 
@@ -102,7 +104,7 @@ const transactions = [
     title: "Savings Deposit",
     amount: "£100.00",
     date: "2024-03-28",
-    category: "Savings/Emergencies",
+    category: "Savings",
   },
   {
     id: 6,
@@ -240,6 +242,23 @@ export default function Dashboard() {
     });
   }, []);
 
+  //Todays Date
+  // Step 1: Get today's date
+  const today = new Date();
+
+  // This will create a string like "March 28, 2024"
+  const todaysFormattedDate = today.toLocaleDateString("en-US", {
+    month: "long", // "long" for full month name, "short" for abbreviated month name.
+    day: "numeric",
+    year: "numeric",
+  });
+
+  //Time
+  const todaysFormattedTime = today.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
   return (
     <ChakraProvider theme={theme}>
       <Grid templateColumns="repeat(8, 1fr)" bg="gray.25">
@@ -252,7 +271,7 @@ export default function Dashboard() {
           <Navbar />
           <SimpleGrid spacing={35} columns={3}>
             {/* this is the pie chart */}
-            <GridItem colSpan="1" rowSpan="2">
+            <GridItem colSpan="1">
               <Box
                 h="500px"
                 borderWidth="1px"
@@ -261,11 +280,38 @@ export default function Dashboard() {
                 p={4}
                 boxShadow="base"
               >
-                <PieChart chartData={chartData} />
+                <PieChart transactions={transactions} />
+              </Box>
+            </GridItem>
+            {/* Extra? */}
+            <GridItem colSpan="1">
+              <Box
+                h="500px"
+                borderWidth="1px"
+                borderRadius="lg"
+                overflow="hidden"
+                p={4}
+                boxShadow="base"
+              >
+                <VStack>
+                  <List>
+                    <ListItem>
+                      <Text fontSize="2xl" mb={4} fontWeight="bold">
+                        Upcoming Bills
+                      </Text>
+                    </ListItem>
+                    <Divider></Divider>
+                    <ListItem>
+                      <Text fontSize="2xl" mb={4} fontWeight="bold">
+                        Recommendations
+                      </Text>
+                    </ListItem>
+                  </List>
+                </VStack>
               </Box>
             </GridItem>
             {/* this is the income details */}
-            <GridItem colSpan="2" rowSpan="2">
+            <GridItem colSpan="1">
               <Box
                 h="500px"
                 borderWidth="1px"
@@ -277,60 +323,61 @@ export default function Dashboard() {
                 <HStack>
                   <Stat>
                     <VStack>
+                      {/* Total Spent For This Month */}
                       <StatLabel>
                         <Text fontSize="xl" as="b">
                           Total Spent This Month
                         </Text>
                       </StatLabel>
                       <StatNumber>
-                        {" "}
                         <Text fontSize="2xl" as="b">
                           £400.00
                         </Text>
                       </StatNumber>
                       <StatHelpText>
-                        <Text fontSize="md">March 1st - March 31st</Text>
-                      </StatHelpText>
-                      <StatHelpText>
                         <StatArrow type="increase" color="red.500" />
                         23.36% Since Last Month
                       </StatHelpText>
+                      {/* Money Left For The Month */}
+                      <Divider></Divider>
                       <StatLabel>
                         <Text fontSize="xl" as="b">
                           Money Left For The Month
                         </Text>
                       </StatLabel>
                       <StatNumber>
-                        {" "}
                         <Text fontSize="2xl" as="b">
                           £600.00
                         </Text>
                       </StatNumber>
                       <StatHelpText>
-                        <Text fontSize="md">March 1st - March 31st</Text>
-                      </StatHelpText>
-                      <StatHelpText>
                         <StatArrow type="increase" color="green.500" />
                         10.42% From Last Month
                       </StatHelpText>
+                      {/* Spending Percentage% */}
+                      <Divider></Divider>
                       <StatLabel>
                         <Text fontSize="xl" as="b">
                           Spending Percentage %
                         </Text>
                       </StatLabel>
                       <StatNumber>
-                        {" "}
                         <Text fontSize="2xl" as="b">
                           1.20%
                         </Text>
                       </StatNumber>
                       <StatHelpText>
-                        <Text fontSize="md">March 1st - March 31st</Text>
-                      </StatHelpText>
-                      <StatHelpText>
                         <StatArrow type="decrease" color="red.500" />
-                        You Are Spending More Than You Are Earning By 20%.
+                        You Are Spending More Than You Can By 20%.
                       </StatHelpText>
+                      <Divider></Divider>
+                      <Text fontSize="lg" as="b">
+                        Today
+                      </Text>
+                      <Text fontSize="lg" as="b">
+                        {todaysFormattedDate}
+                      </Text>
+                      <Text as="i">{todaysFormattedTime}</Text>
                     </VStack>
                   </Stat>
                 </HStack>

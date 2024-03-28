@@ -1,5 +1,11 @@
 import { List, ListItem, ListIcon, Divider } from "@chakra-ui/react";
-import { SettingsIcon, CalendarIcon, AddIcon } from "@chakra-ui/icons";
+import {
+  SettingsIcon,
+  CalendarIcon,
+  AddIcon,
+  CloseIcon,
+  EditIcon,
+} from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx";
 
@@ -24,6 +30,20 @@ export default function Sidebar() {
         <NavLink to="/addTransaction">
           <ListIcon as={AddIcon} color="white" fontSize="xl" />
           Add Transaction
+        </NavLink>
+      </ListItem>
+      <Divider></Divider>
+      <ListItem>
+        <NavLink to="/removeTransaction">
+          <ListIcon as={CloseIcon} color="white" fontSize="16" />
+          Remove Transaction
+        </NavLink>
+      </ListItem>
+      <Divider></Divider>
+      <ListItem>
+        <NavLink to="/editTransaction">
+          <ListIcon as={EditIcon} color="white" fontSize="xl" />
+          Edit Transaction
         </NavLink>
       </ListItem>
       <Divider></Divider>
