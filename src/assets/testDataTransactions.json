@@ -76,6 +76,13 @@
       "amount": "£25.50",
       "date": "2024-03-31",
       "category": "Food"
+    },
+    {
+      "id": 11,
+      "title": "Lunch At McDonalds",
+      "amount": "£25.50",
+      "date": "2024-03-03",
+      "category": "Food"
     }
   ]
 }

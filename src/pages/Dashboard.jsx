@@ -12,8 +12,8 @@ import Navbar from "../components/navbar";
 import Sidebar from "../components/sidebar";
 
 //Dashboard Components
-import LineChart from "../components/LineChart";
-import PieChart from "../components/PieChart";
+import LineChart from "../components/lineChart";
+import PieChart from "../components/pieChart";
 import FinancialDetails from "../components/financialDetails";
 import RecentTransactions from "../components/recentTransactions";
 import UpcomingBills from "../components/upcomingBills";

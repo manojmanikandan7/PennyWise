@@ -107,13 +107,13 @@ export default function LineChart() {
       return acc;
     }, {});
 
-    // Convert the object keys (dates) back to an array, sort them based on actual date values, and then map to formatted labels
+    // Convert the object keys (dates) back to an array, sort them based on actual date values in ascending order, and then map to formatted labels
     const labels = Object.keys(spendingByDate)
       .map((date) => ({
         formatted: date,
         parsed: parseISO(date),
       }))
-      .sort((a, b) => a.parsed - b.parsed)
+      .sort((a, b) => b.parsed - a.parsed) // Ascending order sort
       .map((item) => item.formatted);
 
     const data = labels.map((label) => spendingByDate[label]);
