@@ -24,14 +24,41 @@ import { AddIcon } from "@chakra-ui/icons";
 //Dates
 import { formatISO } from "date-fns";
 
+//placeholder ID
+import { v4 as uuidv4 } from "uuid"; // You need to import uuid to use uuidv4
+
 //Components
-//import CategorySelector from "./categorySelector";
+import CategorySelector from "./categorySelector";
 
 function AddTransactionModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
   const [date, setDate] = useState(
     formatISO(new Date(), { representation: "date" })
   );
+  const [category, setCategory] = useState("");
+
+  const handleSubmit = () => {
+    const newTransaction = {
+      id: uuidv4(), // Generate a unique ID for the transaction
+      title, // Use the value from the state
+      amount: `£${amount}`, // Prefix the amount with £ and use the value from the state
+      date, // Use the value from the state
+      category, // Use the value from the state
+    };
+
+    console.log("New Transaction:", newTransaction);
+
+    // Reset the form fields
+    setTitle("");
+    setAmount("");
+    setDate(formatISO(new Date(), { representation: "date" }));
+    setCategory("");
+
+    // Close the modal
+    onClose();
+  };
 
   return (
     <>
@@ -52,12 +79,21 @@ function AddTransactionModal() {
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Title</FormLabel>
-              <Input placeholder="Transaction Title" />
+              <Input
+                placeholder="Transaction Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </FormControl>
 
             <FormControl mt={4}>
               <FormLabel>Amount</FormLabel>
-              <Input placeholder="Amount" type="number" />
+              <Input
+                placeholder="Amount"
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
             </FormControl>
 
             <FormControl mt={4}>
@@ -71,23 +107,7 @@ function AddTransactionModal() {
 
             <FormControl mt={4}>
               <FormLabel>Category</FormLabel>
-              <Select placeholder="Select category">
-                <option value="Transportation">Transportation</option>
-                <option value="Food">Food</option>
-                <option value="Groceries And Laundry">
-                  Groceries And Laundry
-                </option>
-                <option value="Subscriptions">Subscriptions</option>
-                <option value="Savings">Savings</option>
-                <option value="Other">Other</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Education">Education</option>
-                <option value="Health & Fitness">Health & Fitness</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Utilities">Utilities</option>
-                <option value="Housing">Housing</option>
-                {/* Add more categories as needed */}
-              </Select>
+              <CategorySelector onSelect={setCategory} />
             </FormControl>
           </ModalBody>
 
@@ -95,7 +115,9 @@ function AddTransactionModal() {
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost">Add</Button>
+            <Button variant="solid" colorScheme="green" onClick={handleSubmit}>
+              Add
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
