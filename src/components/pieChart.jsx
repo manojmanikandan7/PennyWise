@@ -78,13 +78,13 @@ export default function PieChart() {
         align: "start",
         labels: {
           color: "#000000", // Legend labels in black color
-          boxWidth: 30, // Size of the color box
-          padding: 27, // Spacing between legend items
+          boxWidth: 10, // Size of the color box
+          padding: 17, // Spacing between legend items
           usePointStyle: false, // Use point style (circle)
           font: {
             // Chakra UI default font stack
-            family: " sans-serif",
-            size: 10, // You can adjust the size as needed
+            family: " system-ui",
+            size: 11, // You can adjust the size as needed
             style: "normal",
             weight: "normal", // Normal weight to match the Chakra UI default
           },
@@ -105,9 +105,9 @@ export default function PieChart() {
   };
 
   return (
-    <Box className="chart-container" p={4} bg="white" borderRadius="lg">
-      <VStack spacing="0">
-        <Text fontSize="2xl" mb={4} fontWeight="bold">
+    <Box className="chart-container" p={1} bg="white" borderRadius="lg">
+      <VStack>
+        <Text fontSize="2xl" fontWeight="bold">
           Spending by Category
         </Text>
         <Pie data={chartData} options={options} />

@@ -1,15 +1,33 @@
-import { List, ListItem, ListIcon, Divider } from "@chakra-ui/react";
+/* eslint-disable no-unused-vars */
+
+import React, { useState } from "react";
+
+import {
+  List,
+  ListItem,
+  ListIcon,
+  Divider,
+  useDisclosure,
+} from "@chakra-ui/react";
+
+//Icons
 import {
   SettingsIcon,
   CalendarIcon,
-  AddIcon,
   CloseIcon,
   EditIcon,
 } from "@chakra-ui/icons";
-import { NavLink } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx";
 
+//Navigation
+import { NavLink } from "react-router-dom";
+
+//Transaction components
+import AddTransactionModal from "./addTransactionModal";
+
 export default function Sidebar() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <List color="white" spacing={4}>
       <ListItem>
@@ -27,10 +45,7 @@ export default function Sidebar() {
       </ListItem>
       <Divider></Divider>
       <ListItem>
-        <NavLink to="/addTransaction">
-          <ListIcon as={AddIcon} color="white" fontSize="xl" />
-          Add Transaction
-        </NavLink>
+        <AddTransactionModal />
       </ListItem>
       <Divider></Divider>
       <ListItem>

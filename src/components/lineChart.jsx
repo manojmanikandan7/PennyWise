@@ -191,7 +191,7 @@ export default function LineChart() {
     >
       {/* Optional title centered above the chart */}
       <VStack>
-        <Text fontSize="2xl" mb={4} fontWeight="bold">
+        <Text fontSize="2xl" mb={0} fontWeight="bold">
           Spending Over Time
         </Text>
         <Line data={chartData} options={options} />
