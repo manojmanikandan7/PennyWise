@@ -65,7 +65,7 @@ function EditTransactionModal() {
         variant="solid"
         leftIcon={<EditIcon />}
       >
-        Edit Transaction
+        Transaction
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside">

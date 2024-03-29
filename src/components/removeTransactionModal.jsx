@@ -56,7 +56,7 @@ function RemoveTransactionModal() {
         variant="solid"
         leftIcon={<GrClose />}
       >
-        Remove Transaction
+        Transaction
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside">

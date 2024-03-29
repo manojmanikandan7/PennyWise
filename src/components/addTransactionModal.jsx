@@ -68,7 +68,7 @@ function AddTransactionModal() {
         colorScheme="teal"
         variant="solid"
       >
-        Add Transaction
+        Transaction
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
