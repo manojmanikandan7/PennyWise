@@ -50,7 +50,7 @@ app.post("/login", async (req, res) => {
 
 app.get("/dashboard", async (req, res) => {
   var data = [];
-  const spendingData = await getSpendingData(2).then(function (response) {
+  await getSpendingData(2).then(function (response) {
     response.forEach((element) => {
       // Note: getMonth() returns month from 0-11, hence the +1
       var date =

@@ -51,7 +51,7 @@ const transactionsByDate = transactions.reduce((acc, transaction) => {
 const categoryDetails = {
   Transportation: { icon: FaCar, color: "orange.400" },
   Food: { icon: FaHamburger, color: "red.400" },
-  "Groceries And Laundry": { icon: FaShoppingBasket, color: "green.400" },
+  "Groceries & Laundry": { icon: FaShoppingBasket, color: "green.400" },
   Subscriptions: { icon: FaCalendarCheck, color: "blue.400" },
   Savings: { icon: FaPiggyBank, color: "purple.400" },
   Other: { icon: FaMoneyBillWave, color: "black.400" },

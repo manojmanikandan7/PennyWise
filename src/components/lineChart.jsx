@@ -11,20 +11,31 @@ import { format, parseISO } from "date-fns"; // Import the necessary functions f
 
 import { useEffect, useState } from "react"; // Importing hooks from React for managing state and side effects
 
-//import test data transactions...
-import { transactions } from "../assets/testDataTransactions.json";
+import axios from 'axios' // Import axios for HTTP requests
 
-//Later we will not import the transactions from a file, but from the backend server and according to the user logged in.
-//This means we will have also change the way we import the transactions in the RecentTransactions component.
+const dbDateToISO = (dateString) => {
+  let dateParts = dateString.split("/");
+  if (dateParts[1].length == 1) dateParts[1] = "0" + dateParts[1];
+  if (dateParts[0].length == 1) dateParts[0] = "0" + dateParts[0];
 
-//Divider -----------------------------------------------------------------------------------------------
+  return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
+}
 
-/*
-import axios from "axios"; // Importing axios for making HTTP requests
+// Helper function to format date
+const formatDate_ = (dateString) => {
+  let isoDate = dbDateToISO(dateString);
 
-// Placeholder for spending data, to be fetched
+  const date = parseISO(isoDate);
+  return format(date, "do MMM");
+};
+
 let spendingData = [];
 
+// Registering the CategoryScale to be used with Chart.js
+Chart.register(CategoryScale);
+
+export default function LineChart() {
+  // Chart data state
   const [chartData, setChartData] = useState({
     labels: spendingData.map((data) => data.x),
     datasets: [
@@ -47,10 +58,11 @@ let spendingData = [];
   // Function to fetch and format spending data from an API DB Connection
   const formatSpendingData = async () => {
     try {
-      const fetchData = await axios.get("http://localhost:3000/dashboard");
-      spendingData = fetchData.data;
+      const fetchData = await axios.get("http://localhost:3000/transactionsByDate");
+      spendingData = fetchData.data
+                      .sort((a, b) => parseISO(dbDateToISO(a.x)) - parseISO(dbDateToISO(b.x)));
       setChartData({
-        labels: spendingData.map((data) => data.x),
+        labels: spendingData.map((data) => formatDate_(data.x)),
         datasets: [
           {
             label: "Spent (£)",
@@ -66,73 +78,6 @@ let spendingData = [];
       console.error("Error getting spending data", error);
     }
   };
-  */
-
-//Divider -----------------------------------------------------------------------------------------------
-
-const formatDate_ = (dateString) => {
-  const date = parseISO(dateString);
-  return format(date, "do MMM");
-};
-
-// Registering the CategoryScale to be used with Chart.js
-Chart.register(CategoryScale);
-
-export default function LineChart() {
-  // Chart data stuff
-  const [chartData, setChartData] = useState({
-    labels: [],
-    datasets: [
-      {
-        label: "Spent (£)",
-        data: [],
-        borderColor: "lightblue",
-        tension: 0.25,
-        borderWidth: 2,
-        pointBackgroundColor: "lightblue",
-      },
-    ],
-  });
-
-  useEffect(() => {
-    const spendingByDate = transactions.reduce((acc, transaction) => {
-      const { date, ...rest } = transaction;
-      const amount = parseFloat(transaction.amount.replace("£", ""));
-      if (acc[date]) {
-        acc[date] += amount;
-      } else {
-        acc[date] = amount;
-      }
-      return acc;
-    }, {});
-
-    // Convert the object keys (dates) back to an array, sort them based on actual date values in ascending order, and then map to formatted labels
-    const tempLabels = Object.keys(spendingByDate)
-      .map((date) => ({
-        formatted: date,
-        parsed: parseISO(date),
-      }))
-      .sort((a, b) => a.parsed - b.parsed) // Ascending order sort
-      .map((item) => item.formatted);
-
-    const data = tempLabels.map((label) => spendingByDate[label]);
-
-    const labels = tempLabels.map((date) => formatDate_(date))
-
-    setChartData({
-      labels: labels,
-      datasets: [
-        {
-          label: "Spent (£)",
-          data: data,
-          borderColor: "lightblue",
-          tension: 0.25,
-          borderWidth: 2,
-          pointBackgroundColor: "lightblue",
-        },
-      ],
-    });
-  }, []);
 
   const theme = useTheme(); // Using Chakra UI theme for styling
 
