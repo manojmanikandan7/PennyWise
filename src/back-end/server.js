@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import cors from "cors";
 
 import {
+  addTransaction,
   createUser,
   getLogin,
   getPayments,
@@ -76,6 +77,11 @@ app.get("/dashboard", async (req, res) => {
     });
   });
   res.send(data);
+});
+
+app.post("/addTransaction", async (req, res) => {
+  const { id, date, amount, title, category } = req.body;
+  const data = await addTransaction(id, date, amount, title, category);
 });
 
 app.post("/calendar", async (req, res) => {
