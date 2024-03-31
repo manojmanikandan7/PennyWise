@@ -4,8 +4,9 @@ import React, { useEffect, useState } from "react";
 
 import { Pie } from "react-chartjs-2";
 import { Box, Text, useTheme, VStack } from "@chakra-ui/react";
+import axios from "axios";
 
-import { transactions } from "../assets/testDataTransactions.json";
+// import { transactions } from "../assets/testDataTransactions.json";
 
 export default function PieChart() {
   const [chartData, setChartData] = useState({
@@ -44,14 +45,17 @@ export default function PieChart() {
 
   const theme = useTheme();
 
-  useEffect(() => {
+  let transactions;
+  const updateTransactions = async () => {
+    const fetchData = await axios.get("http://localhost:3000/transactionsByCategory");
+    transactions = fetchData.data;
+
     const spendingByCategory = transactions.reduce((acc, transaction) => {
-      const { category, amount } = transaction;
-      const amountNumber = parseFloat(amount.replace("£", ""));
+      const { category, value } = transaction;
       if (acc[category]) {
-        acc[category] += amountNumber;
+        acc[category] += value;
       } else {
-        acc[category] = amountNumber;
+        acc[category] = value;
       }
       return acc;
     }, {});
@@ -69,6 +73,10 @@ export default function PieChart() {
         },
       ],
     }));
+  };
+
+  useEffect(() => {
+    updateTransactions();
   }, [transactions]); // Dependency array to ensure this runs when transactions update
 
   const options = {
