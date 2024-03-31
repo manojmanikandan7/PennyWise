@@ -97,26 +97,27 @@ export default function LineChart() {
   useEffect(() => {
     const spendingByDate = transactions.reduce((acc, transaction) => {
       const { date, ...rest } = transaction;
-      const formattedDate = formatDate_(date); // Use the helper function to format date
       const amount = parseFloat(transaction.amount.replace("£", ""));
-      if (acc[formattedDate]) {
-        acc[formattedDate] += amount;
+      if (acc[date]) {
+        acc[date] += amount;
       } else {
-        acc[formattedDate] = amount;
+        acc[date] = amount;
       }
       return acc;
     }, {});
 
     // Convert the object keys (dates) back to an array, sort them based on actual date values in ascending order, and then map to formatted labels
-    const labels = Object.keys(spendingByDate)
+    const tempLabels = Object.keys(spendingByDate)
       .map((date) => ({
         formatted: date,
         parsed: parseISO(date),
       }))
-      .sort((a, b) => b.parsed - a.parsed) // Ascending order sort
+      .sort((a, b) => a.parsed - b.parsed) // Ascending order sort
       .map((item) => item.formatted);
 
-    const data = labels.map((label) => spendingByDate[label]);
+    const data = tempLabels.map((label) => spendingByDate[label]);
+
+    const labels = tempLabels.map((date) => formatDate_(date))
 
     setChartData({
       labels: labels,
