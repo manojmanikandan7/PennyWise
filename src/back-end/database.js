@@ -93,3 +93,14 @@ export async function getPayments(uid, date) {
 
   return rows;
 }
+
+export async function addTransaction(uid, date, value, title, category) {
+  const result = await pool.query(
+    `
+    INSERT INTO payments (user_id, direction, payment_date, value, description, category)
+    VALUES (?, ?, ?, ?, ?, ?)
+    `,
+    [uid, "out", date, value, title, category]
+  );
+  return result;
+}

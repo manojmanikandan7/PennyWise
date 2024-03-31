@@ -24,14 +24,14 @@ import { AddIcon } from "@chakra-ui/icons";
 //Dates
 import { formatISO } from "date-fns";
 
-//placeholder ID
-import { v4 as uuidv4 } from "uuid"; // You need to import uuid to use uuidv4
-
 //Components
 import CategorySelector from "./categorySelector";
+import axios from "axios";
 
 function AddTransactionModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // TODO: Change this to the UID of the user logged in
+  const id = 2;
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState(
@@ -39,16 +39,8 @@ function AddTransactionModal() {
   );
   const [category, setCategory] = useState("");
 
-  const handleSubmit = () => {
-    const newTransaction = {
-      id: uuidv4(), // Generate a unique ID for the transaction
-      title, // Use the value from the state
-      amount: `£${amount}`, // Prefix the amount with £ and use the value from the state
-      date, // Use the value from the state
-      category, // Use the value from the state
-    };
-
-    console.log("New Transaction:", newTransaction);
+  const handleSubmit = async () => {
+    axios.post("http://localhost:3000/addTransaction", { id, date, amount, title, category });
 
     // Reset the form fields
     setTitle("");
