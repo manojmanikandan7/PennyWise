@@ -16,7 +16,10 @@ import {
   Container,
   ButtonGroup,
 } from "@chakra-ui/react";
+import { ArrowBackIcon } from "@chakra-ui/icons"
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { Flex } from "antd";
 let fname = "",
   sname = "",
   email = "",
@@ -169,21 +172,32 @@ export default function SignUp() {
             p={4}
             boxShadow="md"
           >
+            <Flex>
+              <NavLink to="/">
+              <Button 
+                leftIcon={<ArrowBackIcon />} 
+                variant="ghost" 
+                colorScheme = "blue"
+                p={3}
+                justifySelf="flex-start">
+                  Back to Homepage
+                </Button> 
+              </NavLink>
+            </Flex>
             <Heading
-              fontSize="3xl"
-              fontWeight="bold"
-              mb={4}
-              paddingY={3}
-              paddingTop={4}
-            >
-              Create an account
-            </Heading>
+                fontSize="3xl"
+                fontWeight="bold"
+                mb={4}
+              >
+                Create an account
+              </Heading>
             <VStack>
               <FirstName />
               <SurName />
               <Email />
               <Password />
               <ButtonGroup gap="5" p={4}>
+                <NavLink to="/login">
                 <Button
                   colorScheme="blue"
                   size="lg"
@@ -193,6 +207,7 @@ export default function SignUp() {
                 >
                   Login
                 </Button>
+                </NavLink>
                 <Button
                   colorScheme="blue"
                   size="lg"

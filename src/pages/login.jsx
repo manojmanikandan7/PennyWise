@@ -15,7 +15,10 @@ import {
   Input,
   Container,
   ButtonGroup,
+  Flex
 } from "@chakra-ui/react";
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import { NavLink } from "react-router-dom"
 
 let email = "",
   password = "";
@@ -75,6 +78,8 @@ const Password = () => {
   );
 };
 
+
+
 const handleClick = async () => {
   try {
     await axios.post("http://localhost:3000/login", { email, password });
@@ -98,6 +103,7 @@ const handleClick = async () => {
 export default function Login() {
   return (
     <ChakraProvider theme={theme}>
+
       <Box textAlign="center" fontSize="xl">
         <VStack spacing={10}>
           <Heading
@@ -118,12 +124,22 @@ export default function Login() {
             p={4}
             boxShadow="md"
           >
+            <Flex>
+              <NavLink to="/">
+                <Button 
+                leftIcon={<ArrowBackIcon />} 
+                variant="ghost" 
+                colorScheme = "blue"
+                p={3}
+                justifySelf="flex-start">
+                  Back to Homepage
+                </Button> 
+              </NavLink>
+            </Flex>
             <Heading
               fontSize="3xl"
               fontWeight="bold"
               mb={4}
-              paddingY={3}
-              paddingTop={4}
             >
               Login
             </Heading>
@@ -141,15 +157,17 @@ export default function Login() {
                 >
                   Login
                 </Button>
-                <Button
-                  colorScheme="blue"
-                  size="lg"
-                  mt={4}
-                  variant="ghost"
-                  p={3}
-                >
-                  Sign Up
-                </Button>
+                <NavLink to="/sign-up">
+                  <Button
+                      colorScheme="blue"
+                      size="lg"
+                      mt={4}
+                      variant="ghost"
+                      p={3}
+                    >
+                      Sign Up
+                  </Button>  
+                </NavLink>
               </ButtonGroup>
             </VStack>
           </Box>
