@@ -32,7 +32,7 @@ import {
 const categories = {
   Transportation: { icon: FaCar },
   Food: { icon: FaHamburger },
-  "Groceries And Laundry": { icon: FaShoppingBasket },
+  "Groceries & Laundry": { icon: FaShoppingBasket },
   Subscriptions: { icon: FaCalendarCheck },
   Savings: { icon: FaPiggyBank },
   Other: { icon: FaMoneyBillWave },

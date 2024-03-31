@@ -46,7 +46,7 @@ const analyzeSpending = (transactions) => {
   }
 
   // Groceries
-  if (spendingSummary["Groceries And Laundry"] > 150) {
+  if (spendingSummary["Groceries & Laundry"] > 150) {
     savingOpportunities.push({
       message:
         "You might find savings by comparing prices at different stores or buying in bulk.",
