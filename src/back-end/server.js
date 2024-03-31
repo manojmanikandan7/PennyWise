@@ -48,7 +48,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/dashboard", async (req, res) => {
+app.get("/transactionsByDate", async (req, res) => {
   var data = [];
   await getSpendingData(2).then(function (response) {
     response.forEach((element) => {
@@ -73,6 +73,30 @@ app.get("/dashboard", async (req, res) => {
         existingEntry.y += element.value;
       } else {
         data.push({ x: date, y: element.value });
+      }
+    });
+  });
+  res.send(data);
+});
+
+app.get("/transactionsByCategory", async (req, res) => {
+  var data = [];
+  const spendingData = await getSpendingData(2).then(function (response) {
+    response.forEach((element) => {
+      // Note: getMonth() returns month from 0-11, hence the +1
+      var exists = false;
+      var existingEntry;
+      data.forEach((e) => {
+        if (element.category === e.category) {
+          exists = true;
+          existingEntry = e;
+        }
+      });
+
+      if (exists) {
+        existingEntry.value += element.value;
+      } else {
+        data.push({ category: element.category, value: element.value });
       }
     });
   });
