@@ -78,6 +78,12 @@ export default function DevDash() {
                 Calendar
               </Button>
             </NavLink>
+
+            <NavLink to="/profile">
+              <Button colorScheme="brand" size="lg" variant="ghost">
+                Profile
+              </Button>
+            </NavLink>
           </VStack>
         </Grid>
       </Box>
