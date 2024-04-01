@@ -22,9 +22,6 @@ import { format, parseISO } from "date-fns";
 
 import axios from 'axios' // Import axios for HTTP requests
 
-// Assuming transactions is your initial array from the JSON file
-// import { transactions as initialTransactions } from "../assets/testDataTransactions.json"; // Adjust path as necessary
-
 let initialTransactions = [];
 
 function RemoveTransactionModal() {
@@ -32,6 +29,7 @@ function RemoveTransactionModal() {
     const fetchData = await axios.get("http://localhost:3000/transactionsAll");
 
     initialTransactions = fetchData.data;
+    setLocalTransactions(initialTransactions);
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,25 +37,25 @@ function RemoveTransactionModal() {
     ...initialTransactions,
   ]);
 
-  const handleRemove = (transactionId) => {
-    // Log the transaction to remove
-    console.log("Transaction to Remove ID:", transactionId);
+  const handleRemove = async (transactionId) => {
+    // Remove the transaction from the database
+    await axios.post("http://localhost:3000/removeTransaction", { transactionId });
 
     // Update state to filter out the removed transaction
     const updatedTransactions = localTransactions.filter(
       (transaction) => transaction.payment_id !== transactionId
     );
-    initialTransactions = updatedTransactions;
+    setLocalTransactions(updatedTransactions);
   };
 
   // Group the local transactions by date for rendering
-  const transactionsByDate = initialTransactions.sort((a, b) => parseISO(a.payment_date) - parseISO(b.payment_date))
-  .reduce((acc, transaction) => {
-    const date = format(parseISO(transaction.payment_date), "PP");
-    acc[date] = acc[date] || [];
-    acc[date].push(transaction);
-    return acc;
-  }, {})
+  const transactionsByDate = localTransactions.sort((a, b) => parseISO(a.payment_date) - parseISO(b.payment_date))
+    .reduce((acc, transaction) => {
+      const date = format(parseISO(transaction.payment_date), "PP");
+      acc[date] = acc[date] || [];
+      acc[date].push(transaction);
+      return acc;
+    }, {})
 
   const getDataAndOpen = async () => {
     await getTransactions();
@@ -98,7 +96,7 @@ function RemoveTransactionModal() {
                       >
                         <Box flex="1">
                           <Text isTruncated maxWidth="80%">
-                            {transaction.description} - {transaction.value}
+                            {transaction.description} - {"£" + transaction.value}
                             <Text fontSize="sm" color="gray.500">
                               {transaction.category}
                             </Text>

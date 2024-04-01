@@ -8,6 +8,7 @@ import {
   getLogin,
   getPayments,
   getSpendingData,
+  removeTransaction,
 } from "./database.js";
 
 const app = express();
@@ -116,6 +117,13 @@ app.get("/transactionsByCategory", async (req, res) => {
 app.post("/addTransaction", async (req, res) => {
   const { id, date, amount, title, category } = req.body;
   const data = await addTransaction(id, date, amount, title, category);
+});
+
+app.post("/removeTransaction", async (req, res) => {
+  const { transactionId } = req.body;
+  const data = await removeTransaction(transactionId);
+
+  res.send(data);
 });
 
 app.post("/calendar", async (req, res) => {
