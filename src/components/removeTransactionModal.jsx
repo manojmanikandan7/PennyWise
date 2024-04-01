@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useDisclosure,
   Modal,
@@ -20,10 +20,20 @@ import { CloseIcon } from "@chakra-ui/icons";
 import { GrClose } from "react-icons/gr";
 import { format, parseISO } from "date-fns";
 
+import axios from 'axios' // Import axios for HTTP requests
+
 // Assuming transactions is your initial array from the JSON file
-import { transactions as initialTransactions } from "../assets/testDataTransactions.json"; // Adjust path as necessary
+// import { transactions as initialTransactions } from "../assets/testDataTransactions.json"; // Adjust path as necessary
+
+let initialTransactions = [];
 
 function RemoveTransactionModal() {
+  const getTransactions = async () => {
+    const fetchData = await axios.get("http://localhost:3000/transactionsAll");
+
+    initialTransactions = fetchData.data;
+  };
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [localTransactions, setLocalTransactions] = useState([
     ...initialTransactions,
@@ -35,23 +45,30 @@ function RemoveTransactionModal() {
 
     // Update state to filter out the removed transaction
     const updatedTransactions = localTransactions.filter(
-      (transaction) => transaction.id !== transactionId
+      (transaction) => transaction.payment_id !== transactionId
     );
-    setLocalTransactions(updatedTransactions);
+    initialTransactions = updatedTransactions;
   };
 
   // Group the local transactions by date for rendering
-  const transactionsByDate = localTransactions.reduce((acc, transaction) => {
-    const date = format(parseISO(transaction.date), "PP");
+  const transactionsByDate = initialTransactions.sort((a, b) => parseISO(a.payment_date) - parseISO(b.payment_date))
+  .reduce((acc, transaction) => {
+    const date = format(parseISO(transaction.payment_date), "PP");
     acc[date] = acc[date] || [];
     acc[date].push(transaction);
     return acc;
-  }, {});
+  }, {})
+
+  const getDataAndOpen = async () => {
+    await getTransactions();
+
+    onOpen();
+  };
 
   return (
     <>
       <Button
-        onClick={onOpen}
+        onClick={getDataAndOpen}
         colorScheme="red"
         variant="solid"
         leftIcon={<GrClose />}
@@ -74,14 +91,14 @@ function RemoveTransactionModal() {
                     </Text>
                     {transactions.map((transaction) => (
                       <Flex
-                        key={transaction.id}
+                        key={transaction.payment_id}
                         justify="space-between"
                         p={2}
                         align="center"
                       >
                         <Box flex="1">
                           <Text isTruncated maxWidth="80%">
-                            {transaction.title} - {transaction.amount}
+                            {transaction.description} - {transaction.value}
                             <Text fontSize="sm" color="gray.500">
                               {transaction.category}
                             </Text>
@@ -90,7 +107,7 @@ function RemoveTransactionModal() {
                         <IconButton
                           aria-label="Remove Transaction"
                           icon={<CloseIcon />}
-                          onClick={() => handleRemove(transaction.id)}
+                          onClick={() => handleRemove(transaction.payment_id)}
                           size="sm"
                           colorScheme="red"
                         />
