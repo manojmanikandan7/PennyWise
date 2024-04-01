@@ -8,6 +8,8 @@ import {
   ListIcon,
   Divider,
   useDisclosure,
+  Button,
+  Text,
 } from "@chakra-ui/react";
 
 //Icons
@@ -17,7 +19,8 @@ import {
   CloseIcon,
   EditIcon,
 } from "@chakra-ui/icons";
-import { RxAvatar } from "react-icons/rx";
+import { CgProfile } from "react-icons/cg";
+import { MdDashboard } from "react-icons/md";
 
 //Navigation
 import { NavLink } from "react-router-dom";
@@ -40,11 +43,55 @@ export default function Sidebar() {
         </NavLink>
       </ListItem>
       <Divider></Divider>
+      {/* Dashboard Link */}
+      <ListItem>
+        <NavLink to="/dashboard">
+          <Button
+            leftIcon={<MdDashboard />}
+            colorScheme="gray"
+            variant="outline"
+            sx={{
+              color: "white", // Default text color
+              ".chakra-icon": {
+                color: "white", // Default icon color
+              },
+              "&:hover": {
+                bg: "white", //  hover background color change
+                color: "black", //  hover text color change
+                ".chakra-icon": {
+                  color: "black", // hover icon color change
+                },
+              },
+            }}
+          >
+            Dashboard
+          </Button>
+        </NavLink>
+      </ListItem>
+      <Divider></Divider>
       {/* Calendar Link */}
       <ListItem>
         <NavLink to="/calendar">
-          <ListIcon as={CalendarIcon} color="white" fontSize="xl" />
-          Calendar
+          <Button
+            leftIcon={<CalendarIcon />}
+            colorScheme="gray"
+            variant="outline"
+            sx={{
+              color: "white", // Default text color
+              ".chakra-icon": {
+                color: "white", // Default icon color
+              },
+              "&:hover": {
+                bg: "white", //  hover background color change
+                color: "black", //  hover text color change
+                ".chakra-icon": {
+                  color: "black", // hover icon color change
+                },
+              },
+            }}
+          >
+            Calendar
+          </Button>
         </NavLink>
       </ListItem>
       <Divider></Divider>
@@ -66,16 +113,52 @@ export default function Sidebar() {
       {/* Settings Page */}
       <ListItem>
         <NavLink to="/settings">
-          <ListIcon as={SettingsIcon} color="white" fontSize="xl" />
-          Settings
+          <Button
+            leftIcon={<SettingsIcon />}
+            colorScheme="gray"
+            variant="outline"
+            sx={{
+              color: "white", // Default text color
+              ".chakra-icon": {
+                color: "white", // Default icon color
+              },
+              "&:hover": {
+                bg: "white", //  hover background color change
+                color: "black", //  hover text color change
+                ".chakra-icon": {
+                  color: "black", // hover icon color change
+                },
+              },
+            }}
+          >
+            Settings
+          </Button>
         </NavLink>
       </ListItem>
       <Divider></Divider>
       {/* Profile Page */}
       <ListItem>
         <NavLink to="/profile">
-          <ListIcon as={RxAvatar} color="white" fontSize="2xl" />
-          Manage Profile
+          <Button
+            leftIcon={<CgProfile size="20px" />}
+            colorScheme="gray"
+            variant="outline"
+            sx={{
+              color: "white", // Default text color
+              ".chakra-icon": {
+                color: "white", // Default icon color
+              },
+              "&:hover": {
+                bg: "white", //  hover background color change
+                color: "black", //  hover text color change
+                ".chakra-icon": {
+                  color: "black", // hover icon color change
+                },
+              },
+            }}
+          >
+            Profile
+          </Button>
         </NavLink>
       </ListItem>
     </List>
