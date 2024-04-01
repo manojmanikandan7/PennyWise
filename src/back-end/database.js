@@ -38,7 +38,7 @@ export async function getLogin(email) {
 export async function getSpendingData(uid) {
   const [rows] = await pool.query(
     `
-    SELECT value, payment_date, category FROM payments
+    SELECT payment_id, description, value, payment_date, category FROM payments
     WHERE user_id = ? AND direction = 'out'
     `,
     [uid]

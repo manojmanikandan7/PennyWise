@@ -48,6 +48,17 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get("/transactionsAll", async (req, res) => {
+  var data = [];
+  await getSpendingData(2).then(function (response) {
+    response.forEach((element) => {
+      data.push(element);
+    })
+  });
+
+  res.send(data);
+})
+
 app.get("/transactionsByDate", async (req, res) => {
   var data = [];
   await getSpendingData(2).then(function (response) {
@@ -83,7 +94,6 @@ app.get("/transactionsByCategory", async (req, res) => {
   var data = [];
   const spendingData = await getSpendingData(2).then(function (response) {
     response.forEach((element) => {
-      // Note: getMonth() returns month from 0-11, hence the +1
       var exists = false;
       var existingEntry;
       data.forEach((e) => {
