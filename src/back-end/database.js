@@ -104,3 +104,13 @@ export async function addTransaction(uid, date, value, title, category) {
   );
   return result;
 }
+
+export async function removeTransaction(uid) {
+  const result = await pool.query(
+    `
+    DELETE FROM payments WHERE payment_id = ?;
+    `,
+    [uid]
+  );
+  return result;
+}
