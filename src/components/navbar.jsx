@@ -7,11 +7,14 @@ import {
   Spacer,
   Text,
   Button,
+  Icon,
 } from "@chakra-ui/react";
 
 import React from "react";
 
 import PropTypes from "prop-types";
+
+import { MdDashboard } from "react-icons/md";
 
 Navbar.propTypes = {
   title: PropTypes.string.isRequired,
@@ -20,9 +23,12 @@ Navbar.propTypes = {
 export default function Navbar({ title }) {
   return (
     <Flex as="nav" p="10px" alignItems="center">
-      <Heading as="h3" fontSize="37">
-        {title}
-      </Heading>
+      <HStack>
+        <Icon as={MdDashboard} w="10" h="20"></Icon>
+        <Heading as="h3" fontSize="37">
+          {title}
+        </Heading>
+      </HStack>
       <Spacer />
 
       <HStack spacing="20px">

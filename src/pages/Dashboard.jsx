@@ -18,6 +18,9 @@ import FinancialDetails from "../components/financialDetails";
 import RecentTransactions from "../components/recentTransactions";
 import UpcomingBills from "../components/upcomingBills";
 
+//Icons
+import { MdDashboard } from "react-icons/md";
+
 //For custom themes
 //TODO: Add the theme colours
 const theme = extendTheme({
@@ -43,7 +46,7 @@ export default function Dashboard() {
 
         {/* main content & navbar */}
         <GridItem as="main" colSpan="7" p="40px">
-          <Navbar title="Dashboard" />
+          <Navbar title="Dashboard" icon={MdDashboard} />
           <SimpleGrid spacing={35} columns={3}>
             {/*  */}
             {/* this is the transaction history of your most recent spending */}
