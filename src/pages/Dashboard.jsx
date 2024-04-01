@@ -43,7 +43,7 @@ export default function Dashboard() {
 
         {/* main content & navbar */}
         <GridItem as="main" colSpan="7" p="40px">
-          <Navbar />
+          <Navbar title="Dashboard" />
           <SimpleGrid spacing={35} columns={3}>
             {/*  */}
             {/* this is the transaction history of your most recent spending */}

@@ -11,11 +11,17 @@ import {
 
 import React from "react";
 
-export default function Navbar() {
+import PropTypes from "prop-types";
+
+Navbar.propTypes = {
+  title: PropTypes.string.isRequired,
+};
+
+export default function Navbar({ title }) {
   return (
     <Flex as="nav" p="10px" alignItems="center">
       <Heading as="h3" fontSize="37">
-        Dashboard
+        {title}
       </Heading>
       <Spacer />
 
