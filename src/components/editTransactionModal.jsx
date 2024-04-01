@@ -27,9 +27,18 @@ import { EditIcon } from "@chakra-ui/icons";
 import { format, parseISO } from "date-fns";
 import CategorySelector from "./categorySelector"; // Make sure this path is correct
 
-import { transactions as initialTransactions } from "../assets/testDataTransactions.json"; // Adjust the import path as needed
+import axios from 'axios' // Import axios for HTTP requests
+
+let initialTransactions = [];
 
 function EditTransactionModal() {
+  const getTransactions = async () => {
+    const fetchData = await axios.get("http://localhost:3000/transactionsAll");
+
+    initialTransactions = fetchData.data;
+    setLocalTransactions(initialTransactions);
+  };
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [localTransactions, setLocalTransactions] = useState([
     ...initialTransactions,
@@ -43,24 +52,38 @@ function EditTransactionModal() {
   };
 
   // Handler for when the "Update" button is clicked
-  const handleUpdate = () => {
-    console.log("Updated Transaction:", editTransaction);
-    // Logic to update the transaction in the state would go here
+  const handleUpdate = async () => {
+    const pid = editTransaction.payment_id;
+    const desc = editTransaction.description;
+    const value = editTransaction.value;
+    const date = format(parseISO(editTransaction.payment_date), "yyyy-MM-dd");
+    const category = editTransaction.category;
+    
+    await axios.post("http://localhost:3000/editTransaction",
+      { pid, desc, value, date, category });
+
     onClose(); // Close the modal
   };
 
   // Group transactions by date for rendering
   const transactionsByDate = localTransactions.reduce((acc, transaction) => {
-    const date = format(parseISO(transaction.date), "PP");
+    const date = format(parseISO(transaction.payment_date), "PP");
     acc[date] = acc[date] || [];
     acc[date].push(transaction);
     return acc;
   }, {});
 
+  const getDataAndOpen = async () => {
+    await getTransactions();
+    setEditTransaction(null);
+
+    onOpen();
+  };
+
   return (
     <>
       <Button
-        onClick={() => setEditTransaction(null) || onOpen()}
+        onClick={() => getDataAndOpen()}
         colorScheme="cyan"
         variant="solid"
         leftIcon={<EditIcon />}
@@ -84,14 +107,14 @@ function EditTransactionModal() {
                       </Text>
                       {transactions.map((transaction) => (
                         <Flex
-                          key={transaction.id}
+                          key={transaction.payment_id}
                           justify="space-between"
                           p={2}
                           align="center"
                         >
                           <Box flex="1">
                             <Text>
-                              {transaction.title} - {transaction.amount}
+                              {transaction.description} - {"£" + transaction.value}
                               <Text fontSize="sm" color="gray.500">
                                 {transaction.category}
                               </Text>
@@ -116,11 +139,11 @@ function EditTransactionModal() {
                 <FormControl>
                   <FormLabel>Title</FormLabel>
                   <Input
-                    value={editTransaction.title}
+                    value={editTransaction.description}
                     onChange={(e) =>
                       setEditTransaction({
                         ...editTransaction,
-                        title: e.target.value,
+                        description: e.target.value,
                       })
                     }
                   />
@@ -129,11 +152,11 @@ function EditTransactionModal() {
                   <FormLabel>Amount</FormLabel>
                   <Input
                     type="number"
-                    value={editTransaction.amount.replace("£", "")}
+                    value={editTransaction.value}
                     onChange={(e) =>
                       setEditTransaction({
                         ...editTransaction,
-                        amount: `£${e.target.value}`,
+                        value: e.target.value,
                       })
                     }
                   />
@@ -142,11 +165,11 @@ function EditTransactionModal() {
                   <FormLabel>Date</FormLabel>
                   <Input
                     type="date"
-                    value={format(parseISO(editTransaction.date), "yyyy-MM-dd")}
+                    value={format(parseISO(editTransaction.payment_date), "yyyy-MM-dd")}
                     onChange={(e) =>
                       setEditTransaction({
                         ...editTransaction,
-                        date: e.target.value,
+                        payment_date: e.target.value,
                       })
                     }
                   />

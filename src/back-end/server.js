@@ -5,6 +5,7 @@ import cors from "cors";
 import {
   addTransaction,
   createUser,
+  editTransaction,
   getLogin,
   getPayments,
   getSpendingData,
@@ -125,6 +126,14 @@ app.post("/removeTransaction", async (req, res) => {
 
   res.send(data);
 });
+
+app.post("/editTransaction", async (req, res) => {
+  const { pid, desc, value, date, category } = req.body;
+
+  const data = await editTransaction(pid, desc, value, date, category);
+
+  res.send(data);
+})
 
 app.post("/calendar", async (req, res) => {
   const { date } = req.body;

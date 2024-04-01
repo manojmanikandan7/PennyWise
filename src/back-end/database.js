@@ -105,12 +105,24 @@ export async function addTransaction(uid, date, value, title, category) {
   return result;
 }
 
-export async function removeTransaction(uid) {
+export async function removeTransaction(pid) {
   const result = await pool.query(
     `
     DELETE FROM payments WHERE payment_id = ?;
     `,
-    [uid]
+    [pid]
+  );
+  return result;
+}
+
+export async function editTransaction(pid, description, value, payment_date, category) {
+  const result = await pool.query(
+    `
+    UPDATE payments
+    SET payment_date = ?, value = ?, description = ?, category = ?
+    WHERE payment_id = ?;
+    `,
+    [payment_date, value, description, category, pid]
   );
   return result;
 }
