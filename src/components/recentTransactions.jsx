@@ -73,13 +73,15 @@ export default function RecentTransactions() {
       overflow="hidden"
       p={4}
       boxShadow="base"
+      overflowY="auto"
+      scrollBehavior="inside"
     >
       <VStack>
         <Text fontSize="2xl" mb={4} as="b">
           Recent Transactions
         </Text>
       </VStack>
-      <Box overflowY="auto">
+      <Box>
         {Object.entries(transactionsByDate).map(
           ([formattedDate, transactions], index) => (
             <VStack key={formattedDate} spacing={4} align="stretch">

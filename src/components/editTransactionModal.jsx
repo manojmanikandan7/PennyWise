@@ -112,7 +112,7 @@ function EditTransactionModal() {
               </VStack>
             ) : (
               // Edit form goes here
-              <form>
+              <Box h="500px">
                 <FormControl>
                   <FormLabel>Title</FormLabel>
                   <Input
@@ -159,7 +159,7 @@ function EditTransactionModal() {
                     }
                   />
                 </FormControl>
-              </form>
+              </Box>
             )}
           </ModalBody>
           <ModalFooter>

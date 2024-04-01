@@ -14,17 +14,16 @@ import React from "react";
 
 import PropTypes from "prop-types";
 
-import { MdDashboard } from "react-icons/md";
-
 Navbar.propTypes = {
   title: PropTypes.string.isRequired,
+  icon: PropTypes.object,
 };
 
-export default function Navbar({ title }) {
+export default function Navbar({ title, icon }) {
   return (
     <Flex as="nav" p="10px" alignItems="center">
       <HStack>
-        <Icon as={MdDashboard} w="10" h="20"></Icon>
+        <Icon as={icon} w="10" h="20"></Icon>
         <Heading as="h3" fontSize="37">
           {title}
         </Heading>
