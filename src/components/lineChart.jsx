@@ -137,41 +137,48 @@ export default function LineChart() {
   const theme = useTheme(); // Using Chakra UI theme for styling
 
   const options = {
+    responsive: true,
+    layout: {
+      padding: {
+        bottom: 20 // Pad the bottom of the graph so the label is visible, there is probably a better way to do this
+      }
+    },
     plugins: {
       legend: {
         display: false, // Keeps the legend hidden
       },
     },
     scales: {
-      xAxes: [
+      x:
         {
-          // Ensure you're using 'xAxes' array for Chart.js 2.x
           type: "category",
           display: true, // Ensure the axis itself is displayed
-          scaleLabel: {
+          title: {
+            text: "Time",
             display: true,
-            labelString: "Time",
             color: theme.colors.gray[600], // Use theme color for scale title
-            font: {
-              size: theme.fontSizes.xl, // Use theme font size for scale title
-            },
+
+            // TODO: Fix: Attempting to change the size stops the text from rendering
+            // font: {
+            //   size: theme.fontSizes.xl, // Use theme font size for scale title
+            // },
           },
           ticks: {
             color: theme.colors.gray[500], // Use theme color for ticks
           },
         },
-      ],
-      yAxes: [
+      y:
         {
-          // Ensure you're using 'yAxes' array for Chart.js 2.x
           display: true, // Ensure the axis itself is displayed
-          scaleLabel: {
+          title: {
             display: true,
-            labelString: "Spent (£)",
+            text: "Spent (£)",
             color: theme.colors.gray[600], // Match theme
-            font: {
-              size: theme.fontSizes.xl, // Match theme
-            },
+
+            // TODO: See above
+            // font: {
+            //   size: theme.fontSizes.xl, // Match theme
+            // },
           },
           ticks: {
             callback: function (value) {
@@ -180,7 +187,6 @@ export default function LineChart() {
             color: theme.colors.gray[500], // Use theme color for ticks
           },
         },
-      ],
     },
   };
 
