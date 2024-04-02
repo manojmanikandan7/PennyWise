@@ -10,6 +10,7 @@ import {
   getPayments,
   getSpendingData,
   removeTransaction,
+  editInfo,
 } from "./database.js";
 
 const app = express();
@@ -142,6 +143,33 @@ app.post("/calendar", async (req, res) => {
   const data = await getPayments(2, date);
 
   res.send(data);
+});
+
+app.post("/editInfo", async (req, res) => {
+  const { fname, sname, email, password } = req.body;
+
+  const checkUser = await getLogin(email);
+  if (checkUser.length > 0) {
+    res.status(500).send("User with email " + email + " already exists.");
+  } else {
+    try {
+      const hash = await bcrypt.hash(password, 15);
+      const data = await editInfo(fname, sname, email, hash);
+      res.send(data);
+    } catch (e) {
+      console.error(e);
+      res.status(500).send("An error occurred");
+    }
+  }
+});
+
+app.get("/getInfo", async (req, res) => {
+  const { email } = req.body;
+
+  const checkUser = await getLogin(email);
+  if (checkUser.length > 0) {
+    res.send([checkUser.fname, checkUser.sname, checkUser.email]);
+  }
 });
 
 app.use((err, req, res, next) => {

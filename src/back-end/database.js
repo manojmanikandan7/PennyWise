@@ -126,3 +126,15 @@ export async function editTransaction(pid, description, value, payment_date, cat
   );
   return result;
 }
+
+export async function editInfo(fname, sname, email, password) {
+  const result = await pool.query(
+    `
+    UPDATE users
+    SET (fname, sname, email, password)
+    VALUES (?, ?, ?, ?)
+    `,
+    [fname, sname, email, password],
+  );
+  return result;
+}
