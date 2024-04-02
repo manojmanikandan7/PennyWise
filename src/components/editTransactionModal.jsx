@@ -31,7 +31,7 @@ import axios from "axios"; // Import axios for HTTP requests
 
 let initialTransactions = [];
 
-function EditTransactionModal() {
+function EditTransactionModal({ onTransactionChange }) {
   const getTransactions = async () => {
     const fetchData = await axios.get("http://localhost:3000/transactionsAll");
 
@@ -68,6 +68,7 @@ function EditTransactionModal() {
     });
 
     onClose(); // Close the modal
+    onTransactionChange();
   };
 
   // Group transactions by date for rendering

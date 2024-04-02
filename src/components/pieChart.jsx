@@ -78,7 +78,6 @@ export default function PieChart({ refreshData }) {
   };
 
   useEffect(() => {
-    console.log("PieChart rendered");
     updateTransactions();
   }, [refreshData]); // Now depends on refreshData prop
 

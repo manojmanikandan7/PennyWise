@@ -29,13 +29,13 @@ const formatDate_ = (dateString) => {
   return format(date, "do MMM");
 };
 
-let spendingData = [];
-
 // Registering the CategoryScale to be used with Chart.js
 Chart.register(CategoryScale);
 
-export default function LineChart() {
+export default function LineChart({ refreshData }) {
   // Chart data state
+
+  let spendingData = [];
   const [chartData, setChartData] = useState({
     labels: spendingData.map((data) => data.x),
     datasets: [
@@ -53,7 +53,7 @@ export default function LineChart() {
   // Using useEffect to fetch spending data when the component mounts DB Connection
   useEffect(() => {
     formatSpendingData();
-  }, []);
+  }, [refreshData]); // Depend on refreshData prop to update
 
   // Function to fetch and format spending data from an API DB Connection
   const formatSpendingData = async () => {

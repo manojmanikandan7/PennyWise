@@ -118,6 +118,8 @@ app.get("/transactionsByCategory", async (req, res) => {
 app.post("/addTransaction", async (req, res) => {
   const { id, date, amount, title, category } = req.body;
   const data = await addTransaction(id, date, amount, title, category);
+
+  res.send(data);
 });
 
 app.post("/removeTransaction", async (req, res) => {

@@ -24,7 +24,7 @@ import axios from 'axios' // Import axios for HTTP requests
 
 let initialTransactions = [];
 
-function RemoveTransactionModal() {
+function RemoveTransactionModal({ onTransactionChange }) {
   const getTransactions = async () => {
     const fetchData = await axios.get("http://localhost:3000/transactionsAll");
 
@@ -46,6 +46,8 @@ function RemoveTransactionModal() {
       (transaction) => transaction.payment_id !== transactionId
     );
     setLocalTransactions(updatedTransactions);
+
+    onTransactionChange();
   };
 
   // Group the local transactions by date for rendering

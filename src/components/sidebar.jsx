@@ -102,12 +102,12 @@ export default function Sidebar({ onTransactionChange }) {
       <Divider></Divider>
       {/* Remove Transaction Form */}
       <ListItem>
-        <RemoveTransactionModal />
+        <RemoveTransactionModal onTransactionChange={onTransactionChange} />
       </ListItem>
       <Divider></Divider>
       {/* Edit Transaction Form */}
       <ListItem>
-        <EditTransactionModal />
+        <EditTransactionModal onTransactionChange={onTransactionChange} />
       </ListItem>
       <Divider></Divider>
       {/* Settings Page */}

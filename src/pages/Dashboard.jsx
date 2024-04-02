@@ -42,7 +42,6 @@ export default function Dashboard() {
 
   // Function to toggle the refresh state
   const onTransactionChange = () => {
-    console.log("Transaction changed");
     setRefreshData((prev) => prev + 1);
   };
 
@@ -98,7 +97,7 @@ export default function Dashboard() {
                 p={4}
                 boxShadow="base"
               >
-                <LineChart />
+                <LineChart refreshData={refreshData} />
               </Box>
             </GridItem>
 

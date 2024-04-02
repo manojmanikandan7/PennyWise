@@ -40,7 +40,7 @@ function AddTransactionModal({ onTransactionChange }) {
   const [category, setCategory] = useState("");
 
   const handleSubmit = async () => {
-    axios.post("http://localhost:3000/addTransaction", {
+    await axios.post("http://localhost:3000/addTransaction", {
       id,
       date,
       amount,
@@ -59,7 +59,6 @@ function AddTransactionModal({ onTransactionChange }) {
 
     // Close the modal
     onClose();
-    console.log("Hello");
   };
 
   return (
