@@ -27,7 +27,7 @@ import { EditIcon } from "@chakra-ui/icons";
 import { format, parseISO } from "date-fns";
 import CategorySelector from "./categorySelector"; // Make sure this path is correct
 
-import axios from 'axios' // Import axios for HTTP requests
+import axios from "axios"; // Import axios for HTTP requests
 
 let initialTransactions = [];
 
@@ -58,9 +58,14 @@ function EditTransactionModal() {
     const value = editTransaction.value;
     const date = format(parseISO(editTransaction.payment_date), "yyyy-MM-dd");
     const category = editTransaction.category;
-    
-    await axios.post("http://localhost:3000/editTransaction",
-      { pid, desc, value, date, category });
+
+    await axios.post("http://localhost:3000/editTransaction", {
+      pid,
+      desc,
+      value,
+      date,
+      category,
+    });
 
     onClose(); // Close the modal
   };
@@ -114,7 +119,8 @@ function EditTransactionModal() {
                         >
                           <Box flex="1">
                             <Text>
-                              {transaction.description} - {"£" + transaction.value}
+                              {transaction.description} -{" "}
+                              {"£" + transaction.value}
                               <Text fontSize="sm" color="gray.500">
                                 {transaction.category}
                               </Text>
@@ -135,7 +141,7 @@ function EditTransactionModal() {
               </VStack>
             ) : (
               // Edit form goes here
-              <Box h="500px">
+              <Box>
                 <FormControl>
                   <FormLabel>Title</FormLabel>
                   <Input
@@ -165,7 +171,10 @@ function EditTransactionModal() {
                   <FormLabel>Date</FormLabel>
                   <Input
                     type="date"
-                    value={format(parseISO(editTransaction.payment_date), "yyyy-MM-dd")}
+                    value={format(
+                      parseISO(editTransaction.payment_date),
+                      "yyyy-MM-dd"
+                    )}
                     onChange={(e) =>
                       setEditTransaction({
                         ...editTransaction,

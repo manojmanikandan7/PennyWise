@@ -1,7 +1,4 @@
-/* eslint-disable no-unused-vars */
-
 import React, { useState } from "react";
-
 import {
   Menu,
   MenuButton,
@@ -10,9 +7,8 @@ import {
   Button,
   Flex,
   Box,
+  Portal,
 } from "@chakra-ui/react";
-
-//Icons
 import {
   FaCar,
   FaHamburger,
@@ -28,7 +24,6 @@ import {
   FaHome,
 } from "react-icons/fa";
 
-// Define categories with their respective icons
 const categories = {
   Transportation: { icon: FaCar },
   Food: { icon: FaHamburger },
@@ -48,8 +43,8 @@ const CategorySelector = ({ onSelect }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleSelect = (category) => {
-    setSelectedCategory(category); // Set the selected category in the state
-    onSelect(category); // Pass the selected category up to the parent component
+    setSelectedCategory(category);
+    onSelect(category);
   };
 
   const IconComponent = selectedCategory
@@ -61,20 +56,22 @@ const CategorySelector = ({ onSelect }) => {
       <MenuButton as={Button} rightIcon={<IconComponent />}>
         {selectedCategory || "Select Category"}
       </MenuButton>
-      <MenuList>
-        {Object.entries(categories).map(([category, { icon: Icon }]) => (
-          <MenuItem
-            key={category}
-            minH="40px"
-            onClick={() => handleSelect(category)}
-          >
-            <Flex align="center">
-              <Icon w={5} h={5} />
-              <Box pl={3}>{category}</Box>
-            </Flex>
-          </MenuItem>
-        ))}
-      </MenuList>
+      <Portal>
+        <MenuList zIndex={1500}>
+          {Object.entries(categories).map(([category, { icon: Icon }]) => (
+            <MenuItem
+              key={category}
+              minH="40px"
+              onClick={() => handleSelect(category)}
+            >
+              <Flex align="center">
+                <Icon w={5} h={5} />
+                <Box pl={3}>{category}</Box>
+              </Flex>
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Portal>
     </Menu>
   );
 };

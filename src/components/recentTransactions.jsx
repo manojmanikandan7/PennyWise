@@ -77,14 +77,14 @@ export default function RecentTransactions() {
       scrollBehavior="inside"
     >
       <VStack>
-        <Text fontSize="2xl" mb={4} as="b">
+        <Text fontSize="2xl" as="b">
           Recent Transactions
         </Text>
       </VStack>
       <Box>
         {Object.entries(transactionsByDate).map(
           ([formattedDate, transactions], index) => (
-            <VStack key={formattedDate} spacing={4} align="stretch">
+            <VStack key={formattedDate} spacing={3} align="stretch">
               {index > 0 && <Divider />}
               <NavLink to="/calendar">
                 <Text fontSize="lg" fontWeight="semibold" mt={4}>

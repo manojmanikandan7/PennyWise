@@ -28,7 +28,7 @@ import { formatISO } from "date-fns";
 import CategorySelector from "./categorySelector";
 import axios from "axios";
 
-function AddTransactionModal() {
+function AddTransactionModal({ onTransactionChange }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // TODO: Change this to the UID of the user logged in
   const id = 2;
@@ -40,7 +40,13 @@ function AddTransactionModal() {
   const [category, setCategory] = useState("");
 
   const handleSubmit = async () => {
-    axios.post("http://localhost:3000/addTransaction", { id, date, amount, title, category });
+    axios.post("http://localhost:3000/addTransaction", {
+      id,
+      date,
+      amount,
+      title,
+      category,
+    });
 
     // Reset the form fields
     setTitle("");
@@ -48,8 +54,12 @@ function AddTransactionModal() {
     setDate(formatISO(new Date(), { representation: "date" }));
     setCategory("");
 
+    // Call the onTransactionSubmit callback to notify the parent component
+    onTransactionChange();
+
     // Close the modal
     onClose();
+    console.log("Hello");
   };
 
   return (

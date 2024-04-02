@@ -8,7 +8,7 @@ import axios from "axios";
 
 // import { transactions } from "../assets/testDataTransactions.json";
 
-export default function PieChart() {
+export default function PieChart({ refreshData }) {
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -47,7 +47,9 @@ export default function PieChart() {
 
   let transactions;
   const updateTransactions = async () => {
-    const fetchData = await axios.get("http://localhost:3000/transactionsByCategory");
+    const fetchData = await axios.get(
+      "http://localhost:3000/transactionsByCategory"
+    );
     transactions = fetchData.data;
 
     const spendingByCategory = transactions.reduce((acc, transaction) => {
@@ -76,8 +78,9 @@ export default function PieChart() {
   };
 
   useEffect(() => {
+    console.log("PieChart rendered");
     updateTransactions();
-  }, [transactions]); // Dependency array to ensure this runs when transactions update
+  }, [refreshData]); // Now depends on refreshData prop
 
   const options = {
     plugins: {

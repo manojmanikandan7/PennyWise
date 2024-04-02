@@ -7,6 +7,8 @@ import {
   extendTheme,
 } from "@chakra-ui/react";
 
+import React, { useState } from "react";
+
 //Website Common Components
 import Navbar from "../components/navbar";
 import Sidebar from "../components/sidebar";
@@ -36,12 +38,20 @@ const theme = extendTheme({
 });
 
 export default function Dashboard() {
+  const [refreshData, setRefreshData] = useState(0);
+
+  // Function to toggle the refresh state
+  const onTransactionChange = () => {
+    console.log("Transaction changed");
+    setRefreshData((prev) => prev + 1);
+  };
+
   return (
     <ChakraProvider theme={theme}>
       <Grid templateColumns="repeat(8, 1fr)" bg="gray.25">
         {/* sidebar */}
         <GridItem as="aside" colSpan="1" bg="black" minHeight="100vh" p="30px">
-          <Sidebar />
+          <Sidebar onTransactionChange={onTransactionChange} />
         </GridItem>
 
         {/* main content & navbar */}
@@ -74,7 +84,7 @@ export default function Dashboard() {
                 p={4}
                 boxShadow="base"
               >
-                <PieChart />
+                <PieChart refreshData={refreshData} />
               </Box>
             </GridItem>
 
