@@ -35,7 +35,7 @@ function EditTransactionModal({ onTransactionChange }) {
   const getTransactions = async () => {
     const fetchData = await axios.get("http://localhost:3000/transactionsAll");
 
-    initialTransactions = fetchData.data;
+    initialTransactions = fetchData.data
     setLocalTransactions(initialTransactions);
   };
 
@@ -74,11 +74,12 @@ function EditTransactionModal({ onTransactionChange }) {
   };
 
   // Group transactions by date for rendering
-  const transactionsByDate = localTransactions.reduce((acc, transaction) => {
-    const date = format(parseISO(transaction.payment_date), "PP");
-    acc[date] = acc[date] || [];
-    acc[date].push(transaction);
-    return acc;
+  const transactionsByDate = localTransactions.sort((a, b) => parseISO(a.payment_date) - parseISO(b.payment_date))
+    .reduce((acc, transaction) => {
+      const date = format(parseISO(transaction.payment_date), "PP");
+      acc[date] = acc[date] || [];
+      acc[date].push(transaction);
+      return acc;
   }, {});
 
   const getDataAndOpen = async () => {
