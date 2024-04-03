@@ -41,6 +41,8 @@ function RemoveTransactionModal({ onTransactionChange }) {
     // Remove the transaction from the database
     await axios.post("http://localhost:3000/removeTransaction", { transactionId });
 
+    await axios.get("http://localhost:3000/recentTransactions");
+
     // Update state to filter out the removed transaction
     const updatedTransactions = localTransactions.filter(
       (transaction) => transaction.payment_id !== transactionId

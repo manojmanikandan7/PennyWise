@@ -48,6 +48,8 @@ function AddTransactionModal({ onTransactionChange }) {
       category,
     });
 
+    await axios.get("http://localhost:3000/recentTransactions")
+
     // Reset the form fields
     setTitle("");
     setAmount("");

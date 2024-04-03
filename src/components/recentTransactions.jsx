@@ -22,7 +22,7 @@ import { NavLink } from "react-router-dom";
 import { format, parseISO } from "date-fns"; // Import the necessary functions from date-fns
 
 //import test data transactions...
-import { transactions } from "../assets/testDataTransactions.json";
+import { transactions } from "../assets/recentTransactions.json";
 
 //Later we will not import the transactions from a file, but from the backend server and according to the user logged in.
 //This means we will have also change the way we import the transactions in the RecentTransactions component.

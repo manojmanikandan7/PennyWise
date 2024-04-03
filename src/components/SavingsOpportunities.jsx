@@ -14,7 +14,7 @@ import {
 } from "react-icons/fa";
 
 // Import test data transactions...
-import { transactions } from "../assets/testDataTransactions.json";
+import { transactions } from "../assets/recentTransactions.json";
 
 // Function to analyze transactions and find saving opportunities
 const analyzeSpending = (transactions) => {

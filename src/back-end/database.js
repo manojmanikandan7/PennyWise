@@ -138,3 +138,18 @@ export async function editInfo(fname, sname, email, password) {
   );
   return result;
 }
+
+export async function getRecentTransactions() {
+  // pass through uid once we figure out how to get it
+    const [result] = await pool.query(
+    `
+    SELECT payment_id, description, value, payment_date, category
+    FROM payments
+    WHERE direction = 'out'
+    ORDER BY payment_date DESC
+    LIMIT 20
+    `
+  );
+ 
+  return result;
+}

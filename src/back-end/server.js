@@ -1,6 +1,7 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import cors from "cors";
+import fs from "fs";
 
 import {
   addTransaction,
@@ -11,11 +12,13 @@ import {
   getSpendingData,
   removeTransaction,
   editInfo,
+  getRecentTransactions,
 } from "./database.js";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
 
 app.post("/name", async (req, res) => {
   const { fname, sname, email, password } = req.body;
@@ -169,6 +172,35 @@ app.get("/getInfo", async (req, res) => {
   const checkUser = await getLogin(email);
   if (checkUser.length > 0) {
     res.send([checkUser.fname, checkUser.sname, checkUser.email]);
+  }
+});
+
+app.get("/recentTransactions", async (req, res) => {
+  try {
+    const data = await getRecentTransactions();
+
+    const transformedData = data.map((transaction) => ({
+      id: transaction.payment_id,
+      title: transaction.description,
+      amount: `£${parseFloat(transaction.value).toFixed(2)}`,
+      date: transaction.payment_date,
+      category: transaction.category
+    }));
+
+
+    const jsonData = { transactions: transformedData };
+
+    fs.writeFile('../assets/recentTransactions.json', JSON.stringify(jsonData, null, 2), (err) => {
+      if (err) {
+        console.error("Error writing data to file:", err);
+        res.status(500).send("Error writing data to file.");
+      } else {
+        res.send(jsonData);
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching recent transactions:", error);
+    res.status(500).send("Error fetching recent transactions.");
   }
 });
 

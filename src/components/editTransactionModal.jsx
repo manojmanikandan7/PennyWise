@@ -67,6 +67,8 @@ function EditTransactionModal({ onTransactionChange }) {
       category,
     });
 
+    await axios.get("http://localhost:3000/recentTransactions");
+
     onClose(); // Close the modal
     onTransactionChange();
   };
