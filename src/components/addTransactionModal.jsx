@@ -48,7 +48,7 @@ function AddTransactionModal({ onTransactionChange, user_id }) {
       category,
     });
 
-    await axios.get("http://localhost:3000/recentTransactions");
+    await axios.post("http://localhost:3000/recentTransactions", { user_id });
 
     // Reset the form fields
     setTitle("");

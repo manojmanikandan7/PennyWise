@@ -99,17 +99,17 @@ export default function Sidebar({ onTransactionChange, user_id }) {
       <Divider></Divider>
       {/* Add Transaction Form */}
       <ListItem>
-        <AddTransactionModal onTransactionChange={onTransactionChange} user_id={user_id}/>
+        <AddTransactionModal onTransactionChange={onTransactionChange} user_id={user_id} />
       </ListItem>
       <Divider></Divider>
       {/* Remove Transaction Form */}
       <ListItem>
-        <RemoveTransactionModal onTransactionChange={onTransactionChange} />
+        <RemoveTransactionModal onTransactionChange={onTransactionChange} user_id={user_id} />
       </ListItem>
       <Divider></Divider>
       {/* Edit Transaction Form */}
       <ListItem>
-        <EditTransactionModal onTransactionChange={onTransactionChange} />
+        <EditTransactionModal onTransactionChange={onTransactionChange} user_id={user_id} />
       </ListItem>
       <Divider></Divider>
       {/* Settings Page */}

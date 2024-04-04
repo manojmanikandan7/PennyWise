@@ -54,9 +54,11 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/transactionsAll", async (req, res) => {
+app.post("/transactionsAll", async (req, res) => {
+  const { user_id } = req.body;
+
   var data = [];
-  await getSpendingData(2).then(function (response) {
+  await getSpendingData(user_id).then(function (response) {
     response.forEach((element) => {
       data.push(element);
     })
@@ -178,9 +180,11 @@ app.get("/getInfo", async (req, res) => {
   }
 });
 
-app.get("/recentTransactions", async (req, res) => {
+app.post("/recentTransactions", async (req, res) => {
+  const { user_id } = req.body;
+
   try {
-    const data = await getRecentTransactions();
+    const data = await getRecentTransactions(user_id);
 
     const transformedData = data.map((transaction) => ({
       id: transaction.payment_id,

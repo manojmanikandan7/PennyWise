@@ -24,9 +24,11 @@ import axios from "axios"; // Import axios for HTTP requests
 
 let initialTransactions = [];
 
-function RemoveTransactionModal({ onTransactionChange }) {
+function RemoveTransactionModal({ onTransactionChange, user_id }) {
   const getTransactions = async () => {
-    const fetchData = await axios.get("http://localhost:3000/transactionsAll");
+    const fetchData = await axios.post("http://localhost:3000/transactionsAll", {
+      user_id
+    });
 
     initialTransactions = fetchData.data;
     setLocalTransactions(initialTransactions);
@@ -40,10 +42,12 @@ function RemoveTransactionModal({ onTransactionChange }) {
   const handleRemove = async (transactionId) => {
     // Remove the transaction from the database
     await axios.post("http://localhost:3000/removeTransaction", {
-      transactionId,
+      transactionId
     });
 
-    await axios.get("http://localhost:3000/recentTransactions");
+    await axios.post("http://localhost:3000/recentTransactions", {
+      user_id
+    });
 
     // Update state to filter out the removed transaction
     const updatedTransactions = localTransactions.filter(
