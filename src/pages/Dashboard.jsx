@@ -76,7 +76,7 @@ export default function Dashboard() {
             {/* this is the pie chart */}
             <GridItem colSpan="1">
               <Box
-                h="550px"
+                h="95%"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
@@ -90,7 +90,7 @@ export default function Dashboard() {
             {/* Line chart or bar chart section */}
             <GridItem colSpan="2">
               <Box
-                h="550px"
+                h="95%"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
