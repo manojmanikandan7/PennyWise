@@ -65,9 +65,11 @@ app.get("/transactionsAll", async (req, res) => {
   res.send(data);
 })
 
-app.get("/transactionsByDate", async (req, res) => {
+app.post("/transactionsByDate", async (req, res) => {
+  const { user_id } = req.body;
+
   var data = [];
-  await getSpendingData(2).then(function (response) {
+  await getSpendingData(user_id).then(function (response) {
     response.forEach((element) => {
       // Note: getMonth() returns month from 0-11, hence the +1
       var date =
@@ -96,9 +98,10 @@ app.get("/transactionsByDate", async (req, res) => {
   res.send(data);
 });
 
-app.get("/transactionsByCategory", async (req, res) => {
+app.post("/transactionsByCategory", async (req, res) => {
+  const { user_id } = req.body;
   var data = [];
-  const spendingData = await getSpendingData(2).then(function (response) {
+  const spendingData = await getSpendingData(user_id).then(function (response) {
     response.forEach((element) => {
       var exists = false;
       var existingEntry;

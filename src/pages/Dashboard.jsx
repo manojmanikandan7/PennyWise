@@ -22,6 +22,7 @@ import UpcomingBills from "../components/upcomingBills";
 
 //Icons
 import { MdDashboard } from "react-icons/md";
+import { useLocation } from "react-router-dom";
 
 //For custom themes
 //TODO: Add the theme colours
@@ -38,6 +39,9 @@ const theme = extendTheme({
 });
 
 export default function Dashboard() {
+  let location = useLocation();
+  const user_id = location.state.user_id;
+
   const [refreshData, setRefreshData] = useState(0);
 
   // Function to toggle the refresh state
@@ -50,7 +54,7 @@ export default function Dashboard() {
       <Grid templateColumns="repeat(8, 1fr)" bg="gray.25">
         {/* sidebar */}
         <GridItem as="aside" colSpan="1" bg="black" minHeight="100vh" p="30px">
-          <Sidebar onTransactionChange={onTransactionChange} />
+          <Sidebar onTransactionChange={onTransactionChange} user_id={user_id} />
         </GridItem>
 
         {/* main content & navbar */}
@@ -83,7 +87,7 @@ export default function Dashboard() {
                 p={4}
                 boxShadow="base"
               >
-                <PieChart refreshData={refreshData} />
+                <PieChart refreshData={refreshData} user_id={user_id} />
               </Box>
             </GridItem>
 
@@ -97,7 +101,7 @@ export default function Dashboard() {
                 p={4}
                 boxShadow="base"
               >
-                <LineChart refreshData={refreshData} />
+                <LineChart refreshData={refreshData} user_id={user_id} />
               </Box>
             </GridItem>
 

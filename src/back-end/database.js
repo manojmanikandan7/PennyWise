@@ -23,7 +23,7 @@ export async function createUser(fname, sname, email, password) {
 export async function getLogin(email) {
   const [rows] = await pool.query(
     `
-    SELECT email, password FROM users
+    SELECT id, email, password FROM users
     WHERE email = ?
     `,
     [email]

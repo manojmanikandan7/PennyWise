@@ -1,88 +1,88 @@
 {
-  "transactions": [
-    {
-      "id": 133,
-      "title": "Movie Ticket",
-      "amount": "£10.00",
-      "date": "2024-04-03T18:30:00.000Z",
-      "category": "Entertainment"
-    },
-    {
-      "id": 124,
-      "title": "Coffee",
-      "amount": "£5.00",
-      "date": "2024-04-02T18:30:00.000Z",
-      "category": "Food"
-    },
-    {
-      "id": 130,
-      "title": "Tesco",
-      "amount": "£35.00",
-      "date": "2024-04-02T18:30:00.000Z",
-      "category": "Food"
-    },
-    {
-      "id": 121,
-      "title": "Savings",
-      "amount": "£75.00",
-      "date": "2024-04-01T18:30:00.000Z",
-      "category": "Savings"
-    },
-    {
-      "id": 131,
-      "title": "Shopping Aldi",
-      "amount": "£40.00",
-      "date": "2024-03-30T18:30:00.000Z",
-      "category": "Food"
-    },
-    {
-      "id": 132,
-      "title": "M&S",
-      "amount": "£24.99",
-      "date": "2024-03-29T18:30:00.000Z",
-      "category": "Groceries & Laundry"
-    },
-    {
-      "id": 5,
-      "title": "Climbing",
-      "amount": "£25.00",
-      "date": "2024-03-28T18:30:00.000Z",
-      "category": "Health & Fitness"
-    },
-    {
-      "id": 122,
-      "title": "Tesco Meal Deal x10",
-      "amount": "£34.00",
-      "date": "2024-03-28T18:30:00.000Z",
-      "category": "Food"
-    },
-    {
-      "id": 4,
-      "title": "Lidl Shop",
-      "amount": "£25.00",
-      "date": "2024-03-27T18:30:00.000Z",
-      "category": "Groceries & Laundry"
-    },
-    {
-      "id": 114,
-      "title": "Waitrose Again",
-      "amount": "£25.00",
-      "date": "2024-03-27T18:30:00.000Z",
-      "category": "Groceries & Laundry"
-    },
-    {
-      "id": 2,
-      "title": "Taxi to Train Station",
-      "amount": "£8.50",
-      "date": "2024-03-26T18:30:00.000Z",
-      "category": "Transportation"
-    },
-    {
-      "id": 119,
-      "title": "Train",
-      "amount": "£50.00",
-      "date": "2024-03-24T18:30:00.000Z",
-      "category": "Transportation"
-    }
-  ]
-}
+	"transactions": [
+	  {
+		"id": 133,
+		"title": "Movie Ticket",
+		"amount": "£10.00",
+		"date": "2024-04-03T18:30:00.000Z",
+		"category": "Entertainment"
+	  },
+	  {
+		"id": 124,
+		"title": "Coffee",
+		"amount": "£5.00",
+		"date": "2024-04-02T18:30:00.000Z",
+		"category": "Food"
+	  },
+	  {
+		"id": 130,
+		"title": "Tesco",
+		"amount": "£35.00",
+		"date": "2024-04-02T18:30:00.000Z",
+		"category": "Food"
+	  },
+	  {
+		"id": 121,
+		"title": "Savings",
+		"amount": "£75.00",
+		"date": "2024-04-01T18:30:00.000Z",
+		"category": "Savings"
+	  },
+	  {
+		"id": 131,
+		"title": "Shopping Aldi",
+		"amount": "£40.00",
+		"date": "2024-03-30T18:30:00.000Z",
+		"category": "Food"
+	  },
+	  {
+		"id": 132,
+		"title": "M&S",
+		"amount": "£24.99",
+		"date": "2024-03-29T18:30:00.000Z",
+		"category": "Groceries & Laundry"
+	  },
+	  {
+		"id": 5,
+		"title": "Climbing",
+		"amount": "£25.00",
+		"date": "2024-03-28T18:30:00.000Z",
+		"category": "Health & Fitness"
+	  },
+	  {
+		"id": 122,
+		"title": "Tesco Meal Deal x10",
+		"amount": "£34.00",
+		"date": "2024-03-28T18:30:00.000Z",
+		"category": "Food"
+	  },
+	  {
+		"id": 4,
+		"title": "Lidl Shop",
+		"amount": "£25.00",
+		"date": "2024-03-27T18:30:00.000Z",
+		"category": "Groceries & Laundry"
+	  },
+	  {
+		"id": 114,
+		"title": "Waitrose Again",
+		"amount": "£25.00",
+		"date": "2024-03-27T18:30:00.000Z",
+		"category": "Groceries & Laundry"
+	  },
+	  {
+		"id": 2,
+		"title": "Taxi to Train Station",
+		"amount": "£8.50",
+		"date": "2024-03-26T18:30:00.000Z",
+		"category": "Transportation"
+	  },
+	  {
+		"id": 119,
+		"title": "Train",
+		"amount": "£50.00",
+		"date": "2024-03-24T18:30:00.000Z",
+		"category": "Transportation"
+	  }
+	]
+  }
