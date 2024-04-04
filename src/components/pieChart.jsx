@@ -8,7 +8,7 @@ import axios from "axios";
 
 // import { transactions } from "../assets/testDataTransactions.json";
 
-export default function PieChart({ refreshData }) {
+export default function PieChart({ refreshData, user_id }) {
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -47,8 +47,8 @@ export default function PieChart({ refreshData }) {
 
   let transactions;
   const updateTransactions = async () => {
-    const fetchData = await axios.get(
-      "http://localhost:3000/transactionsByCategory"
+    const fetchData = await axios.post(
+      "http://localhost:3000/transactionsByCategory", { user_id }
     );
     transactions = fetchData.data;
 

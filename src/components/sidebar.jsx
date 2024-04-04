@@ -30,7 +30,7 @@ import AddTransactionModal from "./addTransactionModal";
 import RemoveTransactionModal from "./removeTransactionModal";
 import EditTransactionModal from "./editTransactionModal";
 
-export default function Sidebar({ onTransactionChange }) {
+export default function Sidebar({ onTransactionChange, user_id }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -99,7 +99,7 @@ export default function Sidebar({ onTransactionChange }) {
       <Divider></Divider>
       {/* Add Transaction Form */}
       <ListItem>
-        <AddTransactionModal onTransactionChange={onTransactionChange} />
+        <AddTransactionModal onTransactionChange={onTransactionChange} user_id={user_id}/>
       </ListItem>
       <Divider></Divider>
       {/* Remove Transaction Form */}
