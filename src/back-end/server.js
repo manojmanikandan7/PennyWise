@@ -149,15 +149,20 @@ app.post("/calendar", async (req, res) => {
 });
 
 app.post("/editInfo", async (req, res) => {
-  const { fname, sname, email, password } = req.body;
+  const { uid, fname, sname, email, password } = req.body;
 
-  const checkUser = await getLogin(email);
-  if (checkUser.length > 0) {
+  const login = await getLogin(email);
+  if (login.length > 0) {
     res.status(500).send("User with email " + email + " already exists.");
   } else {
     try {
-      const hash = await bcrypt.hash(password, 15);
-      const data = await editInfo(fname, sname, email, hash);
+      if(password === ""){
+        const hash = login[0].password;
+      }
+      else{
+        const hash = await bcrypt.hash(password, 15);
+      }
+      const data = await editInfo(uid, fname, sname, email, hash);
       res.send(data);
     } catch (e) {
       console.error(e);
@@ -167,9 +172,9 @@ app.post("/editInfo", async (req, res) => {
 });
 
 app.get("/getInfo", async (req, res) => {
-  const { email } = req.body;
+  const { uid } = req.body;
 
-  const checkUser = await getLogin(email);
+  const checkUser = await getUserInfo(uid);
   if (checkUser.length > 0) {
     res.send([checkUser.fname, checkUser.sname, checkUser.email]);
   }

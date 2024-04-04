@@ -35,21 +35,26 @@ const theme = extendTheme({
     },
   },
 });
-let fname, sname, email;
+let fname, sname, email, uid;
 
 fname = "John";
 sname = "Doe";
 email = "hello@sample.com";
+uid = 2; //to be passed in */
 
-export default function Profile() {
+export default function Profile(uid) {
+  //TODO: Get data from the data base to be displayed in the profile. 
   function getData() {
-    /*const fetchedData = async () => {
-      axios.get("http://localhost:3000/getInfo"), email;
+    const fetchedData = async () => {
+      axios.get("http://localhost:3000/getInfo"), uid;
     };
     fname = fetchedData[0];
-    sname = fetchedData[1];*/
+    sname = fetchedData[0];
+    email = fetchedData[0];
     console.log("worked");
   }
+
+  //getData(); //to be called when the page loads
   return (
     <ChakraProvider theme={theme}>
       <Grid templateColumns="repeat(8, 1fr)" bg="gray.25">
@@ -91,9 +96,10 @@ export default function Profile() {
                 </Heading>
                 <Spacer />
                 <EditInfo
-                  fn={fname}
-                  sn={sname}
-                  e={email}
+                  uid={uid}
+                  fn={fname.toString()}
+                  sn={sname.toString()}
+                  e={email.toString()}
                   refreshInfo={getData}
                 />
               </Flex>

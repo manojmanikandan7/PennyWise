@@ -23,18 +23,21 @@ import {
 import { FaPenFancy } from "react-icons/fa";
 
 import axios from "axios";
+import { stringify } from "uuid";
 
-export default function EditInfo(fn, sn, e, updateInfo) {
+export default function EditInfo( {uid, fn, sn, e, updateInfo} ) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // TODO: Change this to the UID of the user logged in
-  const id = 2;
+  const id = uid;
   const [fname, setFname] = useState(fn);
   const [sname, setSname] = useState(sn);
   const [email, setEmail] = useState(e);
   const [password, setPassword] = useState("");
 
   const handleSubmit = async () => {
+    //To update the info edited by the user.
     await axios.post("http://localhost:3000/editInfo", {
+      uid,
       fname,
       sname,
       email,

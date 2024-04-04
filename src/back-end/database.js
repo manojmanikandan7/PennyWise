@@ -127,14 +127,25 @@ export async function editTransaction(pid, description, value, payment_date, cat
   return result;
 }
 
-export async function editInfo(fname, sname, email, password) {
+export async function editInfo(uid, fname, sname, email, password) {
   const result = await pool.query(
     `
     UPDATE users
-    SET (fname, sname, email, password)
-    VALUES (?, ?, ?, ?)
+    SET fname = ?, sname = ?, email = ?, password = ?
+    WHERE user_id = ?;
     `,
-    [fname, sname, email, password],
+    [fname, sname, email, password, uid],
+  );
+  return result;
+}
+
+export async function getUserInfo(uid) {
+  const result = await pool.query(
+    `
+    SELECT fname, sname, email, password FROM users
+    WHERE user_id = ?;
+    `,
+    [uid],
   );
   return result;
 }
