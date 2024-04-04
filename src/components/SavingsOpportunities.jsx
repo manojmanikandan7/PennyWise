@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { VStack, Text, HStack, Icon, Divider } from "@chakra-ui/react";
+import { VStack, Text, HStack, Icon, Divider, Box } from "@chakra-ui/react";
 import {
   FaUtensils,
   FaCarAlt,
@@ -104,7 +104,6 @@ const savingTips = analyzeSpending(transactions);
 export default function SavingsOpportunities() {
   return (
     <VStack>
-      <Divider></Divider>
       <Text fontSize="2xl" as="b">
         Savings Opportunities
       </Text>

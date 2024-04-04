@@ -48,7 +48,7 @@ function AddTransactionModal({ onTransactionChange }) {
       category,
     });
 
-    await axios.get("http://localhost:3000/recentTransactions")
+    await axios.get("http://localhost:3000/recentTransactions");
 
     // Reset the form fields
     setTitle("");
@@ -68,6 +68,7 @@ function AddTransactionModal({ onTransactionChange }) {
       <Button
         onClick={onOpen}
         leftIcon={<AddIcon />}
+        width="150px"
         colorScheme="teal"
         variant="solid"
       >

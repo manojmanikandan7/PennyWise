@@ -48,15 +48,17 @@ export default function UpcomingBills() {
       overflow="hidden"
       p={4}
       boxShadow="base"
+      scrollBehavior="inside"
+      overflowY="auto"
     >
       <VStack>
-        <Text fontSize="2xl" mb={4} as="b">
+        <Text fontSize="2xl" as="b" mb="25px">
           Upcoming Bills
         </Text>
       </VStack>
       <Box overflowY="auto">
         {sortedBills.map((bill, index) => (
-          <VStack key={bill.id} spacing={4} align="stretch">
+          <VStack key={bill.id} spacing={3} align="stretch">
             {index > 0 && <Divider />}
             <NavLink to="/bills">
               <HStack justifyContent="space-between">
@@ -75,7 +77,15 @@ export default function UpcomingBills() {
         ))}
       </Box>
       <VStack>
-        <SavingsOpportunities />
+        <Divider></Divider>
+        <Box
+          scrollBehavior="inside"
+          overflow="hidden"
+          overflowY="auto"
+          mt="10px"
+        >
+          <SavingsOpportunities />
+        </Box>
       </VStack>
     </Box>
   );

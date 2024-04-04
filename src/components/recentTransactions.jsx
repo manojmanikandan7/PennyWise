@@ -71,7 +71,7 @@ export default function RecentTransactions() {
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
-      p={4}
+      p={3}
       boxShadow="base"
       overflowY="auto"
       scrollBehavior="inside"
@@ -84,10 +84,10 @@ export default function RecentTransactions() {
       <Box>
         {Object.entries(transactionsByDate).map(
           ([formattedDate, transactions], index) => (
-            <VStack key={formattedDate} spacing={3} align="stretch">
+            <VStack key={formattedDate} spacing={2} align="stretch">
               {index > 0 && <Divider />}
               <NavLink to="/calendar">
-                <Text fontSize="lg" fontWeight="semibold" mt={4}>
+                <Text fontSize="lg" fontWeight="semibold" mt="20px">
                   {formattedDate}
                 </Text>
               </NavLink>

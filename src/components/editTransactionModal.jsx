@@ -94,6 +94,7 @@ function EditTransactionModal({ onTransactionChange }) {
         onClick={() => getDataAndOpen()}
         colorScheme="cyan"
         variant="solid"
+        width="150px"
         leftIcon={<EditIcon />}
       >
         Transaction

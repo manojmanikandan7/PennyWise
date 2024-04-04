@@ -41,6 +41,8 @@ export default function FinancialDetails() {
       overflow="hidden"
       p={4}
       boxShadow="base"
+      overflowY="auto"
+      scrollBehavior="inside"
     >
       <HStack>
         <Stat>

@@ -20,7 +20,7 @@ import { CloseIcon } from "@chakra-ui/icons";
 import { GrClose } from "react-icons/gr";
 import { format, parseISO } from "date-fns";
 
-import axios from 'axios' // Import axios for HTTP requests
+import axios from "axios"; // Import axios for HTTP requests
 
 let initialTransactions = [];
 
@@ -39,7 +39,9 @@ function RemoveTransactionModal({ onTransactionChange }) {
 
   const handleRemove = async (transactionId) => {
     // Remove the transaction from the database
-    await axios.post("http://localhost:3000/removeTransaction", { transactionId });
+    await axios.post("http://localhost:3000/removeTransaction", {
+      transactionId,
+    });
 
     await axios.get("http://localhost:3000/recentTransactions");
 
@@ -53,13 +55,14 @@ function RemoveTransactionModal({ onTransactionChange }) {
   };
 
   // Group the local transactions by date for rendering
-  const transactionsByDate = localTransactions.sort((a, b) => parseISO(a.payment_date) - parseISO(b.payment_date))
+  const transactionsByDate = localTransactions
+    .sort((a, b) => parseISO(a.payment_date) - parseISO(b.payment_date))
     .reduce((acc, transaction) => {
       const date = format(parseISO(transaction.payment_date), "PP");
       acc[date] = acc[date] || [];
       acc[date].push(transaction);
       return acc;
-    }, {})
+    }, {});
 
   const getDataAndOpen = async () => {
     await getTransactions();
@@ -73,6 +76,7 @@ function RemoveTransactionModal({ onTransactionChange }) {
         onClick={getDataAndOpen}
         colorScheme="red"
         variant="solid"
+        width="150px"
         leftIcon={<GrClose />}
       >
         Transaction
@@ -100,7 +104,8 @@ function RemoveTransactionModal({ onTransactionChange }) {
                       >
                         <Box flex="1">
                           <Text isTruncated maxWidth="80%">
-                            {transaction.description} - {"£" + transaction.value}
+                            {transaction.description} -{" "}
+                            {"£" + transaction.value}
                             <Text fontSize="sm" color="gray.500">
                               {transaction.category}
                             </Text>

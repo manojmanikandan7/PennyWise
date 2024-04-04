@@ -9,7 +9,7 @@ import {
   Divider,
   useDisclosure,
   Button,
-  Text,
+  Flex,
 } from "@chakra-ui/react";
 
 //Icons
@@ -50,6 +50,7 @@ export default function Sidebar({ onTransactionChange }) {
             leftIcon={<MdDashboard />}
             colorScheme="gray"
             variant="outline"
+            width="150px"
             sx={{
               color: "white", // Default text color
               ".chakra-icon": {
@@ -76,6 +77,7 @@ export default function Sidebar({ onTransactionChange }) {
             leftIcon={<CalendarIcon />}
             colorScheme="gray"
             variant="outline"
+            width="150px"
             sx={{
               color: "white", // Default text color
               ".chakra-icon": {
@@ -116,6 +118,7 @@ export default function Sidebar({ onTransactionChange }) {
           <Button
             leftIcon={<SettingsIcon />}
             colorScheme="gray"
+            width="150px"
             variant="outline"
             sx={{
               color: "white", // Default text color
@@ -143,6 +146,7 @@ export default function Sidebar({ onTransactionChange }) {
             leftIcon={<CgProfile size="20px" />}
             colorScheme="gray"
             variant="outline"
+            width="150px"
             sx={{
               color: "white", // Default text color
               ".chakra-icon": {
