@@ -32,9 +32,8 @@ const formatDate_ = (dateString) => {
 // Registering the CategoryScale to be used with Chart.js
 Chart.register(CategoryScale);
 
-export default function LineChart({ refreshData }) {
+export default function LineChart({ refreshData, user_id }) {
   // Chart data state
-
   let spendingData = [];
   const [chartData, setChartData] = useState({
     labels: spendingData.map((data) => data.x),
@@ -58,7 +57,7 @@ export default function LineChart({ refreshData }) {
   // Function to fetch and format spending data from an API DB Connection
   const formatSpendingData = async () => {
     try {
-      const fetchData = await axios.get("http://localhost:3000/transactionsByDate");
+      const fetchData = await axios.post("http://localhost:3000/transactionsByDate", { user_id });
       spendingData = fetchData.data
                       .sort((a, b) => parseISO(dbDateToISO(a.x)) - parseISO(dbDateToISO(b.x)));
       setChartData({

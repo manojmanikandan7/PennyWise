@@ -24,9 +24,6 @@ import { format, parseISO } from "date-fns"; // Import the necessary functions f
 //import test data transactions...
 import { transactions } from "../assets/recentTransactions.json";
 
-//Later we will not import the transactions from a file, but from the backend server and according to the user logged in.
-//This means we will have also change the way we import the transactions in the RecentTransactions component.
-
 // Helper function to format date
 const formatDate = (dateString) => {
   const date = parseISO(dateString);

@@ -23,14 +23,17 @@ import { CgProfile } from "react-icons/cg";
 import { MdDashboard } from "react-icons/md";
 
 //Navigation
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 //Transaction components
 import AddTransactionModal from "./addTransactionModal";
 import RemoveTransactionModal from "./removeTransactionModal";
 import EditTransactionModal from "./editTransactionModal";
 
-export default function Sidebar({ onTransactionChange }) {
+export default function Sidebar({ onTransactionChange, user_id }) {
+  const navigate = useNavigate();
+  const localUID = user_id;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -45,8 +48,8 @@ export default function Sidebar({ onTransactionChange }) {
       <Divider></Divider>
       {/* Dashboard Link */}
       <ListItem>
-        <NavLink to="/dashboard">
           <Button
+            onClick={() => navigate("/dashboard", { state: { user_id: localUID } })}
             leftIcon={<MdDashboard />}
             colorScheme="gray"
             variant="outline"
@@ -67,13 +70,12 @@ export default function Sidebar({ onTransactionChange }) {
           >
             Dashboard
           </Button>
-        </NavLink>
       </ListItem>
       <Divider></Divider>
       {/* Calendar Link */}
       <ListItem>
-        <NavLink to="/calendar">
           <Button
+            onClick={() => navigate("/calendar", { state: { user_id: localUID } })}
             leftIcon={<CalendarIcon />}
             colorScheme="gray"
             variant="outline"
@@ -94,22 +96,21 @@ export default function Sidebar({ onTransactionChange }) {
           >
             Calendar
           </Button>
-        </NavLink>
       </ListItem>
       <Divider></Divider>
       {/* Add Transaction Form */}
       <ListItem>
-        <AddTransactionModal onTransactionChange={onTransactionChange} />
+        <AddTransactionModal onTransactionChange={onTransactionChange} user_id={user_id} />
       </ListItem>
       <Divider></Divider>
       {/* Remove Transaction Form */}
       <ListItem>
-        <RemoveTransactionModal onTransactionChange={onTransactionChange} />
+        <RemoveTransactionModal onTransactionChange={onTransactionChange} user_id={user_id} />
       </ListItem>
       <Divider></Divider>
       {/* Edit Transaction Form */}
       <ListItem>
-        <EditTransactionModal onTransactionChange={onTransactionChange} />
+        <EditTransactionModal onTransactionChange={onTransactionChange} user_id={user_id} />
       </ListItem>
       <Divider></Divider>
       {/* Settings Page */}

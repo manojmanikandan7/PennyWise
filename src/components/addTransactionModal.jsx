@@ -28,10 +28,10 @@ import { formatISO } from "date-fns";
 import CategorySelector from "./categorySelector";
 import axios from "axios";
 
-function AddTransactionModal({ onTransactionChange }) {
+function AddTransactionModal({ onTransactionChange, user_id }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // TODO: Change this to the UID of the user logged in
-  const id = 2;
+  const id = user_id;
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState(
@@ -48,7 +48,7 @@ function AddTransactionModal({ onTransactionChange }) {
       category,
     });
 
-    await axios.get("http://localhost:3000/recentTransactions");
+    await axios.post("http://localhost:3000/recentTransactions", { user_id });
 
     // Reset the form fields
     setTitle("");

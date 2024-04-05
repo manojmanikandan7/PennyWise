@@ -31,9 +31,11 @@ import axios from "axios"; // Import axios for HTTP requests
 
 let initialTransactions = [];
 
-function EditTransactionModal({ onTransactionChange }) {
+function EditTransactionModal({ onTransactionChange, user_id }) {
   const getTransactions = async () => {
-    const fetchData = await axios.get("http://localhost:3000/transactionsAll");
+    const fetchData = await axios.post("http://localhost:3000/transactionsAll", {
+      user_id
+    });
 
     initialTransactions = fetchData.data
     setLocalTransactions(initialTransactions);
@@ -67,7 +69,9 @@ function EditTransactionModal({ onTransactionChange }) {
       category,
     });
 
-    await axios.get("http://localhost:3000/recentTransactions");
+    await axios.post("http://localhost:3000/recentTransactions", {
+      user_id
+    });
 
     onClose(); // Close the modal
     onTransactionChange();

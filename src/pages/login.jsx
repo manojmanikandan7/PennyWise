@@ -18,7 +18,7 @@ import {
   Flex
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 
 let email = "",
   password = "";
@@ -78,29 +78,19 @@ const Password = () => {
   );
 };
 
-
-
-const handleClick = async () => {
-  try {
-    await axios.post("http://localhost:3000/login", { email, password });
-    console.log("User login successful");
-
-    /* fetch('http://localhost:3000/login')
-    .then(response => {
-    if(response.ok) {
-        return response.json();
-    }
-    }).then(data => {
-    if(data) {
-        console.log(data);
-    }
-    }).catch(err => console.error(err)); */
-  } catch (error) {
-    console.error("Error logging in user", error);
-  }
-};
-
 export default function Login() {
+  const navigate = useNavigate();
+  const handleClick = async () => {
+    try {
+      const result = await axios.post("http://localhost:3000/login", { email, password });
+      const user_id = result.data[0].id;
+      
+      navigate("/dashboard", { state: { user_id: user_id } });
+    } catch (error) {
+      console.error("Error logging in user", error);
+    }
+  };
+  
   return (
     <ChakraProvider theme={theme}>
 

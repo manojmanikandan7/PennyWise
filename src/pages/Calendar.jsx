@@ -13,6 +13,7 @@ import {Button, Flex, DatePicker, Space, Skeleton, List, Avatar } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from "axios";
 import { CalendarIcon} from "@chakra-ui/icons";
+import { useLocation } from "react-router-dom";
 
 //Icons
 import { MdCalendarMonth } from "react-icons/md";
@@ -34,6 +35,9 @@ const theme = extendTheme({
 });
 
 export default function Calendar() {
+  let location = useLocation();
+  const user_id = location.state.user_id;
+
    // Function to toggle the refresh state
   const onTransactionChange = () => {
     setRefreshData((prev) => prev + 1);
@@ -77,7 +81,7 @@ export default function Calendar() {
       <Grid templateColumns="repeat(8, 1fr)" bg="gray.25">
         {/* sidebar */}
         <GridItem as="aside" colSpan="1" bg="black" minHeight="100vh" p="30px">
-          <Sidebar onTransactionChange={onTransactionChange} />
+          <Sidebar onTransactionChange={onTransactionChange} user_id={user_id} />
         </GridItem>
 
         {/* main content & navbar */}
