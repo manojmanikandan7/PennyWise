@@ -34,7 +34,6 @@ Chart.register(CategoryScale);
 
 export default function LineChart({ refreshData, user_id }) {
   // Chart data state
-
   let spendingData = [];
   const [chartData, setChartData] = useState({
     labels: spendingData.map((data) => data.x),

@@ -9,6 +9,7 @@ import {
 
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 //Website Common Components
 import Navbar from "../components/navbar";
@@ -41,6 +42,8 @@ const theme = extendTheme({
 export default function Dashboard() {
   let location = useLocation();
   const user_id = location.state.user_id;
+
+  axios.post("http://localhost:3000/recentTransactions", { user_id });
 
   const [refreshData, setRefreshData] = useState(0);
 
