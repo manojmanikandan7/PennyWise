@@ -23,7 +23,7 @@ import { CgProfile } from "react-icons/cg";
 import { MdDashboard } from "react-icons/md";
 
 //Navigation
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 //Transaction components
 import AddTransactionModal from "./addTransactionModal";
@@ -31,6 +31,9 @@ import RemoveTransactionModal from "./removeTransactionModal";
 import EditTransactionModal from "./editTransactionModal";
 
 export default function Sidebar({ onTransactionChange, user_id }) {
+  const navigate = useNavigate();
+  const localUID = user_id;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -45,8 +48,8 @@ export default function Sidebar({ onTransactionChange, user_id }) {
       <Divider></Divider>
       {/* Dashboard Link */}
       <ListItem>
-        <NavLink to="/dashboard">
           <Button
+            onClick={() => navigate("/dashboard", { state: { user_id: localUID } })}
             leftIcon={<MdDashboard />}
             colorScheme="gray"
             variant="outline"
@@ -67,13 +70,12 @@ export default function Sidebar({ onTransactionChange, user_id }) {
           >
             Dashboard
           </Button>
-        </NavLink>
       </ListItem>
       <Divider></Divider>
       {/* Calendar Link */}
       <ListItem>
-        <NavLink to="/calendar">
           <Button
+            onClick={() => navigate("/calendar", { state: { user_id: localUID } })}
             leftIcon={<CalendarIcon />}
             colorScheme="gray"
             variant="outline"
@@ -94,7 +96,6 @@ export default function Sidebar({ onTransactionChange, user_id }) {
           >
             Calendar
           </Button>
-        </NavLink>
       </ListItem>
       <Divider></Divider>
       {/* Add Transaction Form */}

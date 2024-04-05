@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 //Website Common Components
 import Navbar from "../components/navbar";
@@ -22,7 +23,6 @@ import UpcomingBills from "../components/upcomingBills";
 
 //Icons
 import { MdDashboard } from "react-icons/md";
-import { useLocation } from "react-router-dom";
 
 //For custom themes
 //TODO: Add the theme colours
