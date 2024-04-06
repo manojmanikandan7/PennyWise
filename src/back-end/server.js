@@ -14,6 +14,7 @@ import {
   editInfo,
   getRecentTransactions,
   getTransactionsInMonth,
+  getUserInfo,
   getBills,
   addBill,
   editBill,
@@ -187,12 +188,20 @@ app.post("/editInfo", async (req, res) => {
   }
 });
 
-app.get("/getInfo", async (req, res) => {
+app.post("/getInfo", async (req, res) => {
   const { uid } = req.body;
 
   const checkUser = await getUserInfo(uid);
+
   if (checkUser.length > 0) {
-    res.send([checkUser.fname, checkUser.sname, checkUser.email]);
+    res.send([
+      checkUser[0][0].fname,
+      checkUser[0][0].sname,
+      checkUser[0][0].email,
+      checkUser[0][0].budget
+    ]);
+  } else {
+    res.status(500).send("No user found with uid: " + uid);
   }
 });
 

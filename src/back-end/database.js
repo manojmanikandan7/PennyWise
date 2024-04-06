@@ -159,8 +159,8 @@ export async function editInfo(uid, fname, sname, email, password) {
 export async function getUserInfo(uid) {
   const result = await pool.query(
     `
-    SELECT fname, sname, email, password FROM users
-    WHERE user_id = ?;
+    SELECT fname, sname, email, password, budget FROM users
+    WHERE id = ?;
     `,
     [uid],
   );

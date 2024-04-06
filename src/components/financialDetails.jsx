@@ -54,10 +54,15 @@ export default function FinancialDetails({ refreshData, user_id }) {
     });
     
     setMonthSpend(spend);
+
+    const userData = await axios.post("http://localhost:3000/getInfo", {
+      uid: user_id
+    })
+    const monthlyBudget = userData.data[3] * 4;
+    setMonthRemaining(monthlyBudget - spend);
     
   };
-  
-  console.log(monthSpend);
+  console.log(monthRemaining)
   useEffect(() => {
     updateData();
   }, [refreshData]); // Now depends on refreshData prop
@@ -100,7 +105,7 @@ export default function FinancialDetails({ refreshData, user_id }) {
             </StatLabel>
             <StatNumber>
               <Text fontSize="2xl" as="b">
-                £600.00
+              {"£" + monthRemaining}
               </Text>
             </StatNumber>
             <StatHelpText>
