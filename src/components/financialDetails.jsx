@@ -41,7 +41,10 @@ export default function FinancialDetails({ refreshData, user_id }) {
   });
 
   const updateData = async () => {
-    const month = getMonth(new Date()) + 1;
+    const month = getMonth(today) + 1;
+
+    // Get the percentage through the month of the current date
+    const percThroughMonth = today.getDate() / new Date(today.getFullYear(), today.getMonth(), 0).getDate();
 
     const fetchData = await axios.post("http://localhost:3000/transactionsInMonth", {
       user_id, month
@@ -60,7 +63,9 @@ export default function FinancialDetails({ refreshData, user_id }) {
     })
     const monthlyBudget = userData.data[3] * 4;
     setMonthRemaining(monthlyBudget - spend);
-    
+
+    const idealSpend = percThroughMonth * monthlyBudget;
+    setSpendPercentage(Math.round(100 * spend / idealSpend));    
   };
   console.log(monthRemaining)
   useEffect(() => {
@@ -121,12 +126,12 @@ export default function FinancialDetails({ refreshData, user_id }) {
             </StatLabel>
             <StatNumber>
               <Text fontSize="2xl" as="b">
-                1.20%
+                {spendPercentage + "%"}
               </Text>
             </StatNumber>
             <StatHelpText>
               <StatArrow type="decrease" color="red.500" />
-              You Are Spending More Than You Can By 20%.
+              You Are Spending More Than You Can By {spendPercentage - 100}%.
             </StatHelpText>
             <Divider></Divider>
             <Text fontSize="lg" as="b">
