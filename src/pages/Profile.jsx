@@ -83,14 +83,14 @@ export default function Profile({ uid }) {
                   <IconButton
                     aria-label="Go Back"
                     variant="ghost"
-                    colorScheme="blue"
+                    color="blue.800"
                     justify="flex-start"
                     fontSize="20px"
                     icon={<ArrowBackIcon />}
                   />
                 </NavLink>
                 <Spacer />
-                <Heading size="xl" fontFamily="Futura" colorScheme="brand">
+                <Heading size="xl" fontFamily="Futura" color="blue.800">
                   {" "}
                   Profile{" "}
                 </Heading>
@@ -106,7 +106,6 @@ export default function Profile({ uid }) {
               <br></br>
               <Avatar
                 size="lg"
-                bg="blue.300"
                 name={fname + ' ' + sname}
                 src='https://bit.ly/broken-link'
                 p={10}
@@ -114,7 +113,7 @@ export default function Profile({ uid }) {
               <Heading
                 size="md"
                 fontFamily="Futura"
-                colorScheme="brand"
+                color="grey"
                 textTransform="uppercase"
                 p={4}
               >
@@ -125,7 +124,7 @@ export default function Profile({ uid }) {
 
             <CardBody>
               <Stack divider={<StackDivider />} spacing="4"  p={8}>
-                <Text as='b' size="md" fontFamily="Futura" colorScheme="brand">
+                <Text as='b' size="md" fontFamily="Futura" color="blue.800">
                   {" "}
                   Email: {email}{" "}
                 </Text>

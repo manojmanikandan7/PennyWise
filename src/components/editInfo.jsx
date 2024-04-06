@@ -63,7 +63,7 @@ export default function EditInfo( {uid, fn, sn, e, updateInfo} ) {
         onClick={onOpen}
         icon={<Icon as={FaPenFancy} />}
         variant="ghost"
-        colorScheme="blue"
+        colorScheme="blue.800"
         aria-label="Edit profile"
         fontSize="20px"
       />
@@ -114,10 +114,10 @@ export default function EditInfo( {uid, fn, sn, e, updateInfo} ) {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button color="blue.800" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="solid" colorScheme="green" onClick={handleSubmit}>
+            <Button color="green.400" onClick={handleSubmit}>
               Add
             </Button>
           </ModalFooter>
