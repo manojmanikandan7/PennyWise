@@ -51,6 +51,23 @@ export async function getSpendingData(uid) {
   return rows;
 }
 
+export async function getTransactionsInMonth(uid, monthIndex) {
+  const [rows] = await pool.query(
+    `
+    SELECT *
+    FROM payments
+    WHERE MONTH(payment_date) = ? AND user_id = ?;
+    `,
+    [monthIndex, uid]
+  );
+
+  if (rows.length == 0) {
+    console.log("No payment data found for user with id " + uid + " in month " + monthIndex);
+  }
+
+  return rows;
+}
+
 export async function getPayments(uid, date) {
   // Return all the payments from a given day
 

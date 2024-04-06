@@ -77,7 +77,7 @@ export default function Dashboard() {
 
             {/* this is the financial details */}
             <GridItem colSpan="1">
-              <FinancialDetails />
+              <FinancialDetails refreshData={refreshData} user_id={user_id} />
             </GridItem>
 
             {/* this is the pie chart */}

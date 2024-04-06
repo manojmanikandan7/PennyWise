@@ -13,6 +13,7 @@ import {
   removeTransaction,
   editInfo,
   getRecentTransactions,
+  getTransactionsInMonth,
   getBills,
   addBill,
   editBill,
@@ -69,6 +70,13 @@ app.post("/transactionsAll", async (req, res) => {
 
   res.send(data);
 })
+
+app.post("/transactionsInMonth", async (req, res) => {
+  const { user_id, month } = req.body;
+
+  const data = await getTransactionsInMonth(user_id, month);
+  res.send(data);
+});
 
 app.post("/transactionsByDate", async (req, res) => {
   const { user_id } = req.body;

@@ -12,11 +12,18 @@ import {
   StatArrow,
   Divider,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { getMonth } from "date-fns";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export default function FinancialDetails() {
-  //Todays Date
+
+export default function FinancialDetails({ refreshData, user_id }) {
+  const [monthSpend, setMonthSpend] = useState();
+  const [monthRemaining, setMonthRemaining] = useState();
+  const [spendPercentage, setSpendPercentage] = useState();
+
+  // Today's Date
   // Step 1: Get today's date
   const today = new Date();
 
@@ -32,6 +39,28 @@ export default function FinancialDetails() {
     hour: "2-digit",
     minute: "2-digit",
   });
+
+  const updateData = async () => {
+    const month = getMonth(new Date()) + 1;
+
+    const fetchData = await axios.post("http://localhost:3000/transactionsInMonth", {
+      user_id, month
+    })
+    const monthTransactions = fetchData.data;
+
+    let spend = 0
+    monthTransactions.forEach(element => {
+      spend += element.value;
+    });
+    
+    setMonthSpend(spend);
+    
+  };
+  
+  console.log(monthSpend);
+  useEffect(() => {
+    updateData();
+  }, [refreshData]); // Now depends on refreshData prop
 
   return (
     <Box
@@ -55,7 +84,7 @@ export default function FinancialDetails() {
             </StatLabel>
             <StatNumber>
               <Text fontSize="2xl" as="b">
-                £400.00
+                {"£" + monthSpend}
               </Text>
             </StatNumber>
             <StatHelpText>
