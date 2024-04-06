@@ -51,14 +51,15 @@ export async function getSpendingData(uid) {
   return rows;
 }
 
-export async function getTransactionsInMonth(uid, monthIndex) {
+export async function getTransactionsInMonth(uid, monthIndex, endDate) {
   const [rows] = await pool.query(
     `
     SELECT *
     FROM payments
-    WHERE MONTH(payment_date) = ? AND user_id = ?;
+    WHERE MONTH(payment_date) = ? AND DAY(payment_date) <= ?
+    AND user_id = ?;
     `,
-    [monthIndex, uid]
+    [monthIndex, endDate, uid]
   );
 
   if (rows.length == 0) {
@@ -174,7 +175,7 @@ export async function getRecentTransactions(uid) {
     FROM payments
     WHERE direction = 'out' AND user_id = ?
     ORDER BY payment_date DESC
-    LIMIT 20
+    LIMIT 10
     `,
     [uid]
   );

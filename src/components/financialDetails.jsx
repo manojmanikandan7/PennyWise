@@ -17,11 +17,39 @@ import { getMonth } from "date-fns";
 
 import React, { useEffect, useState } from "react";
 
+function padPrice(price) {
+  let initial = String(price);
+  let parts = initial.split(".");
+
+  if (parts.length == 1) {
+    initial += "00"
+  } else if (parts[1].length == 1) {
+    initial += "0"
+  }
+
+  return initial;
+}
 
 export default function FinancialDetails({ refreshData, user_id }) {
-  const [monthSpend, setMonthSpend] = useState();
-  const [monthRemaining, setMonthRemaining] = useState();
-  const [spendPercentage, setSpendPercentage] = useState();
+  const getMonthSpend = async (endDate, month) => {
+    // Get the total spend in a month, up to a date of endDate
+
+    const fetchData = await axios.post("http://localhost:3000/transactionsInMonth", {
+      user_id, month, endDate
+    })
+    const monthTransactions = fetchData.data;
+
+    let spend = 0
+    monthTransactions.forEach(element => {
+      spend += element.value;
+    });
+
+    return spend;
+  }
+  
+  const [monthSpend, setMonthSpend] = useState({});
+  const [monthRemaining, setMonthRemaining] = useState({});
+  const [spendPercentage, setSpendPercentage] = useState(0);
 
   // Today's Date
   // Step 1: Get today's date
@@ -34,7 +62,7 @@ export default function FinancialDetails({ refreshData, user_id }) {
     year: "numeric",
   });
 
-  //Time
+  // Time
   const todaysFormattedTime = today.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
@@ -46,28 +74,32 @@ export default function FinancialDetails({ refreshData, user_id }) {
     // Get the percentage through the month of the current date
     const percThroughMonth = today.getDate() / new Date(today.getFullYear(), today.getMonth(), 0).getDate();
 
-    const fetchData = await axios.post("http://localhost:3000/transactionsInMonth", {
-      user_id, month
-    })
-    const monthTransactions = fetchData.data;
-
-    let spend = 0
-    monthTransactions.forEach(element => {
-      spend += element.value;
-    });
+    const spentThisMonth = await getMonthSpend(today.getDate(), month);
+    const spentLastMonth = await getMonthSpend(today.getDate(), month-1);
+    const spentDiffPerc = Math.round(100 * spentThisMonth / spentLastMonth);
     
-    setMonthSpend(spend);
+    setMonthSpend({
+      "value": spentThisMonth,
+      "percentage": spentDiffPerc
+    });
 
     const userData = await axios.post("http://localhost:3000/getInfo", {
       uid: user_id
     })
     const monthlyBudget = userData.data[3] * 4;
-    setMonthRemaining(monthlyBudget - spend);
+    const remainingThisMonth = monthlyBudget - spentThisMonth;
+    const remainingLastMonth = monthlyBudget - spentLastMonth;
+    const remainingDiffPerc = Math.round(100 * remainingThisMonth / remainingLastMonth);
+
+    setMonthRemaining({
+      "value": remainingThisMonth,
+      "percentage" : remainingDiffPerc
+    });
 
     const idealSpend = percThroughMonth * monthlyBudget;
-    setSpendPercentage(Math.round(100 * spend / idealSpend));    
+    setSpendPercentage(Math.round(100 * spentThisMonth / idealSpend));    
   };
-  console.log(monthRemaining)
+
   useEffect(() => {
     updateData();
   }, [refreshData]); // Now depends on refreshData prop
@@ -94,12 +126,15 @@ export default function FinancialDetails({ refreshData, user_id }) {
             </StatLabel>
             <StatNumber>
               <Text fontSize="2xl" as="b">
-                {"£" + monthSpend}
+                {"£" + padPrice(monthSpend.value)}
               </Text>
             </StatNumber>
             <StatHelpText>
-              <StatArrow type="increase" color="red.500" />
-              23.36% Since Last Month
+              {monthSpend.percentage > 100
+                ? <StatArrow type="increase" color="red.500" />
+                : <StatArrow type="decrease" color="green.500" />
+              }
+              {monthSpend.percentage}% Since Last Month
             </StatHelpText>
             {/* Money Left For The Month */}
             <Divider></Divider>
@@ -110,12 +145,15 @@ export default function FinancialDetails({ refreshData, user_id }) {
             </StatLabel>
             <StatNumber>
               <Text fontSize="2xl" as="b">
-              {"£" + monthRemaining}
+              {"£" + padPrice(monthRemaining.value)}
               </Text>
             </StatNumber>
             <StatHelpText>
-              <StatArrow type="increase" color="green.500" />
-              10.42% From Last Month
+              {monthRemaining.percentage > 100
+                ? <StatArrow type="increase" color="red.500" />
+                : <StatArrow type="decrease" color="green.500" />
+              }
+              {monthRemaining.percentage}% From Last Month
             </StatHelpText>
             {/* Spending Percentage% */}
             <Divider></Divider>
@@ -130,8 +168,11 @@ export default function FinancialDetails({ refreshData, user_id }) {
               </Text>
             </StatNumber>
             <StatHelpText>
-              <StatArrow type="decrease" color="red.500" />
-              You Are Spending More Than You Can By {spendPercentage - 100}%.
+              {spendPercentage > 100
+                ? <StatArrow type="increase" color="red.500" />
+                : <StatArrow type="decrease" color="green.500" />
+              }
+              You are spending {spendPercentage > 100 ? "more than you can" : "less than you could"} by {Math.abs(spendPercentage - 100)}%
             </StatHelpText>
             <Divider></Divider>
             <Text fontSize="lg" as="b">

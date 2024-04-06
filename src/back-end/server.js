@@ -73,9 +73,9 @@ app.post("/transactionsAll", async (req, res) => {
 })
 
 app.post("/transactionsInMonth", async (req, res) => {
-  const { user_id, month } = req.body;
+  const { user_id, month, endDate } = req.body;
 
-  const data = await getTransactionsInMonth(user_id, month);
+  const data = await getTransactionsInMonth(user_id, month, endDate);
   res.send(data);
 });
 
