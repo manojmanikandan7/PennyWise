@@ -23,7 +23,7 @@ import { format, parseISO } from "date-fns";
 import axios from "axios"; // Import axios for HTTP requests
 
 
-function RemoveUpcomingBillsModal({ updateBills, user_id, upcomingBills }) {
+function RemoveUpcomingBillsModal({ user_id }) {
    /* const getBills = async () => {
     const fetchData = await axios.post("http://localhost:3000/upcomingBills", {
       user_id
@@ -56,7 +56,6 @@ function RemoveUpcomingBillsModal({ updateBills, user_id, upcomingBills }) {
     setLocalBills(updatedBills);
 
     onClose(); // Close the modal
-    updateBills(updatedBills);
   };
 
   // Group the local transactions by date for rendering

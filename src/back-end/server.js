@@ -13,12 +13,14 @@ import {
   removeTransaction,
   editInfo,
   getRecentTransactions,
+  getBills,
+  addBill,
+  editBill,
 } from "./database.js";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-
 
 app.post("/createUser", async (req, res) => {
   const { fname, sname, email, password, budget } = req.body;
@@ -215,6 +217,33 @@ app.post("/recentTransactions", async (req, res) => {
     res.status(500).send("Error fetching recent transactions.");
   }
 });
+
+app.post("/addBill", async (req, res) => {
+  const { uid, start_date, end_date, value, description, category, recurrence } = req.body;
+  const data = await addBill(uid, start_date, end_date, value, description, category, recurrence);
+
+  res.send(data);
+})
+
+app.post("/editBill", async (req, res) => {
+  const { bill_id, start_date, end_date, value, description, category, recurrence } = req.body;
+  const data = await editBill(bill_id, start_date, end_date, value, description, category, recurrence);
+
+  res.send(data);
+})
+
+app.post("/getBills", async (req, res) => {
+  const { uid } = req.body;
+  const data = [];
+  
+  await getBills(uid).then(function (response) {
+    response.forEach((element) => {
+      data.push(element);
+    })
+  });
+
+  res.send(data);
+})
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

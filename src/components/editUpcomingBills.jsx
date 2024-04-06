@@ -29,64 +29,60 @@ import CategorySelector from "./categorySelector"; // Make sure this path is cor
 
 import axios from "axios"; // Import axios for HTTP requests
 
+let initialBills = [];
 
-
-function EditUpcomingBillsModal({ updateBills, user_id, upcomingBills }) {
-  /* const getBills = async () => {
-    const fetchData = await axios.post("http://localhost:3000/upcomingBills", {
-      user_id
+function EditUpcomingBillsModal({ user_id }) {
+  const getBills = async () => {
+    const fetchData = await axios.post("http://localhost:3000/getBills", {
+      uid: user_id
     });
 
-    upcomingBils = fetchData.data
-  }; */
-
+    initialBills = fetchData.data;
+    console.log(initialBills);
+    setLocalBills(initialBills);
+  };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
-  const [editBill, setEditBill] = useState(null); // The Bill being edited
+  const [localBills, setLocalBills] = useState([
+    ...initialBills,
+  ]);
+  const [editBill, setEditBill] = useState(null); // The bill being edited
 
   // Handler to open the modal with the Bill to edit
   const handleEditClick = (transaction) => {
-    setEditBill({...transaction, "amount": transaction.amount.substring(1)}); // Set the transaction to edit
+    setEditBill(transaction); // Set the transaction to edit
     onOpen(); // Open the modal
   };
 
   // Handler for when the "Update" button is clicked
-  const handleUpdate = /*async*/ () => {
-    const id = editBill.id;
-    const title = editBill.title;
-    const amount =  '£' + Number(editBill.amount).toFixed(2);
-    const dueDate = format(parseISO(editBill.dueDate), "yyyy-MM-dd");
+  const handleUpdate = async () => {
+    const id = editBill.bill_id;
+    const title = editBill.description;
+    const amount =  Number(editBill.value).toFixed(2);
+    const startDate = format(parseISO(editBill.start_date), "yyyy-MM-dd");
+    const endDate = format(parseISO(editBill.end_date), "yyyy-MM-dd");
     const category = editBill.category;
+    const recurrence = editBill.recurrence_freq;
 
-    /* await axios.post("http://localhost:3000/editBill", {
-      id,
-      title,
-      amount,
-      dueDate,
+    await axios.post("http://localhost:3000/editBill", {
+      bill_id: id,
+      start_date: startDate,
+      end_date: endDate,
+      value: amount,
+      description: title,
       category,
+      recurrence
     });
 
-    await axios.post("http://localhost:3000/recentTransactions", {
-      user_id
-    }); */
-
-    upcomingBills.forEach((a)=>{
-      if (a.id === id){
-        a.title = title;
-        a.amount = amount;
-        a.dueDate = dueDate;
-        a.category = category;
-      }
-    })
-
-
     onClose(); // Close the modal
-    updateBills(upcomingBills);
-  }; 
+  };
 
-  const getDataAndOpen = /*async*/ () => {
-    //await getBills();
+  // Sort bills by start date
+  const billsByDate = localBills.sort((a, b) => parseISO(a.start_date) - parseISO(b.start_date));
+
+  const getDataAndOpen = async () => {
+    await getBills();
+    console.log(localBills)
     setEditBill(null);
 
     onOpen();
@@ -112,35 +108,35 @@ function EditUpcomingBillsModal({ updateBills, user_id, upcomingBills }) {
           <ModalBody>
             {!editBill ? (
               <VStack divider={<Divider />} spacing={4} align="stretch">
-                    {upcomingBills.map((transaction) => (
-                      <Box key={transaction.dueDate}>
-                        <Text fontSize="lg" fontWeight="semibold">
-                          {transaction.dueDate}
-                        </Text>
-                      
-                        <Flex
-                          key={transaction.id}
-                          justify="space-between"
-                          p={2}
-                          align="center"
-                        >
-                          <Box flex="1">
-                            <Text>
-                              {transaction.title} -{" "}
-                              {transaction.amount}
-                              <Text fontSize="sm" color="gray.500">
-                                {transaction.category}
-                              </Text>
+                  {billsByDate.map((transaction) => (
+                    <Box key={transaction.start_date}>
+                      <Text fontSize="lg" fontWeight="semibold">
+                        {format(parseISO(transaction.start_date), "PP")} - {format(parseISO(transaction.end_date), "PP")}
+                      </Text>
+                    
+                      <Flex
+                        key={transaction.bill_id}
+                        justify="space-between"
+                        p={2}
+                        align="center"
+                      >
+                        <Box flex="1">
+                          <Text>
+                            {transaction.description} -{" "}
+                            £{transaction.value}
+                            <Text fontSize="sm" color="gray.500">
+                              {transaction.category}
                             </Text>
-                          </Box>
-                          <IconButton
-                            aria-label="Edit Bill"
-                            icon={<EditIcon />}
-                            onClick={() => handleEditClick(transaction)}
-                            size="sm"
-                            colorScheme="purple"
-                          />
-                        </Flex>
+                          </Text>
+                        </Box>
+                        <IconButton
+                          aria-label="Edit Bill"
+                          icon={<EditIcon />}
+                          onClick={() => handleEditClick(transaction)}
+                          size="sm"
+                          colorScheme="purple"
+                        />
+                      </Flex>
                     </Box>
                   )
                 )}
@@ -151,7 +147,7 @@ function EditUpcomingBillsModal({ updateBills, user_id, upcomingBills }) {
                 <FormControl>
                   <FormLabel>Title</FormLabel>
                   <Input
-                    value={editBill.title}
+                    value={editBill.description}
                     onChange={(e) =>
                       setEditBill({
                         ...editBill,
@@ -164,27 +160,43 @@ function EditUpcomingBillsModal({ updateBills, user_id, upcomingBills }) {
                   <FormLabel>Amount</FormLabel>
                   <Input
                     type="number"
-                    value={editBill.amount}
+                    value={editBill.value}
                     onChange={(e) =>
                       setEditBill({
                         ...editBill,
-                        amount: e.target.value,
+                        value: e.target.value,
                       })
                     }
                   />
                 </FormControl>
                 <FormControl mt={4}>
-                  <FormLabel>Date</FormLabel>
+                  <FormLabel>Start Date</FormLabel>
                   <Input
                     type="date"
                     value={format(
-                      parseISO(editBill.dueDate),
+                      parseISO(editBill.start_date),
                       "yyyy-MM-dd"
                     )}
                     onChange={(e) =>
                       setEditBill({
                         ...editBill,
-                        dueDate: e.target.value,
+                        start_date: e.target.value,
+                      })
+                    }
+                  />
+                </FormControl>
+                <FormControl mt={4}>
+                  <FormLabel>End Date</FormLabel>
+                  <Input
+                    type="date"
+                    value={format(
+                      parseISO(editBill.end_date),
+                      "yyyy-MM-dd"
+                    )}
+                    onChange={(e) =>
+                      setEditBill({
+                        ...editBill,
+                        end_date: e.target.value,
                       })
                     }
                   />
@@ -194,6 +206,19 @@ function EditUpcomingBillsModal({ updateBills, user_id, upcomingBills }) {
                   <CategorySelector
                     onSelect={(category) =>
                       setEditBill({ ...editBill, category })
+                    }
+                  />
+                </FormControl>
+                <FormControl mt={4}>
+                  <FormLabel>Recurrence Frequency</FormLabel>
+                  <Input
+                    type="number"
+                    value={editBill.recurrence_freq}
+                    onChange={(e) =>
+                      setEditBill({
+                        ...editBill,
+                        recurrency_freq: e.target.value,
+                      })
                     }
                   />
                 </FormControl>

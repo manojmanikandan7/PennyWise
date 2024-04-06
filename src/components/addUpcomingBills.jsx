@@ -31,43 +31,41 @@ import CategorySelector from "./categorySelector";
 import axios from "axios";
 
 
-function AddUpcomingBillsModal({ user_id, updateBills, upcomingBills}) {
+function AddUpcomingBillsModal({ user_id }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // TODO: Change this to the UID of the user logged in
+
   const id = user_id;
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [dueDate, setDueDate] = useState(
+  const [startDate, setStartDate] = useState(
+    formatISO(new Date(), { representation: "date" })
+  );
+  const [endDate, setEndDate] = useState(
     formatISO(new Date(), { representation: "date" })
   );
   const [category, setCategory] = useState("");
+  const [recurrence, setRecurrence] = useState("");
 
   const handleSubmit = async () => {
-    /* await axios.post("http://localhost:3000/addTransaction", {
-      id,
-      duedate,
-      amount,
-      title,
-      category,
-    }); */
+    await axios.post("http://localhost:3000/addBill", {
+      uid: id,
+      start_date : startDate,
+      end_date: endDate,
+      value: amount,
+      description: title,
+      category: category,
+      recurrence: recurrence,
+    });
 
     // await axios.post("http://localhost:3000/recentTransactions", { user_id });
-
-    upcomingBills.push({"id":(upcomingBills.length+1), "title": title, "amount": '£' + Number(amount).toFixed(2), "dueDate": dueDate, "category": category});
-    
-    
-    updateBills(upcomingBills);
-    
 
     // Reset the form fields
     setTitle("");
     setAmount("");
-    setDueDate(formatISO(new Date(), { representation: "date" }));
+    setStartDate(formatISO(new Date(), { representation: "date" }));
+    setEndDate(formatISO(new Date(), { representation: "date" }));
     setCategory("");
-
-    // Call the onTransactionSubmit callback to notify the parent component
-    
-
+    setRecurrence("");
 
     // Close the modal
     onClose();
@@ -88,7 +86,7 @@ function AddUpcomingBillsModal({ user_id, updateBills, upcomingBills}) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add a New Upcoming Payment</ModalHeader>
+          <ModalHeader>Add a New Bill</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
@@ -111,11 +109,20 @@ function AddUpcomingBillsModal({ user_id, updateBills, upcomingBills}) {
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Due Date</FormLabel>
+              <FormLabel>Start Date</FormLabel>
               <Input
                 type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>End Date</FormLabel>
+              <Input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
               />
             </FormControl>
 
@@ -123,7 +130,18 @@ function AddUpcomingBillsModal({ user_id, updateBills, upcomingBills}) {
               <FormLabel>Category</FormLabel>
               <CategorySelector onSelect={setCategory} />
             </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Recurrence Frequency</FormLabel>
+              <Input
+                placeholder="Recurrence Frequency"
+                type="number"
+                value={recurrence}
+                onChange={(e) => setRecurrence(e.target.value)}
+              />
+            </FormControl>
           </ModalBody>
+
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>

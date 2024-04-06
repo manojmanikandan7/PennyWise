@@ -115,29 +115,28 @@ export default function Sidebar({ onTransactionChange, user_id }) {
       <Divider></Divider>
       {/* Settings Page */}
       <ListItem>
-        <NavLink to="/settings">
-          <Button
-            leftIcon={<SettingsIcon />}
-            colorScheme="gray"
-            width="150px"
-            variant="outline"
-            sx={{
-              color: "white", // Default text color
+        <Button
+          onClick={() => navigate("/settings", { state: { user_id: localUID } })}
+          leftIcon={<SettingsIcon />}
+          colorScheme="gray"
+          width="150px"
+          variant="outline"
+          sx={{
+            color: "white", // Default text color
+            ".chakra-icon": {
+              color: "white", // Default icon color
+            },
+            "&:hover": {
+              bg: "white", //  hover background color change
+              color: "black", //  hover text color change
               ".chakra-icon": {
-                color: "white", // Default icon color
+                color: "black", // hover icon color change
               },
-              "&:hover": {
-                bg: "white", //  hover background color change
-                color: "black", //  hover text color change
-                ".chakra-icon": {
-                  color: "black", // hover icon color change
-                },
-              },
-            }}
-          >
-            Settings
-          </Button>
-        </NavLink>
+            },
+          }}
+        >
+          Settings
+        </Button>
       </ListItem>
       <Divider></Divider>
       {/* Profile Page */}

@@ -164,3 +164,39 @@ export async function getRecentTransactions(uid) {
  
   return result;
 }
+
+export async function getBills(uid) {
+  const [rows] = await pool.query(
+    `
+    SELECT bill_id, start_date, end_date, value, description, category, recurrence_freq FROM bills
+    WHERE user_id = ?
+    `,
+    [uid]
+  );
+
+  return rows;
+}
+
+export async function addBill(uid, start, end, value, desc, category, recurrence) {
+  const result = await pool.query(
+    `
+    INSERT INTO bills (user_id, direction, start_date, end_date, value, description, category, recurrence_freq)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `,
+    [uid, "out", start, end, value, desc, category, recurrence]
+  );
+  return result;
+}
+
+export async function editBill(bid, start, end, value, desc, category, recurrence) {
+  const result = await pool.query(
+    `
+    UPDATE bills
+    SET start_date = ?, end_date = ?, value = ?, description = ?, category = ?, recurrence_freq = ?
+    WHERE bill_id = ?;
+    `,
+    [start, end, value, desc, category, recurrence, bid]
+  );
+  return result;
+}
+
