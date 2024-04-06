@@ -29,24 +29,20 @@ import CategorySelector from "./categorySelector"; // Make sure this path is cor
 
 import axios from "axios"; // Import axios for HTTP requests
 
-import { upcomingBills } from "../assets/testDataUpcomingBills.json";
 
 
-function EditUpcomingBillsModal({ updateBills, user_id }) {
-  /* const getTransactions = async () => {
-    const fetchData = await axios.post("http://localhost:3000/transactionsAll", {
+function EditUpcomingBillsModal({ updateBills, user_id, upcomingBills }) {
+  /* const getBills = async () => {
+    const fetchData = await axios.post("http://localhost:3000/upcomingBills", {
       user_id
     });
 
-    initialTransactions = fetchData.data
-    setLocalTransactions(initialTransactions);
+    upcomingBils = fetchData.data
   }; */
 
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [localBills, setLocalBills] = useState([
-    ...upcomingBills,
-  ]);
+  
   const [editBill, setEditBill] = useState(null); // The Bill being edited
 
   // Handler to open the modal with the Bill to edit
@@ -56,18 +52,18 @@ function EditUpcomingBillsModal({ updateBills, user_id }) {
   };
 
   // Handler for when the "Update" button is clicked
-  const handleUpdate = async () => {
+  const handleUpdate = /*async*/ () => {
     const id = editBill.id;
     const title = editBill.title;
     const amount =  '£' + Number(editBill.amount).toFixed(2);
     const dueDate = format(parseISO(editBill.dueDate), "yyyy-MM-dd");
     const category = editBill.category;
 
-    /* await axios.post("http://localhost:3000/editTransaction", {
-      pid,
-      desc,
-      value,
-      date,
+    /* await axios.post("http://localhost:3000/editBill", {
+      id,
+      title,
+      amount,
+      dueDate,
       category,
     });
 
@@ -89,7 +85,8 @@ function EditUpcomingBillsModal({ updateBills, user_id }) {
     updateBills(upcomingBills);
   }; 
 
-  const getDataAndOpen = () => {
+  const getDataAndOpen = /*async*/ () => {
+    //await getBills();
     setEditBill(null);
 
     onOpen();
@@ -100,11 +97,11 @@ function EditUpcomingBillsModal({ updateBills, user_id }) {
       <Button
         onClick={() => getDataAndOpen()}
         colorScheme="cyan"
-        variant="solid"
-        width="150px"
+        variant="ghost"
+        width="400px"
         leftIcon={<EditIcon />}
       >
-        Edit Bills
+        Upcoming Bill
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside">

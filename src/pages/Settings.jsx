@@ -1,13 +1,11 @@
 
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
-  Avatar,
-  ButtonGroup,
+  Flex,
   Card,
   CardBody,
   CardHeader,
   ChakraProvider,
-  Flex,
   Grid,
   GridItem,
   Heading,
@@ -15,15 +13,18 @@ import {
   IconButton,
   Stack,
   StackDivider,
-  Text,
   extendTheme,
+  Text,
 } from "@chakra-ui/react";
-
 import { NavLink } from "react-router-dom";
+
+import { useState } from "react";
+
 import Sidebar from "../components/sidebar";
 import AddUpcomingBillsModal from "../components/addUpcomingBills";
 import EditUpcomingBillsModal from "../components/editUpcomingBills";
-
+import RemoveUpcomingBillsModal from "../components/removeUpcomingBills";
+import { upcomingBills } from "../assets/testDataUpcomingBills.json";
 
 const theme = extendTheme({
     colors: {
@@ -37,16 +38,19 @@ const theme = extendTheme({
     },
   });
 
+
 export default function Settings(){
-  
+  const [currentBills, setCurrentBills] = useState(upcomingBills);
   function updateBills( bills ){
+    
+    setCurrentBills(bills);
+    console.log(JSON.stringify(currentBills));
     //Doesn't work since this is frontend
-    /* fs.writeFileSync("../assets/testDataUpcomingBills.json", JSON.stringify(bills), function(err) {
+    /* fs.writeFileSync("../assets/testDataUpcomingBills.json", JSON.stringify(currentBills), function(err) {
       if (err) {
         console.log(err);
       }
     }); */
-    console.log(JSON.stringify(bills));
   }
     return (
         <ChakraProvider theme={theme}>
@@ -87,7 +91,7 @@ export default function Settings(){
                     </GridItem>
                     
                     <GridItem colSpan={3}>
-                      <Heading size="xl" fontFamily="Futura" colorScheme="brand">
+                      <Heading size="xl" fontFamily="Futura" color="red.500">
                         {" "}
                         Settings{" "}
                       </Heading>
@@ -95,13 +99,15 @@ export default function Settings(){
                     </GridItem>
                     
                   </Grid>
-                  <br></br>
                 </CardHeader>
     
-                <CardBody >
+                <CardBody>
+                  
                   <Stack divider={<StackDivider />} spacing="4" align="center">
-                    <AddUpcomingBillsModal updateBills={updateBills}/>
-                    <EditUpcomingBillsModal updateBills={updateBills}/>
+                    <Text as="b" fontFamily="Futura" color="grey.200" alignSelf="left">Customise Upcoming Bills</Text>
+                    <AddUpcomingBillsModal updateBills={updateBills} upcomingBills={currentBills}/>
+                    <EditUpcomingBillsModal updateBills={updateBills} upcomingBills={currentBills}/>
+                    <RemoveUpcomingBillsModal updateBills={updateBills} upcomingBills={currentBills}/>
                   </Stack>
                 </CardBody>
               </Card>

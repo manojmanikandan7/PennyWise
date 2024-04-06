@@ -28,13 +28,10 @@ import { formatISO } from "date-fns";
 import CategorySelector from "./categorySelector";
 
 //Test data
-import { upcomingBills } from "../assets/testDataUpcomingBills.json";
-
 import axios from "axios";
 
-import fs from "fs";
 
-function AddUpcomingBillsModal({ user_id, updateBills }) {
+function AddUpcomingBillsModal({ user_id, updateBills, upcomingBills}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // TODO: Change this to the UID of the user logged in
   const id = user_id;
@@ -81,9 +78,9 @@ function AddUpcomingBillsModal({ user_id, updateBills }) {
       <Button
         onClick={onOpen}
         leftIcon={<AddIcon />}
-        width="150px"
+        width="400px"
         colorScheme="teal"
-        variant="solid"
+        variant="ghost"
       >
         Upcoming Bill
       </Button>
