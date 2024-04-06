@@ -20,8 +20,8 @@ app.use(express.json());
 app.use(cors());
 
 
-app.post("/name", async (req, res) => {
-  const { fname, sname, email, password } = req.body;
+app.post("/createUser", async (req, res) => {
+  const { fname, sname, email, password, budget } = req.body;
 
   // Check if the email is already in use
   const checkUser = await getLogin(email);
@@ -30,7 +30,7 @@ app.post("/name", async (req, res) => {
   } else {
     try {
       const hash = await bcrypt.hash(password, 15);
-      const name = await createUser(fname, sname, email, hash);
+      const name = await createUser(fname, sname, email, hash, budget);
       res.send(name);
     } catch (e) {
       console.error(e);

@@ -9,13 +9,13 @@ const pool = mysql
   })
   .promise();
 
-export async function createUser(fname, sname, email, password) {
+export async function createUser(fname, sname, email, password, budget) {
   const result = await pool.query(
     `
-    INSERT INTO users (fname, sname, email, password)
-    VALUES (?, ?, ?, ?)
+    INSERT INTO users (fname, sname, email, password, budget)
+    VALUES (?, ?, ?, ?, ?)
     `,
-    [fname, sname, email, password]
+    [fname, sname, email, password, budget]
   );
   return result;
 }

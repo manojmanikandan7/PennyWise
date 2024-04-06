@@ -18,12 +18,13 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons"
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Flex } from "antd";
 let fname = "",
   sname = "",
   email = "",
-  password = "";
+  password = "",
+  budget = "";
 
 const FirstName = () => {
   const [input, setInput] = useState(" ");
@@ -133,23 +134,54 @@ const Password = () => {
   );
 };
 
-const handleClick = async () => {
-  try {
-    await axios.post("http://localhost:3000/name", { fname, sname, email, password });
-    console.log("Name retrieved successfully");
-  } catch (error) {
-    console.error("Error retrieving name", error);
-  }
+const Budget = () => {
+  const [input, setInput] = useState(" ");
+  budget = input.trimStart();
+  const handleInputChange = (e) => setInput(e.target.value);
+  const empty = input === "";
 
-  try {
-    await axios.post("http://localhost:3000/login", { email, password });
-    console.log("Login retrieved successfully");
-  } catch (error) {
-    console.error("Error retrieving login", error);
-  }
+  return (
+    <Container maxWidth="xl" p="2">
+      <FormControl isInvalid={empty} isRequired>
+        <FormLabel>Budget</FormLabel>
+        <Input
+          type="number"
+          value={budget}
+          onChange={handleInputChange}
+          maxW="xl"
+        />
+        {!empty ? (
+          <FormHelperText textAlign="left">
+            Enter your weekly budget.
+          </FormHelperText>
+        ) : (
+          <FormErrorMessage>Budget is required.</FormErrorMessage>
+        )}
+      </FormControl>
+    </Container>
+  );
 };
 
 export default function SignUp() {
+  const navigate = useNavigate();
+  const handleClick = async () => {
+    try {
+      await axios.post("http://localhost:3000/createUser", { fname, sname, email, password, budget });
+      console.log("Name retrieved successfully");
+    } catch (error) {
+      console.error("Error retrieving name", error);
+    }
+  
+    try {
+      const result = await axios.post("http://localhost:3000/login", { email, password });
+      const user_id = result.data[0].id;
+  
+      navigate("/dashboard", { state: { user_id: user_id } });
+    } catch (error) {
+      console.error("Error retrieving login", error);
+    }
+  };
+
   return (
     <ChakraProvider theme={theme}>
       <Box textAlign="center" fontSize="xl">
@@ -196,18 +228,8 @@ export default function SignUp() {
               <SurName />
               <Email />
               <Password />
+              <Budget />
               <ButtonGroup gap="5" p={4}>
-                <NavLink to="/login">
-                <Button
-                  colorScheme="blue"
-                  size="lg"
-                  mt={4}
-                  variant="ghost"
-                  p={3}
-                >
-                  Login
-                </Button>
-                </NavLink>
                 <Button
                   colorScheme="blue"
                   size="lg"
