@@ -16,6 +16,7 @@ import {
   getBills,
   addBill,
   editBill,
+  removeBill,
 } from "./database.js";
 
 const app = express();
@@ -228,6 +229,13 @@ app.post("/addBill", async (req, res) => {
 app.post("/editBill", async (req, res) => {
   const { bill_id, start_date, end_date, value, description, category, recurrence } = req.body;
   const data = await editBill(bill_id, start_date, end_date, value, description, category, recurrence);
+
+  res.send(data);
+})
+
+app.post("/removeBill", async (req, res) => {
+  const { bill_id } = req.body;
+  const data = await removeBill(bill_id);
 
   res.send(data);
 })

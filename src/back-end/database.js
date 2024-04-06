@@ -200,3 +200,13 @@ export async function editBill(bid, start, end, value, desc, category, recurrenc
   return result;
 }
 
+export async function removeBill(bid) {
+  const result = await pool.query(
+    `
+    DELETE FROM bills WHERE bill_id = ?;
+    `,
+    [bid]
+  );
+  return result;
+}
+

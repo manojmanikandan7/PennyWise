@@ -95,7 +95,7 @@ export default function Settings() {
                 <Text as="b" fontFamily="Futura" color="grey.200" alignSelf="left">Customise Upcoming Bills</Text>
                 <AddUpcomingBillsModal user_id={user_id}/>
                 <EditUpcomingBillsModal user_id={user_id} />
-                {/* <RemoveUpcomingBillsModal /> */}
+                <RemoveUpcomingBillsModal user_id={user_id} />
               </Stack>
             </CardBody>
           </Card>
