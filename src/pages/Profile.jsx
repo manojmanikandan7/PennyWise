@@ -40,9 +40,9 @@ let fname, sname, email, uid;
 fname = "John";
 sname = "Doe";
 email = "hello@sample.com";
-uid = 2; //to be passed in */
+uid = 2; //to be passed in 
 
-export default function Profile(uid) {
+export default function Profile({ uid }) {
   //TODO: Get data from the data base to be displayed in the profile. 
   function getData() {
     const fetchedData = async () => {
@@ -107,7 +107,8 @@ export default function Profile(uid) {
               <Avatar
                 size="lg"
                 bg="blue.300"
-                icon={<Icon as={FaUserTie} />}
+                name={fname + ' ' + sname}
+                src='https://bit.ly/broken-link'
                 p={10}
               />
               <Heading
@@ -123,8 +124,8 @@ export default function Profile(uid) {
             </CardHeader>
 
             <CardBody>
-              <Stack divider={<StackDivider />} spacing="4">
-                <Text size="md" fontFamily="Futura" colorScheme="brand">
+              <Stack divider={<StackDivider />} spacing="4"  p={8}>
+                <Text as='b' size="md" fontFamily="Futura" colorScheme="brand">
                   {" "}
                   Email: {email}{" "}
                 </Text>

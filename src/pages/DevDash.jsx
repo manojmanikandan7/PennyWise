@@ -84,6 +84,11 @@ export default function DevDash() {
                 Profile
               </Button>
             </NavLink>
+            <NavLink to="/settings">
+              <Button colorScheme="brand" size="lg" variant="ghost">
+                Settings
+              </Button>
+            </NavLink>
           </VStack>
         </Grid>
       </Box>
