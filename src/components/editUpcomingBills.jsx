@@ -21,7 +21,9 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Select,
+  Radio,
+  RadioGroup,
+  Stack,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { format, parseISO } from "date-fns";
@@ -38,7 +40,6 @@ function EditUpcomingBillsModal({ user_id }) {
     });
 
     initialBills = fetchData.data;
-    console.log(initialBills);
     setLocalBills(initialBills);
   };
 
@@ -82,7 +83,6 @@ function EditUpcomingBillsModal({ user_id }) {
 
   const getDataAndOpen = async () => {
     await getBills();
-    console.log(localBills)
     setEditBill(null);
 
     onOpen();
@@ -123,7 +123,8 @@ function EditUpcomingBillsModal({ user_id }) {
                         <Box flex="1">
                           <Text>
                             {transaction.description} -{" "}
-                            £{transaction.value}
+                            £{transaction.value} -{" "}
+                            {transaction.recurrence_freq}
                             <Text fontSize="sm" color="gray.500">
                               {transaction.category}
                             </Text>
@@ -211,16 +212,18 @@ function EditUpcomingBillsModal({ user_id }) {
                 </FormControl>
                 <FormControl mt={4}>
                   <FormLabel>Recurrence Frequency</FormLabel>
-                  <Input
-                    type="number"
-                    value={editBill.recurrence_freq}
-                    onChange={(e) =>
+                  <RadioGroup onChange={(e) =>
                       setEditBill({
                         ...editBill,
-                        recurrency_freq: e.target.value,
+                        recurrence_freq: e,
                       })
-                    }
-                  />
+                    }>
+                    <Stack direction="row">
+                      <Radio value="Weekly">Weekly</Radio>
+                      <Radio value="Monthly">Monthly</Radio>
+                      <Radio value="Annually">Annually</Radio>
+                    </Stack>
+                  </RadioGroup>
                 </FormControl>
               </Box>
             )}

@@ -282,13 +282,34 @@ app.post("/upcomingBills", async (req, res) => {
   await getBills(uid).then(function (response) {
     response.forEach((element) => {
       let firstValidDate = new Date(element.start_date);
-      
+
       // Get the first and second bill date after the current date
       while (firstValidDate <= iso_current_date) {
-        firstValidDate = new Date(firstValidDate.getTime() + element.recurrence_freq * 86400000);
+        switch (element.recurrence_freq) {
+          case "Weekly":
+            firstValidDate.setDate(firstValidDate.getDate() + 7);
+            break;
+          case "Monthly":
+            firstValidDate.setMonth(firstValidDate.getMonth() + 1);
+            break;
+          case "Annually":
+            firstValidDate.setFullYear(firstValidDate.getFullYear() + 1);
+            break;
+        }
       }
       
-      let secondValidDate = new Date(firstValidDate.getTime() + element.recurrence_freq * 86400000);
+      let secondValidDate;
+      switch (element.recurrence_freq) {
+        case "Weekly":
+          secondValidDate = new Date(firstValidDate.getFullYear(), firstValidDate.getMonth(), firstValidDate.getDate() + 7);
+          break;
+        case "Monthly":
+          secondValidDate = new Date(firstValidDate.getFullYear(), firstValidDate.getMonth() + 1, firstValidDate.getDate());
+          break;
+        case "Annually":
+          secondValidDate = new Date(firstValidDate.getFullYear() + 1, firstValidDate.getMonth(), firstValidDate.getDate());
+          break;
+      }
 
       data.push({
         "value": element.value,

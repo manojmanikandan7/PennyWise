@@ -41,7 +41,6 @@ function RemoveUpcomingBillsModal({ user_id }) {
   ]);
 
   const handleRemove = async (bill_id) => {
-    console.log("bill ID to remove:L " + bill_id)
     // Remove the transaction from the database
     await axios.post("http://localhost:3000/removeBill", {
       bill_id: bill_id

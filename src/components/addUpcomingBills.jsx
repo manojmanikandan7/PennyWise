@@ -15,7 +15,9 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Select,
+  Radio,
+  RadioGroup,
+  Stack,
 } from "@chakra-ui/react";
 
 //Icons
@@ -133,12 +135,13 @@ function AddUpcomingBillsModal({ user_id }) {
 
             <FormControl mt={4}>
               <FormLabel>Recurrence Frequency</FormLabel>
-              <Input
-                placeholder="Recurrence Frequency"
-                type="number"
-                value={recurrence}
-                onChange={(e) => setRecurrence(e.target.value)}
-              />
+              <RadioGroup onChange={setRecurrence} value={recurrence}>
+              <Stack direction="row">
+                <Radio value="Weekly">Weekly</Radio>
+                <Radio value="Monthly">Monthly</Radio>
+                <Radio value="Annually">Annually</Radio>
+              </Stack>
+            </RadioGroup>
             </FormControl>
           </ModalBody>
 
