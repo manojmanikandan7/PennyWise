@@ -121,23 +121,26 @@ export default function Calendar() {
                     marginBottom: '20px'
                   }}
                 >
-                  <div className='stat'>
-                    <h2>Total Spent</h2>
-                    <p>£{payments.reduce((total, item) => total + parseFloat(item.value), 0)}</p>
+                    <div className='scrollableDiv2'>
+                      <div className='stat'>
+                        <h2>Total Spent</h2>
+                        <p>£{payments.reduce((total, item) => total + parseFloat(item.value), 0)}</p>
+                      </div>
+                      <div className='stat'>
+                        <h2>Daily Budget</h2>
+                        <p>£10.00</p>
+                      </div>
+                      <div className='stat'>
+                        <h2>Budget Remaining</h2>
+                        <p>£{10 - payments.reduce((total, item) => total + parseFloat(item.value), 0)}</p>
+                      </div>
+                      <div className='stat'>
+                        <h2>Greatest Expense</h2>
+                        <p>£{Math.max(...payments.map(item => parseFloat(item.value)))}</p>
+                      </div>
+                    </div>
+
                   </div>
-                  <div className='stat'>
-                    <h2>Daily Budget</h2>
-                    <p>£10.00</p>
-                  </div>
-                  <div className='stat'>
-                    <h2>Budget Remaining</h2>
-                    <p>£{10 - payments.reduce((total, item) => total + parseFloat(item.value), 0)}</p>
-                  </div>
-                  <div className='stat'>
-                    <h2>Greatest Expense</h2>
-                    <p>£{Math.max(...payments.map(item => parseFloat(item.value)))}</p>
-                  </div>
-                </div>
                 <div
                   id="scrollableDiv"
                   style={{
