@@ -16,7 +16,7 @@ import {
   FaHome,
 } from "react-icons/fa";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { format, parseISO } from "date-fns";
 
@@ -78,7 +78,9 @@ export default function UpcomingBills({ user_id }) {
     setSortedBills(fetchData.data);
   };
 
-  getUpcomingBills();
+  useEffect(() => {
+    getUpcomingBills();
+  }, []);
 
   return (
     <Box
@@ -96,26 +98,30 @@ export default function UpcomingBills({ user_id }) {
           Upcoming Bills
         </Text>
       </VStack>
-      <Box overflowY="auto">
-        {sortedBills.map((bill, index) => (
-          <VStack key={bill.id} spacing={3} align="stretch">
-            {index > 0 && <Divider />}
-            <NavLink to="/bills">
-              <HStack justifyContent="space-between">
-                <HStack spacing={2}>
-                  <Box
-                    as={categoryDetails[bill.category]?.icon || FaMoneyBillWave}
-                    color={categoryDetails[bill.category]?.color || "gray.500"}
-                  />
-                  <Text>{bill.description}</Text>
+      {sortedBills.length > 0 ?
+        <Box overflowY="auto">
+          {sortedBills.map((bill, index) => (
+            <VStack key={bill.id} spacing={3} align="stretch">
+              {index > 0 && <Divider />}
+              <NavLink to="/bills">
+                <HStack justifyContent="space-between">
+                  <HStack spacing={2}>
+                    <Box
+                      as={categoryDetails[bill.category]?.icon || FaMoneyBillWave}
+                      color={categoryDetails[bill.category]?.color || "gray.500"}
+                    />
+                    <Text>{bill.description}</Text>
+                  </HStack>
+                  <Text fontWeight="bold">{"£" + padPrice(bill.value)}</Text>
                 </HStack>
-                <Text fontWeight="bold">{"£" + padPrice(bill.value)}</Text>
-              </HStack>
-              <Text fontSize="sm">{formatDate(bill.date)}</Text>
-            </NavLink>
-          </VStack>
-        ))}
-      </Box>
+                <Text fontSize="sm">{formatDate(bill.date)}</Text>
+              </NavLink>
+            </VStack>
+          ))}
+        </Box>
+        :
+        <Text align="center">No bills currently setup. Go to settings to add some!</Text>
+      }
       <VStack>
         <Divider></Divider>
         <Box

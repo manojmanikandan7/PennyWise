@@ -108,37 +108,37 @@ function EditUpcomingBillsModal({ user_id }) {
           <ModalBody>
             {!editBill ? (
               <VStack divider={<Divider />} spacing={4} align="stretch">
-                  {billsByDate.map((transaction) => (
-                    <Box key={transaction.start_date}>
-                      <Text fontSize="lg" fontWeight="semibold">
-                        {format(parseISO(transaction.start_date), "PP")} - {format(parseISO(transaction.end_date), "PP")}
-                      </Text>
-                    
-                      <Flex
-                        key={transaction.bill_id}
-                        justify="space-between"
-                        p={2}
-                        align="center"
-                      >
-                        <Box flex="1">
-                          <Text>
-                            {transaction.description} -{" "}
-                            £{transaction.value} -{" "}
-                            {transaction.recurrence_freq}
-                            <Text fontSize="sm" color="gray.500">
-                              {transaction.category}
-                            </Text>
+                {billsByDate.map((transaction) => (
+                  <Box key={transaction.start_date}>
+                    <Text fontSize="lg" fontWeight="semibold">
+                      {format(parseISO(transaction.start_date), "PP")} - {format(parseISO(transaction.end_date), "PP")}
+                    </Text>
+                  
+                    <Flex
+                      key={transaction.bill_id}
+                      justify="space-between"
+                      p={2}
+                      align="center"
+                    >
+                      <Box flex="1">
+                        <Text>
+                          {transaction.description} -{" "}
+                          £{transaction.value} -{" "}
+                          {transaction.recurrence_freq}
+                          <Text fontSize="sm" color="gray.500">
+                            {transaction.category}
                           </Text>
-                        </Box>
-                        <IconButton
-                          aria-label="Edit Bill"
-                          icon={<EditIcon />}
-                          onClick={() => handleEditClick(transaction)}
-                          size="sm"
-                          colorScheme="purple"
-                        />
-                      </Flex>
-                    </Box>
+                        </Text>
+                      </Box>
+                      <IconButton
+                        aria-label="Edit Bill"
+                        icon={<EditIcon />}
+                        onClick={() => handleEditClick(transaction)}
+                        size="sm"
+                        colorScheme="purple"
+                      />
+                    </Flex>
+                  </Box>
                   )
                 )}
               </VStack>

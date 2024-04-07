@@ -11,22 +11,22 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-//Website Common Components
+// Website Common Components
 import Navbar from "../components/navbar";
 import Sidebar from "../components/sidebar";
 
-//Dashboard Components
+// Dashboard Components
 import LineChart from "../components/lineChart";
 import PieChart from "../components/pieChart";
 import FinancialDetails from "../components/financialDetails";
 import RecentTransactions from "../components/recentTransactions";
 import UpcomingBills from "../components/upcomingBills";
 
-//Icons
+// Icons
 import { MdDashboard } from "react-icons/md";
 
-//For custom themes
-//TODO: Add the theme colours
+// For custom themes
+// TODO: Add the theme colours
 const theme = extendTheme({
   colors: {
     brand: {
@@ -62,7 +62,7 @@ export default function Dashboard() {
 
         {/* main content & navbar */}
         <GridItem as="main" colSpan="7" p="40px">
-          <Navbar title="Dashboard" icon={MdDashboard} />
+          <Navbar title="Dashboard" icon={MdDashboard} user_id={user_id} />
           <SimpleGrid spacing={35} columns={3}>
             {/*  */}
             {/* this is the transaction history of your most recent spending */}

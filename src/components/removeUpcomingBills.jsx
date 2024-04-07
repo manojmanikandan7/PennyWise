@@ -81,38 +81,38 @@ function RemoveUpcomingBillsModal({ user_id }) {
           <ModalCloseButton />
           <ModalBody>
             <VStack divider={<Divider />} spacing={4} align="stretch">
-                    {billsByDate.map((transaction) => (
-                    <Box key={transaction.start_date}>
-                      <Text fontSize="lg" fontWeight="semibold" p={2}>
-                      {format(parseISO(transaction.start_date), "PP")} - {format(parseISO(transaction.end_date), "PP")}
+              {billsByDate.map((transaction) => (
+                <Box key={transaction.start_date}>
+                  <Text fontSize="lg" fontWeight="semibold" p={2}>
+                  {format(parseISO(transaction.start_date), "PP")} - {format(parseISO(transaction.end_date), "PP")}
+                  </Text>
+                  <Flex
+                    key={transaction.billd_id}
+                    justify="space-between"
+                    p={2}
+                    align="center"
+                  >
+                    <Box flex="1">
+                      <Text isTruncated maxWidth="80%">
+                        {transaction.description} -{" "}
+                        £{transaction.value} -{" "}
+                        {transaction.recurrence_freq}
+                        <Text fontSize="sm" color="gray.500">
+                          {transaction.category}
+                        </Text>
                       </Text>
-                      <Flex
-                        key={transaction.billd_id}
-                        justify="space-between"
-                        p={2}
-                        align="center"
-                      >
-                        <Box flex="1">
-                          <Text isTruncated maxWidth="80%">
-                            {transaction.description} -{" "}
-                            £{transaction.value} -{" "}
-                            {transaction.recurrence_freq}
-                            <Text fontSize="sm" color="gray.500">
-                              {transaction.category}
-                            </Text>
-                          </Text>
-                        </Box>
-                        <IconButton
-                          aria-label="Remove Transaction"
-                          icon={<CloseIcon />}
-                          onClick={() => handleRemove(transaction.bill_id)}
-                          size="sm"
-                          colorScheme="red"
-                        />
-                      </Flex>
                     </Box>
-                    )
-                    )}
+                    <IconButton
+                      aria-label="Remove Transaction"
+                      icon={<CloseIcon />}
+                      onClick={() => handleRemove(transaction.bill_id)}
+                      size="sm"
+                      colorScheme="red"
+                    />
+                  </Flex>
+                </Box>
+                )
+              )}
             </VStack>
           </ModalBody>
           <ModalFooter>
