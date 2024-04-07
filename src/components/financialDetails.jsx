@@ -22,7 +22,7 @@ function padPrice(price) {
   let parts = initial.split(".");
 
   if (parts.length == 1) {
-    initial += "00"
+    initial += ".00"
   } else if (parts[1].length == 1) {
     initial += "0"
   }

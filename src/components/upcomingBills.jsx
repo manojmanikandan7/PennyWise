@@ -1,23 +1,31 @@
 /* eslint-disable no-unused-vars */
 import { Box, VStack, Divider, Text, HStack } from "@chakra-ui/react";
+
 import {
-  FaBolt,
-  FaWater,
-  FaWifi,
-  FaMobileAlt,
-  FaDumbbell,
+  FaCar,
+  FaHamburger,
+  FaShoppingBasket,
+  FaCalendarCheck,
+  FaPiggyBank,
   FaMoneyBillWave,
+  FaFilm,
+  FaBook,
+  FaDumbbell,
+  FaMobileAlt,
+  FaBolt,
+  FaHome,
 } from "react-icons/fa";
-import React from "react";
+
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { format, parseISO } from "date-fns";
 
 // Import the necessary functions from date-fns
 // Import test data for upcoming bills...
-import { upcomingBills } from "../assets/testDataUpcomingBills.json";
 
 //Saving Opportunities Component
 import SavingsOpportunities from "../components/SavingsOpportunities";
+import axios from "axios";
 
 // Helper function to format date
 const formatDate = (dateString) => {
@@ -27,18 +35,50 @@ const formatDate = (dateString) => {
 
 // Define categories with their respective icons and colors
 const categoryDetails = {
-  Utilities: { icon: FaBolt, color: "yellow.400" },
-  Subscriptions: { icon: FaWifi, color: "blue.400" },
-  "Health & Fitness": { icon: FaDumbbell, color: "green.400" },
-  "Mobile Phone": { icon: FaMobileAlt, color: "teal.400" },
-  // Add more categories and icons as needed
+  Transportation: { icon: FaCar, color: "orange.400" },
+  Food: { icon: FaHamburger, color: "red.400" },
+  "Groceries & Laundry": { icon: FaShoppingBasket, color: "green.400" },
+  Subscriptions: { icon: FaCalendarCheck, color: "blue.400" },
+  Savings: { icon: FaPiggyBank, color: "purple.400" },
+  Other: { icon: FaMoneyBillWave, color: "black.400" },
+  Entertainment: { icon: FaFilm, color: "pink.400" },
+  Education: { icon: FaBook, color: "cyan.400" },
+  "Health & Fitness": { icon: FaDumbbell, color: "green.500" },
+  Electronics: { icon: FaMobileAlt, color: "yellow.600" },
+  Utilities: { icon: FaBolt, color: "blue.300" },
+  Housing: { icon: FaHome, color: "orange.300" },
+  // Add more categories as needed
 };
 
-export default function UpcomingBills() {
-  // Sort the bills by due date
-  const sortedBills = upcomingBills.sort(
-    (a, b) => new Date(a.dueDate) - new Date(b.dueDate)
-  );
+function padPrice(price) {
+  let initial = String(price);
+  let parts = initial.split(".");
+
+  if (parts.length == 1) {
+    initial += ".00"
+  } else if (parts[1].length == 1) {
+    initial += "0"
+  }
+
+  return initial;
+}
+
+export default function UpcomingBills({ user_id }) {
+  const [sortedBills, setSortedBills] = useState([]);
+
+  // Get today's date
+  const today = new Date();
+
+  const getUpcomingBills = async () => {
+    const fetchData = await axios.post("http://localhost:3000/upcomingBills", {
+      uid: user_id,
+      current_date: today
+    })
+
+    setSortedBills(fetchData.data);
+  };
+
+  getUpcomingBills();
 
   return (
     <Box
@@ -67,11 +107,11 @@ export default function UpcomingBills() {
                     as={categoryDetails[bill.category]?.icon || FaMoneyBillWave}
                     color={categoryDetails[bill.category]?.color || "gray.500"}
                   />
-                  <Text>{bill.title}</Text>
+                  <Text>{bill.description}</Text>
                 </HStack>
-                <Text fontWeight="bold">{bill.amount}</Text>
+                <Text fontWeight="bold">{"£" + padPrice(bill.value)}</Text>
               </HStack>
-              <Text fontSize="sm">{formatDate(bill.dueDate)}</Text>
+              <Text fontSize="sm">{formatDate(bill.date)}</Text>
             </NavLink>
           </VStack>
         ))}

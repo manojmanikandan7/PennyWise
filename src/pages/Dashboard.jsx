@@ -72,7 +72,7 @@ export default function Dashboard() {
 
             {/* Upcoming Bills And Possible Spending Recommendations? */}
             <GridItem colSpan="1">
-              <UpcomingBills />
+              <UpcomingBills user_id={user_id}/>
             </GridItem>
 
             {/* this is the financial details */}

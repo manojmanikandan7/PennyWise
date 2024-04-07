@@ -258,6 +258,8 @@ app.post("/removeBill", async (req, res) => {
 })
 
 app.post("/getBills", async (req, res) => {
+  // Get the basic bill data
+
   const { uid } = req.body;
   const data = [];
   
@@ -268,6 +270,43 @@ app.post("/getBills", async (req, res) => {
   });
 
   res.send(data);
+})
+
+app.post("/upcomingBills", async (req, res) => {
+  // Get the next two payments for each bills
+
+  const { uid, current_date } = req.body;
+  const data = [];
+  
+  const iso_current_date = new Date(current_date);
+  await getBills(uid).then(function (response) {
+    response.forEach((element) => {
+      let firstValidDate = new Date(element.start_date);
+      
+      // Get the first and second bill date after the current date
+      while (firstValidDate <= iso_current_date) {
+        firstValidDate = new Date(firstValidDate.getTime() + element.recurrence_freq * 86400000);
+      }
+      
+      let secondValidDate = new Date(firstValidDate.getTime() + element.recurrence_freq * 86400000);
+
+      data.push({
+        "value": element.value,
+        "date": firstValidDate,
+        "description": element.description,
+        "category": element.category,
+      })
+
+      data.push({
+        "value": element.value,
+        "date": secondValidDate,
+        "description": element.description,
+        "category": element.category,
+      })
+    })
+  });
+
+  res.send(data.sort((a, b) => a.date - b.date).slice(0, 5));
 })
 
 app.use((err, req, res, next) => {
