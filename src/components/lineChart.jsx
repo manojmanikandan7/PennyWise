@@ -21,6 +21,10 @@ const dbDateToISO = (dateString) => {
   return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
 }
 
+const isoDateToDB = (date) => {
+  return date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
+}
+
 // Helper function to format date
 const formatDate_ = (dateString) => {
   let isoDate = dbDateToISO(dateString);
@@ -60,6 +64,23 @@ export default function LineChart({ refreshData, user_id }) {
       const fetchData = await axios.post("http://localhost:3000/transactionsByDate", { user_id });
       spendingData = fetchData.data
                       .sort((a, b) => parseISO(dbDateToISO(a.x)) - parseISO(dbDateToISO(b.x)));
+
+      // Add £0 values for dates with no data currently
+      const startDate = parseISO(dbDateToISO(spendingData[0].x));
+      const endDate = parseISO(dbDateToISO(spendingData[spendingData.length - 1].x));
+      const datesInUse = spendingData.map(obj => (obj.x));
+
+      for (let x=startDate; x<endDate; x.setTime(x.getTime() + 86400000)) {
+        if (!datesInUse.includes(isoDateToDB(x))) {
+          spendingData.push({
+            "x": isoDateToDB(x),
+            "y": 0
+          })
+        }
+      }
+
+      spendingData.sort((a, b) => parseISO(dbDateToISO(a.x)) - parseISO(dbDateToISO(b.x)));
+
       setChartData({
         labels: spendingData.map((data) => formatDate_(data.x)),
         datasets: [
