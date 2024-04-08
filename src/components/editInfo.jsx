@@ -15,6 +15,7 @@ import {
   useDisclosure,
   FormControl,
   FormLabel,
+  FormErrorMessage,
   Input,
   Icon,
 } from "@chakra-ui/react";
@@ -63,6 +64,10 @@ export default function EditInfo({ uid, fn, sn, e, refreshInfo }) {
 
     onOpen();
   }
+
+  const [confirm, setConfirm] = useState("");
+  const empty = password === "";
+  const noteq = (password.length < confirm.length) || (password.length === confirm.length && password !== confirm);
 
   return (
     <>
@@ -118,7 +123,21 @@ export default function EditInfo({ uid, fn, sn, e, refreshInfo }) {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </FormControl>
+
+            <FormControl mt={4} isInvalid={noteq}>
+              <FormLabel>Confirm Password</FormLabel>
+              <Input
+                type="password"
+                placeholder="Confirm password"
+                onChange={(e) => setConfirm(e.target.value)}
+                maxW="xl"
+              />
+              {noteq ? (
+                <FormErrorMessage>Passwords dont match. Try again.</FormErrorMessage>
+              ): <></>}
+            </FormControl>
           </ModalBody>
+        
 
           <ModalFooter>
             <Button color="blue.800" mr={3} onClick={onClose}>

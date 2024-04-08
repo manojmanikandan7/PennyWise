@@ -1,25 +1,19 @@
-import { ArrowBackIcon } from "@chakra-ui/icons";
+
 import {
   Avatar,
-  ButtonGroup,
   Card,
   CardBody,
   CardHeader,
   ChakraProvider,
-  Flex,
   Grid,
   GridItem,
   Heading,
-  Icon,
-  IconButton,
-  Spacer,
   Stack,
   StackDivider,
   Text,
   extendTheme,
 } from "@chakra-ui/react";
-import { FaUserTie } from "react-icons/fa";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Sidebar from "../components/sidebar";
 import EditInfo from "../components/editInfo";
 import axios from "axios";
