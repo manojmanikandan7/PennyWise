@@ -20,6 +20,7 @@ import {
   editBill,
   removeBill,
   getInfo,
+  incrementBillDate,
 } from "./database.js";
 
 const app = express();
@@ -300,18 +301,7 @@ app.post("/upcomingBills", async (req, res) => {
         }
       }
       
-      let secondValidDate;
-      switch (element.recurrence_freq) {
-        case "Weekly":
-          secondValidDate = new Date(firstValidDate.getFullYear(), firstValidDate.getMonth(), firstValidDate.getDate() + 7);
-          break;
-        case "Monthly":
-          secondValidDate = new Date(firstValidDate.getFullYear(), firstValidDate.getMonth() + 1, firstValidDate.getDate());
-          break;
-        case "Annually":
-          secondValidDate = new Date(firstValidDate.getFullYear() + 1, firstValidDate.getMonth(), firstValidDate.getDate());
-          break;
-      }
+      let secondValidDate = incrementBillDate(firstValidDate, element.recurrence_freq);
 
       if (firstValidDate < new Date(element.end_date))
         data.push({
