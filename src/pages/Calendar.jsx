@@ -86,7 +86,7 @@ export default function Calendar() {
 
         {/* main content & navbar */}
         <GridItem as="main" colSpan="7" p="40px">
-          <Navbar title="Calendar" icon={CalendarIcon} />
+          <Navbar title="Calendar" icon={CalendarIcon} user_id={user_id}/>
 
           <SimpleGrid spacing={35} columns={2}>
             <GridItem colSpan="7">
