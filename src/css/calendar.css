@@ -54,6 +54,7 @@
   .stat h2 {
     margin-top: 0;
     margin-bottom: 0;
+    font-size: 200%;
   }
   
   .stat p {
@@ -66,4 +67,19 @@
     overflow: auto;
     display: flex; 
     flex-direction: column; 
+  }
+
+  .list-item {
+    font-family: 'Futura';
+    font-size: 2em;
+  }
+
+  .list-item-meta {
+    font-family: 'Futura';
+    font-size: 2em;
+  }
+
+  .description-div {
+    font-family: 'Futura';
+    font-size: 1.7em;
   }

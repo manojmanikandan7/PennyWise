@@ -134,10 +134,6 @@ export default function Calendar() {
                         <h2>Budget Remaining</h2>
                         <p>£{10 - payments.reduce((total, item) => total + parseFloat(item.value), 0)}</p>
                       </div>
-                      <div className='stat'>
-                        <h2>Greatest Expense</h2>
-                        <p>£{Math.max(...payments.map(item => parseFloat(item.value)))}</p>
-                      </div>
                     </div>
 
                   </div>
@@ -164,13 +160,12 @@ export default function Calendar() {
                     <List
                       dataSource={payments}
                       renderItem={(item) => (
-                        <List.Item key={item.description} style={{ fontFamily: 'Futura' }}>
+                        <List.Item key={item.description} className="list-item">
                           <List.Item.Meta
-                            title={"£"+item.value}
-                            description={item.description}
-                            style={{ fontFamily: 'Futura' }}
+                            title={<span className="list-item-meta">{"£" + item.value}</span>}
+                            description={<span className="list-item-meta">{item.category}</span>}
                           />
-                          <div style={{ fontFamily: 'Futura' }}>{item.category}</div>
+                          <div className="description-div">{item.description}</div>
                         </List.Item>
                       )}
                     />
