@@ -33,6 +33,7 @@ export default function EditInfo({ uid, fn, sn, e, refreshInfo }) {
   const [sname, setSname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  let disable = false;
 
   const handleSubmit = async () => {
     //To update the info edited by the user.
@@ -66,8 +67,8 @@ export default function EditInfo({ uid, fn, sn, e, refreshInfo }) {
   }
 
   const [confirm, setConfirm] = useState("");
-  const empty = password === "";
   const noteq = (password.length < confirm.length) || (password.length === confirm.length && password !== confirm);
+  disable = noteq;
 
   return (
     <>
@@ -143,7 +144,7 @@ export default function EditInfo({ uid, fn, sn, e, refreshInfo }) {
             <Button color="blue.800" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button color="green.400" onClick={handleSubmit}>
+            <Button color="green.400" onClick={handleSubmit} isDisabled={disable}>
               Edit
             </Button>
           </ModalFooter>

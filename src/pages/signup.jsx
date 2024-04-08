@@ -108,7 +108,7 @@ const Email = () => {
   );
 };
 
-const Password = () => {
+const Password = ({setDisable}) => {
   const [input, setInput] = useState(" ");
   const [confirm, setConfirm] = useState(" ");
 
@@ -117,7 +117,7 @@ const Password = () => {
   const handleConfirmChange = (e) => setConfirm(e.target.value);
   const empty = input === "";
   const noteq = (input.length < confirm.length) || (input.length === confirm.length && input !== confirm);
-
+  setDisable(noteq);
   return (
     <Container maxWidth="xl" p="2">
       <FormControl isInvalid={empty} isRequired>
@@ -201,6 +201,7 @@ export default function SignUp() {
     }
   };
 
+  const [disable, setDisable]=useState(false);
   return (
     <ChakraProvider theme={theme}>
       <Box textAlign="center" fontSize="xl">
@@ -246,7 +247,7 @@ export default function SignUp() {
               <FirstName />
               <SurName />
               <Email />
-              <Password />
+              <Password setDisable={setDisable}/>
               <Budget />
               <ButtonGroup gap="5" p={4}>
                 <Button
@@ -256,6 +257,7 @@ export default function SignUp() {
                   variant="ghost"
                   p={3}
                   onClick={handleClick}
+                  isDisabled={disable}
                 >
                   Sign Up
                 </Button>
