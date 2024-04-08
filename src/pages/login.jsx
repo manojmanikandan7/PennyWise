@@ -34,9 +34,8 @@ const Email = () => {
       <FormControl isInvalid={empty} isRequired>
         <FormLabel>Email</FormLabel>
         <Input
-          id="email"
           type="email"
-          _placeholder={input}
+          placeholder="Email"
           onChange={handleInputChange}
           maxW="xl"
         />
@@ -64,7 +63,7 @@ const Password = () => {
         <FormLabel>Password</FormLabel>
         <Input
           type="password"
-          _placeholder={input}
+          placeholder="Password"
           onChange={handleInputChange}
           maxW="xl"
         />
