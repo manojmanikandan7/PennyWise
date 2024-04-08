@@ -38,7 +38,7 @@ const FirstName = () => {
         <FormLabel>First Name</FormLabel>
         <Input
           type="text"
-          value={fname}
+          placeholder="First Name"
           onChange={handleInputChange}
           maxW="xl"
         />
@@ -66,7 +66,7 @@ const SurName = () => {
         <FormLabel>Surname</FormLabel>
         <Input
           type="text"
-          value={sname}
+          placeholder="Surname"
           onChange={handleInputChange}
           maxW="xl"
         />
@@ -92,7 +92,7 @@ const Email = () => {
         <FormLabel>Email</FormLabel>
         <Input
           type="email"
-          value={email}
+          placeholder="Email"
           onChange={handleInputChange}
           maxW="xl"
         />
@@ -110,9 +110,13 @@ const Email = () => {
 
 const Password = () => {
   const [input, setInput] = useState(" ");
+  const [confirm, setConfirm] = useState(" ");
+
   password = input.trimStart();
   const handleInputChange = (e) => setInput(e.target.value);
+  const handleConfirmChange = (e) => setConfirm(e.target.value);
   const empty = input === "";
+  const noteq = (input.length < confirm.length) || (input.length === confirm.length && input !== confirm);
 
   return (
     <Container maxWidth="xl" p="2">
@@ -120,7 +124,7 @@ const Password = () => {
         <FormLabel>Password</FormLabel>
         <Input
           type="password"
-          value={password}
+          placeholder="Password"
           onChange={handleInputChange}
           maxW="xl"
         />
@@ -128,6 +132,21 @@ const Password = () => {
           <FormHelperText textAlign="left">Enter your password</FormHelperText>
         ) : (
           <FormErrorMessage>Password is required.</FormErrorMessage>
+        )}
+      </FormControl>
+      <br></br>
+      <FormControl isInvalid={noteq} isRequired>
+        <FormLabel>Confirm Password</FormLabel>
+        <Input
+          type="password"
+          placeholder="Confirm password"
+          onChange={handleConfirmChange}
+          maxW="xl"
+        />
+        {!noteq ? (
+          <FormHelperText textAlign="left">Re-enter your password</FormHelperText>
+        ) : (
+          <FormErrorMessage>Passwords don&apos;t match. Try again.</FormErrorMessage>
         )}
       </FormControl>
     </Container>
@@ -146,7 +165,7 @@ const Budget = () => {
         <FormLabel>Budget</FormLabel>
         <Input
           type="number"
-          value={budget}
+          placeholder="Budget"
           onChange={handleInputChange}
           maxW="xl"
         />
