@@ -313,19 +313,21 @@ app.post("/upcomingBills", async (req, res) => {
           break;
       }
 
-      data.push({
-        "value": element.value,
-        "date": firstValidDate,
-        "description": element.description,
-        "category": element.category,
-      })
+      if (firstValidDate < new Date(element.end_date))
+        data.push({
+          "value": element.value,
+          "date": firstValidDate,
+          "description": element.description,
+          "category": element.category,
+        })
 
-      data.push({
-        "value": element.value,
-        "date": secondValidDate,
-        "description": element.description,
-        "category": element.category,
-      })
+      if (secondValidDate < new Date(element.end_date))
+        data.push({
+          "value": element.value,
+          "date": secondValidDate,
+          "description": element.description,
+          "category": element.category,
+        })
     })
   });
 
