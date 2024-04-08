@@ -141,29 +141,28 @@ export default function Sidebar({ onTransactionChange, user_id }) {
       <Divider></Divider>
       {/* Profile Page */}
       <ListItem>
-        <NavLink to="/profile">
-          <Button
-            leftIcon={<CgProfile size="20px" />}
-            colorScheme="gray"
-            variant="outline"
-            width="150px"
-            sx={{
-              color: "white", // Default text color
+        <Button
+          onClick={() => navigate("/profile", { state: { user_id: localUID } })}
+          leftIcon={<CgProfile size="20px" />}
+          colorScheme="gray"
+          variant="outline"
+          width="150px"
+          sx={{
+            color: "white", // Default text color
+            ".chakra-icon": {
+              color: "white", // Default icon color
+            },
+            "&:hover": {
+              bg: "white", //  hover background color change
+              color: "black", //  hover text color change
               ".chakra-icon": {
-                color: "white", // Default icon color
+                color: "black", // hover icon color change
               },
-              "&:hover": {
-                bg: "white", //  hover background color change
-                color: "black", //  hover text color change
-                ".chakra-icon": {
-                  color: "black", // hover icon color change
-                },
-              },
-            }}
-          >
-            Profile
-          </Button>
-        </NavLink>
+            },
+          }}
+        >
+          Profile
+        </Button>
       </ListItem>
     </List>
   );

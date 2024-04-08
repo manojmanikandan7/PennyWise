@@ -63,27 +63,12 @@ export default function Settings() {
             textAlign="center"
           >
             <CardHeader>
-              <Grid templateColumns='repeat(5, 1fr)' p={5}>
-                <GridItem colSpan={1} align="left">
-                  <NavLink to="/dashboard">
-                    <IconButton
-                      aria-label="Go Back"
-                      variant="ghost"
-                      colorScheme="red"
-                      
-                      fontSize="20px"
-                      icon={<ArrowBackIcon />}
-                    />
-                  </NavLink>
-
-                </GridItem>
-                
-                <GridItem colSpan={3}>
+              <Grid templateColumns='repeat(5, 1fr)' p={5}>                
+                <GridItem colSpan={5}>
                   <Heading size="xl" fontFamily="Futura" color="red.500">
                     {" "}
                     Settings{" "}
                   </Heading>
-
                 </GridItem>
                 
               </Grid>

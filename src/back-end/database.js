@@ -35,6 +35,21 @@ export async function getLogin(email) {
   return rows;
 }
 
+export async function getInfo(id) {
+  const [rows] = await pool.query(
+    `
+    SELECT id, email, password, fname, sname FROM users
+    WHERE id = ?
+    `,
+    [id]
+  );
+
+  if (rows.length == 0) {
+    console.log("No record found for " + email);
+  }
+  return rows;
+}
+
 export async function getSpendingData(uid) {
   const [rows] = await pool.query(
     `
@@ -150,7 +165,7 @@ export async function editInfo(uid, fname, sname, email, password) {
     `
     UPDATE users
     SET fname = ?, sname = ?, email = ?, password = ?
-    WHERE user_id = ?;
+    WHERE id = ?;
     `,
     [fname, sname, email, password, uid],
   );

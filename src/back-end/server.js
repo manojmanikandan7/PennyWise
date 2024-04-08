@@ -19,6 +19,7 @@ import {
   addBill,
   editBill,
   removeBill,
+  getInfo,
 } from "./database.js";
 
 const app = express();
@@ -168,17 +169,18 @@ app.post("/calendar", async (req, res) => {
 app.post("/editInfo", async (req, res) => {
   const { uid, fname, sname, email, password } = req.body;
 
-  const login = await getLogin(email);
-  if (login.length > 0) {
+  const login = await getInfo(uid);
+
+  if (login.length > 0 && login[0].id != uid) {
     res.status(500).send("User with email " + email + " already exists.");
   } else {
     try {
-      if(password === ""){
-        const hash = login[0].password;
+      // Reset the password
+      let hash = login[0].password;
+      if (password !== "") {
+        hash = await bcrypt.hash(password, 15);
       }
-      else{
-        const hash = await bcrypt.hash(password, 15);
-      }
+
       const data = await editInfo(uid, fname, sname, email, hash);
       res.send(data);
     } catch (e) {

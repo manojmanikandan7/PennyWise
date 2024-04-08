@@ -25,13 +25,12 @@ import { FaPenFancy } from "react-icons/fa";
 import axios from "axios";
 import { stringify } from "uuid";
 
-export default function EditInfo( {uid, fn, sn, e, updateInfo} ) {
+export default function EditInfo({ uid, fn, sn, e, refreshInfo }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // TODO: Change this to the UID of the user logged in
-  const id = uid;
-  const [fname, setFname] = useState(fn);
-  const [sname, setSname] = useState(sn);
-  const [email, setEmail] = useState(e);
+
+  const [fname, setFname] = useState("");
+  const [sname, setSname] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async () => {
@@ -50,17 +49,25 @@ export default function EditInfo( {uid, fn, sn, e, updateInfo} ) {
     setEmail("");
     setPassword("");
 
-    // Call the onTransactionSubmit callback to notify the parent component
-    updateInfo();
+    // Call the updateInfo callback to notify the parent component
+    refreshInfo();
 
     // Close the modal
     onClose();
   };
 
+  const openAndFillInputs = () => {
+    setFname(fn);
+    setSname(sn);
+    setEmail(e);
+
+    onOpen();
+  }
+
   return (
     <>
       <IconButton
-        onClick={onOpen}
+        onClick={openAndFillInputs}
         icon={<Icon as={FaPenFancy} />}
         variant="ghost"
         colorScheme="blue.800"
@@ -75,18 +82,18 @@ export default function EditInfo( {uid, fn, sn, e, updateInfo} ) {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <FormLabel>First Name</FormLabel>
+              <FormLabel>Firstname</FormLabel>
               <Input
-                placeholder="First name"
+                placeholder="Firstname"
                 value={fname}
                 onChange={(e) => setFname(e.target.value)}
               />
             </FormControl>
 
             <FormControl>
-              <FormLabel>Sur Name</FormLabel>
+              <FormLabel>Surname</FormLabel>
               <Input
-                placeholder="Sur name"
+                placeholder="Surname"
                 value={sname}
                 onChange={(e) => setSname(e.target.value)}
               />
@@ -95,7 +102,7 @@ export default function EditInfo( {uid, fn, sn, e, updateInfo} ) {
             <FormControl mt={4}>
               <FormLabel>Email</FormLabel>
               <Input
-                placeholder="email"
+                placeholder="Email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -105,10 +112,10 @@ export default function EditInfo( {uid, fn, sn, e, updateInfo} ) {
             <FormControl mt={4}>
               <FormLabel>Password</FormLabel>
               <Input
-                placeholder="password"
+                placeholder="Password"
                 type="password"
                 value={password}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </FormControl>
           </ModalBody>
@@ -118,7 +125,7 @@ export default function EditInfo( {uid, fn, sn, e, updateInfo} ) {
               Close
             </Button>
             <Button color="green.400" onClick={handleSubmit}>
-              Add
+              Edit
             </Button>
           </ModalFooter>
         </ModalContent>
