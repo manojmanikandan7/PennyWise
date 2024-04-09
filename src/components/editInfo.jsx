@@ -76,7 +76,7 @@ export default function EditInfo({ uid, fn, sn, e, refreshInfo }) {
         onClick={openAndFillInputs}
         icon={<Icon as={FaPenFancy} />}
         variant="ghost"
-        colorScheme="blue.800"
+        colorScheme="teal"
         aria-label="Edit profile"
         fontSize="20px"
       />

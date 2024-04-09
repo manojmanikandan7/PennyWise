@@ -182,8 +182,10 @@ const Budget = () => {
 };
 
 export default function SignUp() {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleClick = async () => {
+    setLoading(true);
     try {
       await axios.post("http://localhost:3000/createUser", { fname, sname, email, password, budget });
       console.log("Name retrieved successfully");
@@ -209,7 +211,6 @@ export default function SignUp() {
           <Heading
             as="h1"
             size="3xl"
-            fontFamily="Futura"
             colorScheme="brand"
             paddingY={7}
           >
@@ -258,6 +259,7 @@ export default function SignUp() {
                   p={3}
                   onClick={handleClick}
                   isDisabled={disable}
+                  isLoading={loading}
                 >
                   Sign Up
                 </Button>

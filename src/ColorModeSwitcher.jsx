@@ -1,15 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { useColorMode, useColorModeValue, IconButton } from "@chakra-ui/react";
+import { useColorMode, useColorModeValue, Button } from "@chakra-ui/react";
 import { FaMoon, FaSun } from "react-icons/fa";
 
 export const ColorModeSwitcher = (props) => {
   const { toggleColorMode } = useColorMode();
-  const text = useColorModeValue("dark", "light");
+  const text = useColorModeValue("Dark Mode", "Light Mode");
   const SwitchIcon = useColorModeValue(FaMoon, FaSun);
 
   return (
-    <IconButton
+    <Button
       size="md"
       fontSize="lg"
       aria-label={`Switch to ${text} mode`}
@@ -17,8 +17,11 @@ export const ColorModeSwitcher = (props) => {
       color="current"
       marginLeft="2"
       onClick={toggleColorMode}
-      icon={<SwitchIcon />}
+      leftIcon={<SwitchIcon />}
+      p={4}
       {...props}
-    />
+    >
+      {text}
+      </Button>
   );
 };

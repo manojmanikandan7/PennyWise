@@ -23,63 +23,67 @@ import { NavLink, useNavigate } from "react-router-dom"
 let email = "",
   password = "";
 
-const Email = () => {
-  const [input, setInput] = useState(" ");
-  email = input.trimStart();
-  const handleInputChange = (e) => setInput(e.target.value);
-  const empty = input === "";
+  const Email = () => {
+    const [input, setInput] = useState(" ");
+    email = input.trimStart();
+    const handleInputChange = (e) => setInput(e.target.value);
+    const empty = input === "";
+  
+    return (
+      <Container maxWidth="xl" p="2">
+        <FormControl isInvalid={empty} isRequired>
+          <FormLabel>Email</FormLabel>
+          <Input
+            type="email"
+            placeholder="Email"
+            onChange={handleInputChange}
+            maxW="xl"
+          />
+          {!empty ? (
+            <FormHelperText textAlign="left">
+              Enter your email for the account.
+            </FormHelperText>
+          ) : (
+            <FormErrorMessage>Email is required.</FormErrorMessage>
+          )}
+        </FormControl>
+      </Container>
+    );
+  };
+  
+  const Password = () => {
+    const [input, setInput] = useState(" ");
+    password = input.trimStart();
+    const handleInputChange = (e) => setInput(e.target.value);
+    const empty = input === "";
+  
+    return (
+      <Container maxWidth="xl" p="2">
+        <FormControl isInvalid={empty} isRequired>
+          <FormLabel>Password</FormLabel>
+          <Input
+            type="password"
+            placeholder="Password"
+            onChange={handleInputChange}
+            maxW="xl"
+          />
+          {!empty ? (
+            <FormHelperText textAlign="left">Enter your password</FormHelperText>
+          ) : (
+            <FormErrorMessage>Password is required.</FormErrorMessage>
+          )}
+        </FormControl>
+      </Container>
+    );
+  };
 
-  return (
-    <Container maxWidth="xl" p="2">
-      <FormControl isInvalid={empty} isRequired>
-        <FormLabel>Email</FormLabel>
-        <Input
-          type="email"
-          placeholder="Email"
-          onChange={handleInputChange}
-          maxW="xl"
-        />
-        {!empty ? (
-          <FormHelperText textAlign="left">
-            Enter your email for the account.
-          </FormHelperText>
-        ) : (
-          <FormErrorMessage>Email is required.</FormErrorMessage>
-        )}
-      </FormControl>
-    </Container>
-  );
-};
+  export default function Login() {
+  const [loading, setLoading] = useState(false);
 
-const Password = () => {
-  const [input, setInput] = useState(" ");
-  password = input.trimStart();
-  const handleInputChange = (e) => setInput(e.target.value);
-  const empty = input === "";
-
-  return (
-    <Container maxWidth="xl" p="2">
-      <FormControl isInvalid={empty} isRequired>
-        <FormLabel>Password</FormLabel>
-        <Input
-          type="password"
-          placeholder="Password"
-          onChange={handleInputChange}
-          maxW="xl"
-        />
-        {!empty ? (
-          <FormHelperText textAlign="left">Enter your password</FormHelperText>
-        ) : (
-          <FormErrorMessage>Password is required.</FormErrorMessage>
-        )}
-      </FormControl>
-    </Container>
-  );
-};
-
-export default function Login() {
   const navigate = useNavigate();
   const handleClick = async () => {
+    setLoading(true);
+    
     try {
       const result = await axios.post("http://localhost:3000/login", { email, password });
       const user_id = result.data[0].id;
@@ -98,7 +102,6 @@ export default function Login() {
           <Heading
             as="h1"
             size="3xl"
-            fontFamily="Futura"
             colorScheme="brand"
             paddingY={7}
           >
@@ -143,6 +146,7 @@ export default function Login() {
                   variant="ghost"
                   p={3}
                   onClick={handleClick}
+                  isLoading={loading}
                 >
                   Login
                 </Button>

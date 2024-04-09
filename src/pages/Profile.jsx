@@ -82,7 +82,7 @@ export default function Profile() {
             <CardHeader>
               <Grid templateColumns='repeat(5, 1fr)' p={5}>  
                 <GridItem colStart={2} colEnd={5} align="center">
-                  <Heading size="xl" fontFamily="Futura" color="blue.800">
+                  <Heading size="xl" color="teal">
                     {" "}
                     Profile{" "}
                   </Heading>
@@ -106,8 +106,6 @@ export default function Profile() {
               />
               <Heading
                 size="md"
-                fontFamily="Futura"
-                color="grey"
                 textTransform="uppercase"
                 p={4}
               >
@@ -118,7 +116,7 @@ export default function Profile() {
 
             <CardBody>
               <Stack divider={<StackDivider />} spacing="4"  p={8}>
-                <Text as='b' size="md" fontFamily="Futura" color="blue.800">
+                <Text as='b' size="md" color="teal">
                   {" "}
                   Email: {email}{" "}
                 </Text>

@@ -1,7 +1,4 @@
-
-import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
-  Flex,
   Card,
   CardBody,
   CardHeader,
@@ -9,8 +6,6 @@ import {
   Grid,
   GridItem,
   Heading,
-  Icon,
-  IconButton,
   Stack,
   StackDivider,
   extendTheme,
@@ -22,6 +17,7 @@ import Sidebar from "../components/sidebar";
 import AddUpcomingBillsModal from "../components/addUpcomingBills";
 import EditUpcomingBillsModal from "../components/editUpcomingBills";
 import RemoveUpcomingBillsModal from "../components/removeUpcomingBills";
+import { ColorModeSwitcher } from "../ColorModeSwitcher";
 
 const theme = extendTheme({
     colors: {
@@ -65,7 +61,7 @@ export default function Settings() {
             <CardHeader>
               <Grid templateColumns='repeat(5, 1fr)' p={5}>                
                 <GridItem colSpan={5}>
-                  <Heading size="xl" fontFamily="Futura" color="red.500">
+                  <Heading size="xl" color="red.500">
                     {" "}
                     Settings{" "}
                   </Heading>
@@ -77,10 +73,12 @@ export default function Settings() {
             <CardBody>
               
               <Stack divider={<StackDivider />} spacing="4" align="center">
-                <Text as="b" fontFamily="Futura" color="grey.200" alignSelf="left">Customise Upcoming Bills</Text>
+                <Text as="b" colorScheme="grey" alignSelf="left">Customise Upcoming Bills</Text>
                 <AddUpcomingBillsModal user_id={user_id}/>
                 <EditUpcomingBillsModal user_id={user_id} />
                 <RemoveUpcomingBillsModal user_id={user_id} />
+                <Text as="b" colorScheme="grey" alignSelf="left">Switch Color Theme</Text>
+                <ColorModeSwitcher />
               </Stack>
             </CardBody>
           </Card>
