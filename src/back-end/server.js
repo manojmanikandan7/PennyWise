@@ -21,6 +21,7 @@ import {
   removeBill,
   getInfo,
   incrementBillDate,
+  incrementNextInstall,
 } from "./database.js";
 
 const app = express();
@@ -208,6 +209,26 @@ app.post("/getInfo", async (req, res) => {
   }
 });
 
+app.post("/checkBills", async (req, res) => {
+  // Check if any bills need to be put into the payments table
+  
+  const { user_id } = req.body;
+
+  const today = new Date();
+  await getBills(user_id).then(async function (response) {
+    response.forEach(async (element) => {
+      // Next installment needs to be paid, so add this to payments table
+      const next_install = new Date(element.next_installment)
+      if (next_install <= today) {
+        await addTransaction(user_id, next_install, element.value, element.description, element.category);
+        await incrementNextInstall(element.bill_id, element.next_installment, element.recurrence_freq);
+      }
+    })
+  })
+
+  res.sendStatus(201);
+});
+
 app.post("/recentTransactions", async (req, res) => {
   const { user_id } = req.body;
 
@@ -281,40 +302,24 @@ app.post("/upcomingBills", async (req, res) => {
   const { uid, current_date } = req.body;
   const data = [];
   
-  const iso_current_date = new Date(current_date);
   await getBills(uid).then(function (response) {
     response.forEach((element) => {
-      let firstValidDate = new Date(element.start_date);
+      // Get the next two billing dates
+      let nextPayment = incrementBillDate(new Date(element.start_date), element.recurrence_freq);
+      let secondNextPayment = incrementBillDate(nextPayment, element.recurrence_freq);
 
-      // Get the first and second bill date after the current date
-      while (firstValidDate <= iso_current_date) {
-        switch (element.recurrence_freq) {
-          case "Weekly":
-            firstValidDate.setDate(firstValidDate.getDate() + 7);
-            break;
-          case "Monthly":
-            firstValidDate.setMonth(firstValidDate.getMonth() + 1);
-            break;
-          case "Annually":
-            firstValidDate.setFullYear(firstValidDate.getFullYear() + 1);
-            break;
-        }
-      }
-      
-      let secondValidDate = incrementBillDate(firstValidDate, element.recurrence_freq);
-
-      if (firstValidDate < new Date(element.end_date))
+      if (nextPayment < new Date(element.end_date))
         data.push({
           "value": element.value,
-          "date": firstValidDate,
+          "date": nextPayment,
           "description": element.description,
           "category": element.category,
         })
 
-      if (secondValidDate < new Date(element.end_date))
+      if (secondNextPayment < new Date(element.end_date))
         data.push({
           "value": element.value,
-          "date": secondValidDate,
+          "date": secondNextPayment,
           "description": element.description,
           "category": element.category,
         })

@@ -11,14 +11,10 @@ const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
 
 root.render(
-  <React.StrictMode>
+  <>
     <ColorModeScript />
     <App />
-    {/* Wrong setup; need to change to a react-router-dom 
-    <SignUp />
-    <Login />
-    */}
-  </React.StrictMode>
+  </>
 );
 
 // If you want your app to work offline and load faster, you can change
