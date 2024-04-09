@@ -46,6 +46,7 @@ export default function Calendar() {
   // Define state variable for date
   const [date, setDate] = useState(null);
   const [payments, setPayments] = useState([]);
+  const [dailyBudget, setDailyBudget] = useState(0);
 
   // Handle date change event
   const onChange = async (date, dateString) => {
@@ -68,6 +69,9 @@ export default function Calendar() {
   const updatePayments = async () => {
     let fetchData = await axios.post("http://localhost:3000/calendar", { date });
     setPayments(fetchData.data)
+
+    fetchData = await axios.post("http://localhost:3000/getInfo", { uid: user_id });
+    setDailyBudget(parseFloat(fetchData.data[3] / 7).toFixed(2));
   }
 
 
@@ -128,11 +132,11 @@ export default function Calendar() {
                       </div>
                       <div className='stat'>
                         <h2>Daily Budget</h2>
-                        <p>£10.00</p>
+                        <p>£{dailyBudget}</p>
                       </div>
                       <div className='stat'>
                         <h2>Budget Remaining</h2>
-                        <p>£{10 - payments.reduce((total, item) => total + parseFloat(item.value), 0)}</p>
+                        <p>£{dailyBudget - payments.reduce((total, item) => total + parseFloat(item.value), 0)}</p>
                       </div>
                     </div>
 
