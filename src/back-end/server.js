@@ -218,10 +218,13 @@ app.post("/checkBills", async (req, res) => {
   await getBills(user_id).then(async function (response) {
     response.forEach(async (element) => {
       // Next installment needs to be paid, so add this to payments table
-      const next_install = new Date(element.next_installment)
-      if (next_install <= today) {
+      let next_install = new Date(element.next_installment);
+
+      while (next_install <= today) {
         await addTransaction(user_id, next_install, element.value, element.description, element.category);
-        await incrementNextInstall(element.bill_id, element.next_installment, element.recurrence_freq);
+        await incrementNextInstall(element.bill_id, next_install, element.recurrence_freq);
+
+        next_install = incrementBillDate(next_install, element.recurrence_freq);
       }
     })
   })
@@ -309,7 +312,7 @@ app.post("/upcomingBills", async (req, res) => {
       while (nextPayment < new Date(current_date)) {
         nextPayment = incrementBillDate(nextPayment, element.recurrence_freq);
       }
-      
+
       let secondNextPayment = incrementBillDate(nextPayment, element.recurrence_freq);
 
       if (nextPayment < new Date(element.end_date))
