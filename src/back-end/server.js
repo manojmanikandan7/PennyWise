@@ -306,6 +306,10 @@ app.post("/upcomingBills", async (req, res) => {
     response.forEach((element) => {
       // Get the next two billing dates
       let nextPayment = incrementBillDate(new Date(element.start_date), element.recurrence_freq);
+      while (nextPayment < new Date(current_date)) {
+        nextPayment = incrementBillDate(nextPayment, element.recurrence_freq);
+      }
+      
       let secondNextPayment = incrementBillDate(nextPayment, element.recurrence_freq);
 
       if (nextPayment < new Date(element.end_date))
