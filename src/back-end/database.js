@@ -1,4 +1,5 @@
 import mysql from "mysql2";
+import { parseISO } from "date-fns"; // Import the necessary functions from date-fns
 
 const pool = mysql
   .createPool({
@@ -201,7 +202,8 @@ export async function getRecentTransactions(uid) {
 export async function getBills(uid) {
   const [rows] = await pool.query(
     `
-    SELECT bill_id, start_date, end_date, value, description, category, recurrence_freq FROM bills
+    SELECT bill_id, start_date, end_date, value, description, category, recurrence_freq, next_installment
+    FROM bills
     WHERE user_id = ?
     `,
     [uid]
@@ -213,22 +215,48 @@ export async function getBills(uid) {
 export async function addBill(uid, start, end, value, desc, category, recurrence) {
   const result = await pool.query(
     `
-    INSERT INTO bills (user_id, direction, start_date, end_date, value, description, category, recurrence_freq)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO bills (user_id, direction, start_date, end_date,
+                       value, description, category, recurrence_freq, next_installment)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
-    [uid, "out", start, end, value, desc, category, recurrence]
+    [uid, "out", start, end, value, desc, category, recurrence, start]
   );
   return result;
 }
 
+async function getBillInfo(bid) {
+  const result = await pool.query(
+    `
+    SELECT start_date, recurrence_freq, next_installment FROM bills
+    WHERE bill_id = ?
+    `,
+    [bid]
+  );
+  return result[0];
+}
+
 export async function editBill(bid, start, end, value, desc, category, recurrence) {
+  let billData = await getBillInfo(bid);
+
+  let givenStart = new Date(start);
+  givenStart.setDate(givenStart.getDate() - 1);
+
+  const currentStart = billData[0].start_date.toISOString().substring(0, 10)
+  givenStart = givenStart.toISOString().substring(0, 10);
+
+  // Start date has been changed, so update next_installment
+  let next_install = billData[0].next_installment;
+  if (currentStart !== givenStart || billData[0].recurrence_freq !== recurrence) {
+    next_install = new Date(start)
+  }
+
   const result = await pool.query(
     `
     UPDATE bills
-    SET start_date = ?, end_date = ?, value = ?, description = ?, category = ?, recurrence_freq = ?
+    SET start_date = ?, end_date = ?, value = ?, description = ?, category = ?, recurrence_freq = ?, next_installment = ?
     WHERE bill_id = ?;
     `,
-    [start, end, value, desc, category, recurrence, bid]
+    [start, end, value, desc, category, recurrence, next_install, bid]
   );
   return result;
 }
@@ -243,3 +271,37 @@ export async function removeBill(bid) {
   return result;
 }
 
+export function incrementBillDate(date, increment) {
+  // Performs the logic to get the next bill payment date
+
+  let nextDate;
+  switch (increment) {
+    case "Weekly":
+      nextDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7);
+      break;
+    case "Monthly":
+      nextDate = new Date(date.getFullYear(), date.getMonth() + 1, date.getDate());
+      break;
+    case "Annually":
+      nextDate = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
+      break;
+  }
+
+  return nextDate;
+}
+
+export async function incrementNextInstall(bid, currentNextInstall, increment) {
+  // Increment the next_installment field of a bill
+
+  const newNextInstall = incrementBillDate(new Date(currentNextInstall), increment)
+
+  const result = await pool.query(
+    `
+    UPDATE bills
+    SET next_installment = ?
+    WHERE bill_id = ?;
+    `,
+    [newNextInstall, bid]
+  );
+  return result;
+}

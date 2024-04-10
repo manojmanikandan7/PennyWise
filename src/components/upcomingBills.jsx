@@ -63,7 +63,7 @@ function padPrice(price) {
   return initial;
 }
 
-export default function UpcomingBills({ user_id }) {
+export default function UpcomingBills({ user_id, refreshData }) {
   const [sortedBills, setSortedBills] = useState([]);
 
   // Get today's date
@@ -80,7 +80,7 @@ export default function UpcomingBills({ user_id }) {
 
   useEffect(() => {
     getUpcomingBills();
-  }, []);
+  }, [refreshData]);
 
   return (
     <Box

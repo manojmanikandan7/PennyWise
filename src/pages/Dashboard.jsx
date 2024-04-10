@@ -7,7 +7,7 @@ import {
   extendTheme,
 } from "@chakra-ui/react";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
@@ -21,6 +21,9 @@ import PieChart from "../components/pieChart";
 import FinancialDetails from "../components/financialDetails";
 import RecentTransactions from "../components/recentTransactions";
 import UpcomingBills from "../components/upcomingBills";
+
+// Background Task Component
+import TransactionSetup from "../components/transactionSetup";
 
 // Icons
 import { MdDashboard } from "react-icons/md";
@@ -43,9 +46,8 @@ export default function Dashboard() {
   let location = useLocation();
   const user_id = location.state.user_id;
 
-  axios.post("http://localhost:3000/recentTransactions", { user_id });
-
   const [refreshData, setRefreshData] = useState(0);
+  const [dataAvailable, setDataAvailable] = useState(false);
 
   // Function to toggle the refresh state
   const onTransactionChange = () => {
@@ -54,6 +56,7 @@ export default function Dashboard() {
 
   return (
     <ChakraProvider theme={theme}>
+      <TransactionSetup setDataAvailable={setDataAvailable} user_id={user_id} />
       <Grid templateColumns="repeat(8, 1fr)" bg="gray.25">
         {/* sidebar */}
         <GridItem as="aside" colSpan="1" bg="black" minHeight="100vh" p="30px">
@@ -67,17 +70,17 @@ export default function Dashboard() {
             {/*  */}
             {/* this is the transaction history of your most recent spending */}
             <GridItem colSpan="1">
-              <RecentTransactions />
+              {dataAvailable && (<RecentTransactions />)}
             </GridItem>
 
             {/* Upcoming Bills And Possible Spending Recommendations? */}
             <GridItem colSpan="1">
-              <UpcomingBills user_id={user_id}/>
+              <UpcomingBills refreshData={refreshData} user_id={user_id}/>
             </GridItem>
 
             {/* this is the financial details */}
             <GridItem colSpan="1">
-              <FinancialDetails refreshData={refreshData} user_id={user_id} />
+              {dataAvailable && (<FinancialDetails refreshData={refreshData} user_id={user_id} />)}
             </GridItem>
 
             {/* this is the pie chart */}
@@ -90,7 +93,7 @@ export default function Dashboard() {
                 p={4}
                 boxShadow="base"
               >
-                <PieChart refreshData={refreshData} user_id={user_id} />
+                {dataAvailable && (<PieChart refreshData={refreshData} user_id={user_id} />)}
               </Box>
             </GridItem>
 
@@ -104,7 +107,7 @@ export default function Dashboard() {
                 p={4}
                 boxShadow="base"
               >
-                <LineChart refreshData={refreshData} user_id={user_id} />
+                {dataAvailable && (<LineChart refreshData={refreshData} user_id={user_id} />)}
               </Box>
             </GridItem>
 
