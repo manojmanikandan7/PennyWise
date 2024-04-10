@@ -82,12 +82,13 @@ export default function PieChart({ refreshData, user_id }) {
   }, [refreshData]); // Now depends on refreshData prop
 
   const options = {
+    backgroundColor: theme.colors.gray[600],
     plugins: {
       legend: {
         position: "bottom",
         align: "start",
         labels: {
-          color: "#000000", // Legend labels in black color
+          color: "#FFFFFF", // Legend labels in black color
           boxWidth: 10, // Size of the color box
           padding: 17, // Spacing between legend items
           usePointStyle: false, // Use point style (circle)
@@ -105,6 +106,7 @@ export default function PieChart({ refreshData, user_id }) {
               fillStyle: datasets[0].backgroundColor[index], // Match the pie segment color
               strokeStyle: "#000000",
               lineWidth: 0.5,
+              fontColor: theme.colors.gray[500],
               hidden: !chart.getDataVisibility(index),
               index,
             }));
@@ -115,7 +117,7 @@ export default function PieChart({ refreshData, user_id }) {
   };
 
   return (
-    <Box className="chart-container" p={1} bg="white" borderRadius="lg">
+    <Box className="chart-container" p={1} bg="grey.400" borderRadius="lg">
       <VStack>
         <Text fontSize="2xl" fontWeight="bold">
           Spending by Category
