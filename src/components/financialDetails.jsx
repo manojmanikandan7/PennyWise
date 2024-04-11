@@ -17,19 +17,6 @@ import { getMonth } from "date-fns";
 
 import React, { useEffect, useState } from "react";
 
-function padPrice(price) {
-  let initial = String(price);
-  let parts = initial.split(".");
-
-  if (parts.length == 1) {
-    initial += ".00"
-  } else if (parts[1].length == 1) {
-    initial += "0"
-  }
-
-  return initial;
-}
-
 export default function FinancialDetails({ refreshData, user_id }) {
   const getMonthSpend = async (endDate, month) => {
     // Get the total spend in a month, up to a date of endDate
@@ -126,7 +113,7 @@ export default function FinancialDetails({ refreshData, user_id }) {
             </StatLabel>
             <StatNumber>
               <Text fontSize="2xl" as="b">
-                {"£" + padPrice(monthSpend.value)}
+                {"£" + parseFloat(monthSpend.value).toFixed(2)}
               </Text>
             </StatNumber>
             <StatHelpText>
@@ -145,7 +132,7 @@ export default function FinancialDetails({ refreshData, user_id }) {
             </StatLabel>
             <StatNumber>
               <Text fontSize="2xl" as="b">
-              {"£" + padPrice(monthRemaining.value)}
+              {"£" + parseFloat(monthRemaining.value).toFixed(2)}
               </Text>
             </StatNumber>
             <StatHelpText>

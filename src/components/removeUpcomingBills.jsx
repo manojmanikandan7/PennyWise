@@ -95,7 +95,7 @@ function RemoveUpcomingBillsModal({ user_id }) {
                     <Box flex="1">
                       <Text isTruncated maxWidth="80%">
                         {transaction.description} -{" "}
-                        £{transaction.value} -{" "}
+                        £{parseFloat(transaction.value).toFixed(2)} -{" "}
                         {transaction.recurrence_freq}
                         <Text fontSize="sm" color="gray.500">
                           {transaction.category}

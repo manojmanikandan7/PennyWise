@@ -113,6 +113,13 @@ export default function PieChart({ refreshData, user_id }) {
           },
         },
       },
+      tooltip: {
+        callbacks: {
+          label: function(tooltipItem) {
+            return "£" + parseFloat(tooltipItem.formattedValue).toFixed(2);
+          }
+        }
+      }
     },
   };
 

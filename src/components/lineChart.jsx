@@ -86,7 +86,7 @@ export default function LineChart({ refreshData, user_id }) {
         datasets: [
           {
             label: "Spent (£)",
-            data: spendingData.map((data) => data.y),
+            data: spendingData.map((data) => (data.y)),
             borderColor: "lightblue",
             tension: 0.25,
             borderWidth: 2,
@@ -112,6 +112,13 @@ export default function LineChart({ refreshData, user_id }) {
       legend: {
         display: false, // Keeps the legend hidden
       },
+      tooltip: {
+        callbacks: {
+          label: function(tooltipItem) {
+            return "£" + parseFloat(tooltipItem.formattedValue).toFixed(2);
+          }
+        }
+      }
     },
     scales: {
       x:
