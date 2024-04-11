@@ -48,7 +48,7 @@
     border-radius: 10px;
     padding: 10px;
     margin: 10px 0;
-    font-family: 'futura';
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.1);
   }
   
   .stat h2 {
@@ -70,16 +70,21 @@
   }
 
   .list-item {
-    font-family: 'Futura';
     font-size: 2em;
   }
 
   .list-item-meta {
-    font-family: 'Futura';
     font-size: 2em;
   }
 
   .description-div {
-    font-family: 'Futura';
-    font-size: 1.7em;
+    font-size: 1em;
+  }
+
+  .negative {
+    color: #F56565;
+  }
+
+  .positive {
+    color: #38A169;
   }

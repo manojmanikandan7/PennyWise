@@ -6,6 +6,7 @@ import {
   Grid,
   ChakraProvider,
   extendTheme,
+  Text
 } from "@chakra-ui/react";
 import {LeftOutlined, RightOutlined} from '@ant-design/icons';
 import '../css/calendar.css';
@@ -31,6 +32,10 @@ const theme = extendTheme({
       400: "#1ed269",
       500: "#ca3a06",
     },
+  },
+  fonts: {
+    body: "system-ui, sans-serif",
+    heading: "system-ui, sans-serif",
   },
 });
 
@@ -74,6 +79,7 @@ export default function Calendar() {
     setDailyBudget(parseFloat(fetchData.data[3] / 7).toFixed(2));
   }
 
+  const remainingBudget = dailyBudget - payments.reduce((total, item) => total + parseFloat(item.value), 0);
 
   // Update the payments data whenever `date` changes
   useEffect(() => {
@@ -99,7 +105,7 @@ export default function Calendar() {
                   <Flex gap="small" wrap="wrap">
                     <Button type="primary" shape="circle" icon={<LeftOutlined />} size="default" onClick={() => changeDate('decrease')} />
                     <Space direction="vertical" size={12}>
-                      <DatePicker className="centeredDatePicker" onChange={onChange} inputReadOnly needConfirm style={{ width: '500px', fontFamily: 'Futura' }} format="Do MMMM YYYY" value={date} />
+                      <DatePicker className="centeredDatePicker" onChange={onChange} inputReadOnly needConfirm style={{ width: '500px'}} format="Do MMMM YYYY" value={date} />
                     </Space>
                     <Button type="primary" shape="circle" icon={<RightOutlined />} onClick={() => changeDate('increase')} size="default" />
                   </Flex>
@@ -127,16 +133,22 @@ export default function Calendar() {
                 >
                     <div className='scrollableDiv2'>
                       <div className='stat'>
-                        <h2>Total Spent</h2>
+                        <Text fontSize="2xl" as="b">
+                          Total Spent
+                        </Text>
                         <p>£{payments.reduce((total, item) => total + parseFloat(item.value), 0)}</p>
                       </div>
                       <div className='stat'>
-                        <h2>Daily Budget</h2>
+                        <Text fontSize="2xl" as="b">
+                          Daily Budget
+                        </Text>
                         <p>£{dailyBudget}</p>
                       </div>
                       <div className='stat'>
-                        <h2>Budget Remaining</h2>
-                        <p>£{dailyBudget - payments.reduce((total, item) => total + parseFloat(item.value), 0)}</p>
+                        <Text fontSize="2xl" as="b">
+                            Budget Remaining
+                        </Text>
+                        <p className={remainingBudget < 0 ? 'negative' : 'po'}>£{remainingBudget}</p>
                       </div>
                     </div>
 
