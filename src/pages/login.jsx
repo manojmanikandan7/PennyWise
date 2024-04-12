@@ -15,7 +15,8 @@ import {
   Input,
   Container,
   ButtonGroup,
-  Flex
+  Flex,
+  Text
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { NavLink, useNavigate } from "react-router-dom"
@@ -79,6 +80,7 @@ let email = "",
 
   export default function Login() {
   const [loading, setLoading] = useState(false);
+  const [correct, setCorrect] = useState(true);
 
   const navigate = useNavigate();
   const handleClick = async () => {
@@ -91,6 +93,8 @@ let email = "",
       navigate("/dashboard", { state: { user_id: user_id } });
     } catch (error) {
       console.error("Error logging in user", error);
+      setLoading(false);
+      setCorrect(false);
     }
   };
   
@@ -138,6 +142,12 @@ let email = "",
             <VStack>
               <Email />
               <Password />
+              <Text
+                fontSize="md"
+                color={"red"}
+              >
+                {!correct ? "Incorrect email or password" : ""}
+              </Text>
               <ButtonGroup gap="5" p={4}>
                 <Button
                   colorScheme="blue"
