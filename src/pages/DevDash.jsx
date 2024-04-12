@@ -4,17 +4,13 @@ import { NavLink } from "react-router-dom";
 
 import {
   ChakraProvider,
-  Box,
   Flex,
   VStack,
-  Code,
-  Grid,
   extendTheme,
   Heading,
   Button,
   Stack,
 } from "@chakra-ui/react";
-import { ColorModeSwitcher } from "/src/ColorModeSwitcher";
 import { Logo } from "/src/Logo.jsx";
 
 //For custom themes
