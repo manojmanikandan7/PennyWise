@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import {
   ChakraProvider,
   Box,
-  Text,
+  Flex,
   VStack,
   Code,
   Grid,
@@ -34,38 +34,35 @@ const theme = extendTheme({
 export default function DevDash() {
   return (
     <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={1}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={10}>
-            <Heading as="h1" size="4xl" fontFamily="system-ui" colorScheme="brand">
-              PennyWise
-            </Heading>
-            <br></br>
-            <Logo
-              h="40vmin"
-              pointerEvents="none"
-              color="brand.300"
-              boxSize="3.5em"
-            />
-            <br></br>
+      <Flex justify="center" align="center" minH="100vh" paddingBottom={10}>
+        <VStack spacing={10}>
+          <Heading as="h1" size="4xl" fontFamily="system-ui" colorScheme="brand">
+            PennyWise
+          </Heading>
+          <br></br>
+          <Logo
+            h="40vmin"
+            pointerEvents="none"
+            color="brand.300"
+            boxSize="3.5em"
+          />
+          <br></br>
 
-            <Stack spacing={10} direction='row' align='center'>
-            <NavLink to="/login">
-              <Button colorScheme="brand" size="lg" variant="solid">
-                Login
-              </Button>
-            </NavLink>
+          <Stack spacing={10} direction='row' align='center'>
+        <NavLink to="/login">
+          <Button colorScheme="brand" size="lg" variant="solid">
+            Login
+          </Button>
+        </NavLink>
 
-            <NavLink to="/sign-up">
-              <Button colorScheme="brand" size="lg" variant="solid">
-                Sign-Up
-              </Button>
-            </NavLink>
-            </Stack>
-          </VStack>
-        </Grid>
-      </Box>
+        <NavLink to="/sign-up">
+          <Button colorScheme="brand" size="lg" variant="solid">
+            Sign-Up
+          </Button>
+        </NavLink>
+          </Stack>
+        </VStack>
+      </Flex>
     </ChakraProvider>
   );
 }
