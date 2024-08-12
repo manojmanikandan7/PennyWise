@@ -1,6 +1,16 @@
 # PennyWise
 
-For development with Vite, featuring Hot Module Replacement (HMR) for an enhanced development experience and a set of ESLint rules to ensure your code quality follow the getting started.
+Manage your Money, Wisely.
+
+## Contributors
+
+- Randev Ranjit
+- Max Waring
+- [Manoj Manikandan] (https://github.com/manojmanikandan7)
+- Moeed Chughtai
+- Daniel Groves
+- Harith bin Khairul Amri
+
 
 ## Getting Started
 
@@ -15,7 +25,7 @@ Ensure you have [Node.js](https://nodejs.org/en/) (version 12.x or higher) insta
    First, clone the repository to your local machine using Git:
 
    ```bash
-   git clone https://gitlab.cs.man.ac.uk/s94810rr/pennywise.git
+   git clone https://github.com/manojmanikandan7/PennyWise.git
    cd into the folder
    ```
 
