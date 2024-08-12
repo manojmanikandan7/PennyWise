@@ -6,7 +6,7 @@ Manage your Money, Wisely.
 
 - Randev Ranjit
 - Max Waring
-- [Manoj Manikandan] (https://github.com/manojmanikandan7)
+- [Manoj Manikandan](https://github.com/manojmanikandan7)
 - Moeed Chughtai
 - Daniel Groves
 - Harith bin Khairul Amri
