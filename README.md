@@ -4,11 +4,11 @@ Manage your Money, Wisely.
 
 ## Contributors
 
-- Randev Ranjit
+- (Randev Ranjit)[https://github.com/SparkleButt747]
 - Max Waring
 - [Manoj Manikandan](https://github.com/manojmanikandan7)
-- Moeed Chughtai
-- Daniel Groves
+- [Moeed Chughtai](https://github.com/Moeed-Chughtai)
+- [Daniel Groves](https://github.com/Daniel-Groves)
 - Harith bin Khairul Amri
 
 
