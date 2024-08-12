@@ -4,7 +4,7 @@ Manage your Money, Wisely.
 
 ## Contributors
 
-- (Randev Ranjit)[https://github.com/SparkleButt747]
+- [Randev Ranjit](https://github.com/SparkleButt747)
 - Max Waring
 - [Manoj Manikandan](https://github.com/manojmanikandan7)
 - [Moeed Chughtai](https://github.com/Moeed-Chughtai)
